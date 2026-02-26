@@ -1,18 +1,11 @@
 use serde::{Deserialize, Serialize};
-use crate::domain::types::{AccountId, Money};
+pub use crate::domain::types::{AccountId, Money};
 use crate::domain::currencies::CurrencyId;
+use crate::error::MmexError;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum AccountType {
-    Cash,
-    Checking,
-    Term,
-    Investment,
-    CreditCard,
-    Loan,
-    Asset,
-    Shares,
-    Unknown(String),
+    Cash, Checking, Term, Investment, CreditCard, Loan, Asset, Shares, Unknown(String),
 }
 
 impl From<String> for AccountType {
@@ -49,9 +42,7 @@ impl ToString for AccountType {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum AccountStatus {
-    Open,
-    Closed,
-    Unknown(String),
+    Open, Closed, Unknown(String),
 }
 
 impl From<String> for AccountStatus {
@@ -85,5 +76,12 @@ pub struct Account {
     pub initial_balance: Money,
     pub currency_id: CurrencyId,
     pub favorite: bool,
-    // Podríamos añadir más campos de tables.sql según necesidad
+}
+
+pub trait AccountRepository {
+    fn find_all(&self) -> Result<Vec<Account>, MmexError>;
+    fn find_by_id(&self, id: AccountId) -> Result<Option<Account>, MmexError>;
+    fn insert(&self, account: &Account) -> Result<Account, MmexError>;
+    fn update(&self, account: &Account) -> Result<(), MmexError>;
+    fn delete(&self, id: AccountId) -> Result<(), MmexError>;
 }

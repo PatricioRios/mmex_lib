@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use crate::error::MmexError;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct CategoryId(pub i32);
+pub struct CategoryId(pub i64);
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Category {
@@ -16,4 +16,7 @@ pub trait CategoryRepository {
     fn find_all(&self) -> Result<Vec<Category>, MmexError>;
     fn find_by_id(&self, id: CategoryId) -> Result<Option<Category>, MmexError>;
     fn find_subcategories(&self, parent_id: CategoryId) -> Result<Vec<Category>, MmexError>;
+    fn insert(&self, category: &Category) -> Result<Category, MmexError>;
+    fn update(&self, category: &Category) -> Result<(), MmexError>;
+    fn delete(&self, id: CategoryId) -> Result<(), MmexError>;
 }

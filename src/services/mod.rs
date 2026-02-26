@@ -6,6 +6,7 @@ pub mod currencies_service;
 pub mod categories_service;
 
 pub use account_service::AccountService;
+pub use transaction_service::TransactionService;
 pub use tags_service::TagService;
 pub use payees_service::PayeeService;
 pub use currencies_service::CurrencyService;

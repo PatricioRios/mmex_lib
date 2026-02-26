@@ -1,7 +1,7 @@
 use std::path::Path;
 use rusqlite::Connection;
 use crate::error::MmexError;
-use crate::services::{AccountService, TagService, PayeeService, CurrencyService, CategoryService};
+use crate::services::{AccountService, TagService, PayeeService, CurrencyService, CategoryService, TransactionService};
 
 pub struct MmexContext {
     conn: Connection,
@@ -42,6 +42,10 @@ impl MmexContext {
 
     pub fn categories(&self) -> CategoryService<'_> {
         CategoryService::new(&self.conn)
+    }
+
+    pub fn transactions(&self) -> TransactionService<'_> {
+        TransactionService::new(&self.conn)
     }
 
     /// Método para ejecutar scripts de inicialización (útil para tests o migraciones)

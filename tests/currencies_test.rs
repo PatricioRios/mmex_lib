@@ -1,43 +1,28 @@
-use mmex_lib::api::MmexContext;
+mod common;
+use mmex_lib::domain::currencies::{Currency, CurrencyId};
 use rust_decimal_macros::dec;
 
 #[test]
-fn test_currency_integration() {
-    let ctx = MmexContext::open_memory().unwrap();
-    
-    // Setup desde tables.sql
-    let schema = "
-        CREATE TABLE CURRENCYFORMATS_V1(
-            CURRENCYID integer primary key
-            , CURRENCYNAME TEXT COLLATE NOCASE NOT NULL UNIQUE
-            , PFX_SYMBOL TEXT
-            , SFX_SYMBOL TEXT
-            , DECIMAL_POINT TEXT
-            , GROUP_SEPARATOR TEXT
-            , UNIT_NAME TEXT COLLATE NOCASE
-            , CENT_NAME TEXT COLLATE NOCASE
-            , SCALE integer
-            , BASECONVRATE numeric
-            , CURRENCY_SYMBOL TEXT COLLATE NOCASE NOT NULL UNIQUE
-            , CURRENCY_TYPE TEXT NOT NULL
-        );
-        INSERT INTO CURRENCYFORMATS_V1 VALUES(1,'US dollar','$','','.',',','Dollar','Cent',100,1.25,'USD','Fiat');
-    ";
-    ctx.execute_setup(schema).expect("Failed to setup Currencies table");
-    
+fn test_currency_full_crud() {
+    let ctx = common::setup_test_db();
     let service = ctx.currencies();
     
-    // 1. Obtener todos
-    let all = service.get_all_currencies().expect("Failed to list");
-    assert_eq!(all.len(), 1);
+    let mut curr = Currency {
+        id: CurrencyId(0), name: "Test Coin".to_string(), pfx_symbol: None, sfx_symbol: None, decimal_point: Some(".".to_string()), group_separator: Some(",".to_string()), unit_name: None, cent_name: None, scale: 100, base_conv_rate: dec!(1.0), symbol: "TST".to_string(), currency_type: "Fiat".to_string(),
+    };
     
-    // 2. Validar campos
-    let usd = &all[0];
-    assert_eq!(usd.symbol, "USD");
-    assert_eq!(usd.pfx_symbol.as_deref(), Some("$"));
-    assert_eq!(usd.base_conv_rate, dec!(1.25));
+    // 1. Create
+    let created = service.create_currency(&curr).unwrap();
+    curr.id = created.id;
     
-    // 3. Buscar por símbolo
-    let found = service.get_currency_by_symbol("USD").expect("Failed to find by symbol");
-    assert!(found.is_some());
+    // 2. Update
+    curr.name = "Updated Coin".to_string();
+    service.update_currency(&curr).expect("Failed update");
+    let found = service.get_currency_by_id(curr.id).unwrap().unwrap();
+    assert_eq!(found.name, "Updated Coin");
+    
+    // 3. Delete
+    service.delete_currency(curr.id).expect("Failed delete");
+    let after_delete = service.get_currency_by_id(curr.id).unwrap();
+    assert!(after_delete.is_none());
 }

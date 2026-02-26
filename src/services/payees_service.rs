@@ -26,7 +26,6 @@ impl<'a> PayeeService<'a> {
         if name.trim().is_empty() {
             return Err(MmexError::Validation("Payee name cannot be empty".into()));
         }
-        
         let repo = SqlPayeeRepository::new(self.conn);
         let new_payee = Payee {
             id: PayeeId(0),
@@ -38,7 +37,19 @@ impl<'a> PayeeService<'a> {
             active: true,
             pattern: None,
         };
-        
         repo.insert(&new_payee)
+    }
+
+    pub fn update_payee(&self, payee: &Payee) -> Result<(), MmexError> {
+        if payee.name.trim().is_empty() {
+            return Err(MmexError::Validation("Payee name cannot be empty".into()));
+        }
+        let repo = SqlPayeeRepository::new(self.conn);
+        repo.update(payee)
+    }
+
+    pub fn delete_payee(&self, id: PayeeId) -> Result<(), MmexError> {
+        let repo = SqlPayeeRepository::new(self.conn);
+        repo.delete(id)
     }
 }

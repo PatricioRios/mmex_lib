@@ -29,4 +29,17 @@ impl<'a> TagService<'a> {
         let repo = SqlTagRepository::new(self.conn);
         repo.insert(name)
     }
+
+    pub fn update_tag(&self, tag: &Tag) -> Result<(), MmexError> {
+        if tag.name.trim().is_empty() {
+            return Err(MmexError::Validation("Tag name cannot be empty".into()));
+        }
+        let repo = SqlTagRepository::new(self.conn);
+        repo.update(tag)
+    }
+
+    pub fn delete_tag(&self, id: TagId) -> Result<(), MmexError> {
+        let repo = SqlTagRepository::new(self.conn);
+        repo.delete(id)
+    }
 }

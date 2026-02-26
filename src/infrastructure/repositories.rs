@@ -1,7 +1,6 @@
 use sea_query::{Expr, Query, SqliteQueryBuilder};
 
-use crate::domain::models::Account;
-use crate::domain::repositories::AccountRepository;
+use crate::domain::accounts::{Account, AccountRepository};
 use crate::domain::types::AccountId;
 use crate::error::MmexError;
 use crate::infrastructure::db_executor::DbExecutor;
@@ -21,39 +20,50 @@ impl<'a, E: DbExecutor> AccountRepository for SqlAccountRepository<'a, E> {
     fn find_all(&self) -> Result<Vec<Account>, MmexError> {
         let (sql, _) = Query::select()
             .columns([
-                "ACCOUNTID",
-                "ACCOUNTNAME",
-                "INITIALBAL",
-                "ACCOUNTTYPE",
-                "ACCOUNTSTATUS",
+                "ACCOUNTID", "ACCOUNTNAME", "ACCOUNTTYPE", "ACCOUNTNUM",
+                "STATUS", "NOTES", "INITIALBAL", "CURRENCYID", "FAVORITEACCT"
             ])
             .from_as("ACCOUNTLIST_V1", "a")
             .build(SqliteQueryBuilder);
-
-        let accounts = self.executor.query_map_ext(&sql, [], |row| {
-            AccountMapper::map_row(row)
-        })?;
-            
-        Ok(accounts)
+        self.executor.query_map_ext(&sql, [], |row| AccountMapper::map_row(row))
     }
 
     fn find_by_id(&self, id: AccountId) -> Result<Option<Account>, MmexError> {
         let (sql, _) = Query::select()
             .columns([
-                "ACCOUNTID",
-                "ACCOUNTNAME",
-                "INITIALBAL",
-                "ACCOUNTTYPE",
-                "ACCOUNTSTATUS",
+                "ACCOUNTID", "ACCOUNTNAME", "ACCOUNTTYPE", "ACCOUNTNUM",
+                "STATUS", "NOTES", "INITIALBAL", "CURRENCYID", "FAVORITEACCT"
             ])
             .from_as("ACCOUNTLIST_V1", "a")
             .and_where(Expr::col("ACCOUNTID").eq(id.0))
             .build(SqliteQueryBuilder);
-
         match self.executor.query_row_ext(&sql, [id.0], |row| AccountMapper::map_row(row)) {
             Ok(account) => Ok(Some(account)),
             Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
             Err(e) => Err(e),
         }
+    }
+
+    fn insert(&self, a: &Account) -> Result<Account, MmexError> {
+        let sql = "INSERT INTO ACCOUNTLIST_V1 (ACCOUNTNAME, ACCOUNTTYPE, ACCOUNTNUM, STATUS, NOTES, INITIALBAL, CURRENCYID, FAVORITEACCT) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        self.executor.execute_ext(sql, (&a.name, a.account_type.to_string(), &a.account_num, a.status.to_string(), &a.notes, a.initial_balance.0.to_string(), a.currency_id.0, if a.favorite { "1" } else { "0" }))?;
+        let last_id: i64 = self.executor.query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
+        let mut new_acc = a.clone();
+        new_acc.id = AccountId(last_id);
+        Ok(new_acc)
+    }
+
+    fn update(&self, a: &Account) -> Result<(), MmexError> {
+        let sql = "UPDATE ACCOUNTLIST_V1 SET 
+                   ACCOUNTNAME = ?, ACCOUNTTYPE = ?, ACCOUNTNUM = ?, STATUS = ?, NOTES = ?, INITIALBAL = ?, CURRENCYID = ?, FAVORITEACCT = ?
+                   WHERE ACCOUNTID = ?";
+        self.executor.execute_ext(sql, (&a.name, a.account_type.to_string(), &a.account_num, a.status.to_string(), &a.notes, a.initial_balance.0.to_string(), a.currency_id.0, if a.favorite { "1" } else { "0" }, a.id.0))?;
+        Ok(())
+    }
+
+    fn delete(&self, id: AccountId) -> Result<(), MmexError> {
+        self.executor.execute_ext("DELETE FROM ACCOUNTLIST_V1 WHERE ACCOUNTID = ?", [id.0])?;
+        Ok(())
     }
 }

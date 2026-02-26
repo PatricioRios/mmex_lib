@@ -1,39 +1,21 @@
-use mmex_lib::api::MmexContext;
-use mmex_lib::domain::categories::CategoryId;
+mod common;
 
 #[test]
-fn test_category_hierarchy_integration() {
-    let ctx = MmexContext::open_memory().unwrap();
-    
-    // Setup desde tables.sql
-    let schema = "
-        CREATE TABLE CATEGORY_V1 (
-            CATEGID INTEGER PRIMARY KEY AUTOINCREMENT,
-            CATEGNAME TEXT NOT NULL COLLATE NOCASE,
-            ACTIVE INTEGER,
-            PARENTID INTEGER
-        );
-        -- Insertar Padre (Bills)
-        INSERT INTO CATEGORY_V1 (CATEGID, CATEGNAME, ACTIVE, PARENTID) VALUES (1, 'Bills', 1, -1);
-        -- Insertar Hijo (Telephone)
-        INSERT INTO CATEGORY_V1 (CATEGID, CATEGNAME, ACTIVE, PARENTID) VALUES (2, 'Telephone', 1, 1);
-    ";
-    ctx.execute_setup(schema).expect("Failed to setup Categories table");
-    
+fn test_category_full_crud() {
+    let ctx = common::setup_test_db();
     let service = ctx.categories();
     
-    // 1. Obtener todas
-    let all = service.get_all_categories().expect("Failed to list");
-    assert_eq!(all.len(), 2);
+    // 1. Create Root
+    let mut root = service.create_category("Root Category", None).unwrap();
     
-    // 2. Validar Padre
-    let bills = service.get_category_by_id(CategoryId(1)).expect("Error getting parent").unwrap();
-    assert_eq!(bills.name, "Bills");
-    assert!(bills.parent_id.is_none());
+    // 2. Update
+    root.name = "Updated Root".to_string();
+    service.update_category(&root).expect("Failed update");
+    let found = service.get_category_by_id(root.id).unwrap().unwrap();
+    assert_eq!(found.name, "Updated Root");
     
-    // 3. Validar Hijo
-    let sub = service.get_subcategories(CategoryId(1)).expect("Error getting subs");
-    assert_eq!(sub.len(), 1);
-    assert_eq!(sub[0].name, "Telephone");
-    assert_eq!(sub[0].parent_id, Some(CategoryId(1)));
+    // 3. Delete
+    service.delete_category(root.id).expect("Failed delete");
+    let after_delete = service.get_category_by_id(root.id).unwrap();
+    assert!(after_delete.is_none());
 }

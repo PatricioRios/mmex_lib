@@ -26,4 +26,22 @@ impl<'a> CurrencyService<'a> {
         let repo = SqlCurrencyRepository::new(self.conn);
         repo.find_by_symbol(symbol)
     }
+
+    pub fn create_currency(&self, currency: &Currency) -> Result<Currency, MmexError> {
+        if currency.name.trim().is_empty() || currency.symbol.trim().is_empty() {
+            return Err(MmexError::Validation("Currency name and symbol are required".into()));
+        }
+        let repo = SqlCurrencyRepository::new(self.conn);
+        repo.insert(currency)
+    }
+
+    pub fn update_currency(&self, currency: &Currency) -> Result<(), MmexError> {
+        let repo = SqlCurrencyRepository::new(self.conn);
+        repo.update(currency)
+    }
+
+    pub fn delete_currency(&self, id: CurrencyId) -> Result<(), MmexError> {
+        let repo = SqlCurrencyRepository::new(self.conn);
+        repo.delete(id)
+    }
 }

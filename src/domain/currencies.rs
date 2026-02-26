@@ -3,7 +3,7 @@ use rust_decimal::Decimal;
 use crate::error::MmexError;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct CurrencyId(pub i32);
+pub struct CurrencyId(pub i64);
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Currency {
@@ -25,4 +25,7 @@ pub trait CurrencyRepository {
     fn find_all(&self) -> Result<Vec<Currency>, MmexError>;
     fn find_by_id(&self, id: CurrencyId) -> Result<Option<Currency>, MmexError>;
     fn find_by_symbol(&self, symbol: &str) -> Result<Option<Currency>, MmexError>;
+    fn insert(&self, currency: &Currency) -> Result<Currency, MmexError>;
+    fn update(&self, currency: &Currency) -> Result<(), MmexError>;
+    fn delete(&self, id: CurrencyId) -> Result<(), MmexError>;
 }

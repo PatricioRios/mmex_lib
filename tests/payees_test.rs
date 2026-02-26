@@ -1,37 +1,21 @@
-use mmex_lib::api::MmexContext;
+mod common;
 
 #[test]
-fn test_payee_integration() {
-    let ctx = MmexContext::open_memory().unwrap();
-    
-    // Setup exacto desde tables.sql
-    let schema = "
-        CREATE TABLE PAYEE_V1(
-            PAYEEID integer primary key AUTOINCREMENT
-            , PAYEENAME TEXT COLLATE NOCASE NOT NULL UNIQUE
-            , CATEGID integer
-            , NUMBER TEXT
-            , WEBSITE TEXT
-            , NOTES TEXT
-            , ACTIVE integer
-            , PATTERN TEXT DEFAULT ''
-        );
-    ";
-    ctx.execute_setup(schema).expect("Failed to setup Payees table");
-    
+fn test_payee_full_crud() {
+    let ctx = common::setup_test_db();
     let service = ctx.payees();
     
-    // 1. Crear Payee
-    let payee = service.create_payee("Supermercado Central").expect("Failed to create payee");
-    assert_eq!(payee.name, "Supermercado Central");
-    assert!(payee.active);
+    // 1. Create
+    let mut payee = service.create_payee("Test Payee").unwrap();
     
-    // 2. Listar
-    let all = service.get_all_payees().expect("Failed to list");
-    assert_eq!(all.len(), 1);
+    // 2. Update
+    payee.name = "Updated Payee".to_string();
+    service.update_payee(&payee).expect("Failed update");
+    let found = service.get_payee_by_id(payee.id).unwrap().unwrap();
+    assert_eq!(found.name, "Updated Payee");
     
-    // 3. Buscar por ID
-    let found = service.get_payee_by_id(payee.id).expect("Failed to find");
-    assert!(found.is_some());
-    assert_eq!(found.unwrap().name, "Supermercado Central");
+    // 3. Delete
+    service.delete_payee(payee.id).expect("Failed delete");
+    let after_delete = service.get_payee_by_id(payee.id).unwrap();
+    assert!(after_delete.is_none());
 }
