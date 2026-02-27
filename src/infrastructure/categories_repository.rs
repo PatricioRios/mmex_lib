@@ -52,7 +52,7 @@ impl<'a, E: DbExecutor> CategoryRepository for SqlCategoryRepository<'a, E> {
             .build(SqliteQueryBuilder);
         match self.executor.query_row_ext(&sql, [id.0], |row| CategoryMapper::map_row(row)) {
             Ok(cat) => Ok(Some(cat)),
-            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
             Err(e) => Err(e),
         }
     }

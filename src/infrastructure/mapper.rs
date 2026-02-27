@@ -4,8 +4,7 @@ use std::str::FromStr;
 use rust_decimal::prelude::FromPrimitive;
 
 use crate::domain::accounts::{Account, AccountType, AccountStatus};
-use crate::domain::types::{AccountId, Money};
-use crate::domain::currencies::CurrencyId;
+use crate::domain::types::{AccountId, Money, CurrencyId};
 
 pub struct AccountMapper;
 

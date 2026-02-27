@@ -6,8 +6,7 @@ use rust_decimal::prelude::FromPrimitive;
 use chrono::NaiveDate;
 
 use crate::domain::assets::{Asset, AssetId, AssetStatus, AssetRepository};
-use crate::domain::types::{Money};
-use crate::domain::currencies::CurrencyId;
+use crate::domain::types::{Money, CurrencyId};
 use crate::error::MmexError;
 use crate::infrastructure::db_executor::DbExecutor;
 
@@ -78,7 +77,7 @@ impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
 
         match self.executor.query_row_ext(&sql, [id.0], |row| AssetMapper::map_row(row)) {
             Ok(asset) => Ok(Some(asset)),
-            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
             Err(e) => Err(e),
         }
     }

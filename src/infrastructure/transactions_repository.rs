@@ -6,9 +6,8 @@ use rust_decimal::prelude::FromPrimitive;
 use chrono::NaiveDate;
 
 use crate::domain::transactions::{Transaction, TransactionId, TransactionCode, TransactionStatus, TransactionRepository};
-use crate::domain::types::{AccountId, Money};
+use crate::domain::types::{AccountId, Money, CategoryId};
 use crate::domain::payees::PayeeId;
-use crate::domain::categories::CategoryId;
 use crate::error::MmexError;
 use crate::infrastructure::db_executor::DbExecutor;
 
@@ -79,7 +78,7 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
             .build(SqliteQueryBuilder);
         match self.executor.query_row_ext(&sql, [id.0], |row| TransactionMapper::map_row(row)) {
             Ok(tx) => Ok(Some(tx)),
-            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
             Err(e) => Err(e),
         }
     }
@@ -88,8 +87,6 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
         let date_str = tx.date.map(|d| d.to_string());
         let sql = "INSERT INTO CHECKINGACCOUNT_V1 (ACCOUNTID, TOACCOUNTID, PAYEEID, TRANSCODE, TRANSAMOUNT, STATUS, TRANSACTIONNUMBER, NOTES, CATEGID, TRANSDATE, TOTRANSAMOUNT) 
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-
         self.executor.execute_ext(sql, (tx.account_id.0, tx.to_account_id.map(|id| id.0), tx.payee_id.0, tx.trans_code.to_string(), tx.amount.0.to_string(), tx.status.to_string(), &tx.transaction_number, &tx.notes, tx.category_id.map(|id| id.0), date_str, tx.to_amount.as_ref().map(|m| m.0.to_string())))?;
         let last_id: i64 = self.executor.query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
         let mut new_tx = tx.clone();

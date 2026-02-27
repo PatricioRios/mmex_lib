@@ -64,7 +64,7 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
             .build(SqliteQueryBuilder);
         match self.executor.query_row_ext(&sql, [id.0], |row| CurrencyMapper::map_row(row)) {
             Ok(curr) => Ok(Some(curr)),
-            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
             Err(e) => Err(e),
         }
     }
@@ -77,7 +77,7 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
             .build(SqliteQueryBuilder);
         match self.executor.query_row_ext(&sql, [symbol], |row| CurrencyMapper::map_row(row)) {
             Ok(curr) => Ok(Some(curr)),
-            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
             Err(e) => Err(e),
         }
     }

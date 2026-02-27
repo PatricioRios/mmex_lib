@@ -1,16 +1,12 @@
-use crate::domain::categories::CategoryId;
-use crate::domain::payees::PayeeId;
-pub use crate::domain::types::{AccountId, Money, TransactionId};
-use crate::error::MmexError;
-use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
+pub use crate::domain::types::{AccountId, Money, TransactionId, CategoryId};
+use crate::domain::payees::PayeeId;
+use chrono::NaiveDate;
+use crate::error::MmexError;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum TransactionCode {
-    Withdrawal,
-    Deposit,
-    Transfer,
-    Unknown(String),
+    Withdrawal, Deposit, Transfer, Unknown(String),
 }
 
 impl From<String> for TransactionCode {
@@ -37,38 +33,31 @@ impl ToString for TransactionCode {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum TransactionStatus {
-    None,
-    Reconciled,
-    Void,
-    FollowUp,
-    Duplicate,
-    Unknown(String),
+    None, Reconciled, Void, FollowUp, Duplicate, Unknown(String),
 }
 
-// TODO: Verificar como la db maneja los status. Por ejemplo "R" es Reconciled.
 impl From<String> for TransactionStatus {
     fn from(s: String) -> Self {
         match s.as_str() {
             "None" | "" => Self::None,
-            "Reconciled" | "R" => Self::Reconciled,
-            "Void" | "V" => Self::Void,
-            "Follow up" | "F" => Self::FollowUp,
-            "Duplicate" | "D" => Self::Duplicate,
+            "Reconciled" => Self::Reconciled,
+            "Void" => Self::Void,
+            "Follow up" => Self::FollowUp,
+            "Duplicate" => Self::Duplicate,
             _ => Self::Unknown(s),
         }
     }
 }
 
-// TODO: Verificar como la db maneja los status. Por ejemplo "R" es Reconciled.
 impl ToString for TransactionStatus {
     fn to_string(&self) -> String {
         match self {
-            Self::None => "".to_string(),             // En la db es ""
-            Self::Reconciled => "R".to_string(), // En la db es "R"
-            Self::Void => "V".to_string(),             // En la db es "V"
-            Self::FollowUp => "F".to_string(),    // En la db es "F"
-            Self::Duplicate => "D".to_string(),   // En la db es "D"
-            Self::Unknown(s) => s.clone(),                // En la db es ""
+            Self::None => "None".to_string(),
+            Self::Reconciled => "Reconciled".to_string(),
+            Self::Void => "Void".to_string(),
+            Self::FollowUp => "Follow up".to_string(),
+            Self::Duplicate => "Duplicate".to_string(),
+            Self::Unknown(s) => s.clone(),
         }
     }
 }
@@ -91,10 +80,10 @@ pub struct Transaction {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SplitTransaction {
-    pub id: i64,                         // SPLITTRANSID
-    pub transaction_id: TransactionId,   // TRANSID
+    pub id: i64, // SPLITTRANSID
+    pub transaction_id: TransactionId, // TRANSID
     pub category_id: Option<CategoryId>, // CATEGID
-    pub amount: Money,                   // SPLITTRANSAMOUNT
+    pub amount: Money, // SPLITTRANSAMOUNT
     pub notes: Option<String>,
 }
 
@@ -107,10 +96,7 @@ pub trait TransactionRepository {
 }
 
 pub trait SplitRepository {
-    fn find_for_transaction(
-        &self,
-        tx_id: TransactionId,
-    ) -> Result<Vec<SplitTransaction>, MmexError>;
+    fn find_for_transaction(&self, tx_id: TransactionId) -> Result<Vec<SplitTransaction>, MmexError>;
     fn insert(&self, split: &SplitTransaction) -> Result<SplitTransaction, MmexError>;
     fn update(&self, split: &SplitTransaction) -> Result<(), MmexError>;
     fn delete(&self, id: i64) -> Result<(), MmexError>;

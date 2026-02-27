@@ -1,7 +1,6 @@
 use sea_query::{Expr, Query, SqliteQueryBuilder};
 
-use crate::domain::accounts::{Account, AccountRepository};
-use crate::domain::types::AccountId;
+use crate::domain::accounts::{Account, AccountRepository, AccountId};
 use crate::error::MmexError;
 use crate::infrastructure::db_executor::DbExecutor;
 use crate::infrastructure::mapper::AccountMapper;
@@ -39,7 +38,7 @@ impl<'a, E: DbExecutor> AccountRepository for SqlAccountRepository<'a, E> {
             .build(SqliteQueryBuilder);
         match self.executor.query_row_ext(&sql, [id.0], |row| AccountMapper::map_row(row)) {
             Ok(account) => Ok(Some(account)),
-            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
             Err(e) => Err(e),
         }
     }
@@ -83,7 +82,7 @@ impl<'a, E: DbExecutor> crate::domain::models::SupportRepository for SqlSupportR
         let sql = "SELECT INFOVALUE FROM INFOTABLE_V1 WHERE INFONAME = ?";
         match self.executor.query_row_ext(sql, [name], |r| r.get(0)) {
             Ok(val) => Ok(Some(val)),
-            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
             Err(e) => Err(e),
         }
     }
@@ -92,7 +91,7 @@ impl<'a, E: DbExecutor> crate::domain::models::SupportRepository for SqlSupportR
         let sql = "SELECT SETTINGVALUE FROM SETTING_V1 WHERE SETTINGNAME = ?";
         match self.executor.query_row_ext(sql, [name], |r| r.get(0)) {
             Ok(val) => Ok(Some(val)),
-            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
             Err(e) => Err(e),
         }
     }

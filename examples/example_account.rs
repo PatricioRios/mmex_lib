@@ -1,5 +1,4 @@
 use std::path::Path;
-use mmex_lib::domain::TransactionId;
 use mmex_lib::MmexContext;
 
 fn main() {

@@ -45,7 +45,7 @@ impl<'a, E: DbExecutor> TagRepository for SqlTagRepository<'a, E> {
 
         match self.executor.query_row_ext(&sql, [id.0], |row| TagMapper::map_row(row)) {
             Ok(tag) => Ok(Some(tag)),
-            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
             Err(e) => Err(e),
         }
     }

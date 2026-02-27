@@ -57,7 +57,7 @@ impl<'a, E: DbExecutor> PayeeRepository for SqlPayeeRepository<'a, E> {
 
         match self.executor.query_row_ext(&sql, [id.0], |row| PayeeMapper::map_row(row)) {
             Ok(payee) => Ok(Some(payee)),
-            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
             Err(e) => Err(e),
         }
     }

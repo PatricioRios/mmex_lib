@@ -1,79 +1,66 @@
-use std::ffi::{CStr, CString};
-use std::os::raw::{c_char, c_void};
-use std::path::Path;
+use std::sync::{Arc, Mutex};
 use crate::api::MmexContext;
+use crate::error::MmexError;
+use crate::domain::types::AccountId;
 
-/// Abre un contexto de MMEX. Devuelve un puntero opaco o NULL si falla.
+#[cfg_attr(feature = "uniffi", derive(uniffi::Object))]
+pub struct MmexEngine {
+    context: Arc<Mutex<MmexContext>>,
+}
+
+#[cfg_attr(feature = "uniffi", uniffi::export)]
+impl MmexEngine {
+    #[cfg_attr(feature = "uniffi", uniffi::constructor)]
+    pub fn new(path: String, key: Option<String>) -> Result<Arc<Self>, MmexError> {
+        let ctx = MmexContext::open((&path).as_ref(), key)?;
+        Ok(Arc::new(Self {
+            context: Arc::new(Mutex::new(ctx)),
+        }))
+    }
+
+    pub fn get_db_version(&self) -> Result<String, MmexError> {
+        let ctx = self.context.lock().map_err(|e| MmexError::Internal(e.to_string()))?;
+        ctx.support().get_db_version()
+    }
+
+    pub fn get_accounts_json(&self) -> Result<String, MmexError> {
+        let ctx = self.context.lock().map_err(|e| MmexError::Internal(e.to_string()))?;
+        let accounts = ctx.accounts().get_all_accounts()?;
+        serde_json::to_string(&accounts).map_err(|e| MmexError::Internal(e.to_string()))
+    }
+
+    pub fn get_account_balance_json(&self, account_id: i64) -> Result<String, MmexError> {
+        let ctx = self.context.lock().map_err(|e| MmexError::Internal(e.to_string()))?;
+        let balance = ctx.accounts().get_account_balance(AccountId(account_id))?;
+        serde_json::to_string(&balance).map_err(|e| MmexError::Internal(e.to_string()))
+    }
+
+    pub fn get_transactions_json(&self) -> Result<String, MmexError> {
+        let ctx = self.context.lock().map_err(|e| MmexError::Internal(e.to_string()))?;
+        let txs = ctx.transactions().get_all_transactions()?;
+        serde_json::to_string(&txs).map_err(|e| MmexError::Internal(e.to_string()))
+    }
+}
+
+// Mantenemos los extern "C" para compatibilidad con lenguajes que no usen UniFFI
 #[no_mangle]
-pub extern "C"  fn mmex_context_open(path: *const c_char, key: *const c_char) -> *mut c_void {
-
+pub extern "C" fn mmex_engine_new(path: *const std::os::raw::c_char, key: *const std::os::raw::c_char) -> *mut MmexEngine {
+    use std::ffi::CStr;
     if path.is_null() { return std::ptr::null_mut(); }
-
-    let c_path = unsafe { CStr::from_ptr(path) }.to_string_lossy();
-    let c_key = if key.is_null() {
-        None
-    } else {
-        Some(unsafe { CStr::from_ptr(key) }.to_string_lossy())
-    };
-
-    match MmexContext::open(Path::new(&*c_path), c_key.as_deref()) {
-        Ok(ctx) => Box::into_raw(Box::new(ctx)) as *mut c_void,
+    let c_path = unsafe { CStr::from_ptr(path) }.to_string_lossy().into_owned();
+    let c_key = if key.is_null() { None } else { Some(unsafe { CStr::from_ptr(key) }.to_string_lossy().into_owned()) };
+    
+    match MmexEngine::new(c_path, c_key) {
+        Ok(engine) => Arc::into_raw(engine) as *mut MmexEngine,
         Err(_) => std::ptr::null_mut(),
     }
 }
 
-/// Cierra y libera el contexto.
 #[no_mangle]
-pub extern "C" fn mmex_context_free(ctx: *mut c_void) {
-    if !ctx.is_null() {
+pub extern "C" fn mmex_engine_free(engine: *mut MmexEngine) {
+    if !engine.is_null() {
         unsafe {
-            let _ = Box::from_raw(ctx as *mut MmexContext);
-        }
-    }
-}
-
-/// Libera una string creada por Rust.
-#[no_mangle]
-pub extern "C" fn mmex_free_string(s: *mut c_char) {
-    if !s.is_null() {
-        unsafe {
-            let _ = CString::from_raw(s);
-        }
-    }
-}
-
-/// Obtiene todas las cuentas en formato JSON.
-#[no_mangle]
-pub extern "C" fn mmex_get_accounts(ctx: *mut c_void) -> *mut c_char {
-    let context = unsafe { &*(ctx as *mut MmexContext) };
-    let service = context.accounts();
-    
-    match service.get_all_accounts() {
-        Ok(accounts) => {
-            let json = serde_json::to_string(&accounts).unwrap_or_default();
-            CString::new(json).unwrap().into_raw()
-        },
-        Err(e) => {
-            let err_json = format!(r#"{{"error": "{}"}}"#, e);
-            CString::new(err_json).unwrap().into_raw()
-        }
-    }
-}
-
-/// Obtiene el balance de una cuenta en formato JSON.
-#[no_mangle]
-pub extern "C" fn mmex_get_account_balance(ctx: *mut c_void, account_id: i64) -> *mut c_char {
-    let context = unsafe { &*(ctx as *mut MmexContext) };
-    let service = context.accounts();
-    
-    match service.get_account_balance(crate::domain::types::AccountId(account_id)) {
-        Ok(balance) => {
-            let json = serde_json::to_string(&balance).unwrap_or_default();
-            CString::new(json).unwrap().into_raw()
-        },
-        Err(e) => {
-            let err_json = format!(r#"{{"error": "{}"}}"#, e);
-            CString::new(err_json).unwrap().into_raw()
+            let _ = Arc::from_raw(engine);
         }
     }
 }

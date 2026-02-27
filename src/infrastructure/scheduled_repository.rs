@@ -7,9 +7,8 @@ use chrono::NaiveDate;
 
 use crate::domain::scheduled_transactions::{ScheduledTransaction, ScheduledRepository};
 use crate::domain::transactions::{TransactionCode, TransactionStatus};
-use crate::domain::types::{AccountId, Money};
+use crate::domain::types::{AccountId, Money, CategoryId};
 use crate::domain::payees::PayeeId;
-use crate::domain::categories::CategoryId;
 use crate::error::MmexError;
 use crate::infrastructure::db_executor::DbExecutor;
 
@@ -98,7 +97,7 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
 
         match self.executor.query_row_ext(&sql, [id], |row| ScheduledMapper::map_row(row)) {
             Ok(tx) => Ok(Some(tx)),
-            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
             Err(e) => Err(e),
         }
     }

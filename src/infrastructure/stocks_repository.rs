@@ -79,7 +79,7 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
 
         match self.executor.query_row_ext(&sql, [id.0], |row| StockMapper::map_row(row)) {
             Ok(stock) => Ok(Some(stock)),
-            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
             Err(e) => Err(e),
         }
     }

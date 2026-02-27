@@ -5,8 +5,7 @@ use std::str::FromStr;
 use rust_decimal::prelude::FromPrimitive;
 
 use crate::domain::transactions::{SplitTransaction, TransactionId, SplitRepository};
-use crate::domain::types::Money;
-use crate::domain::categories::CategoryId;
+use crate::domain::types::{Money, CategoryId};
 use crate::error::MmexError;
 use crate::infrastructure::db_executor::DbExecutor;
 

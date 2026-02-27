@@ -1,8 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::error::MmexError;
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct CategoryId(pub i64);
+pub use crate::domain::types::CategoryId;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Category {

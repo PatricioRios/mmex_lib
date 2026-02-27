@@ -1,9 +1,7 @@
 use serde::{Deserialize, Serialize};
 use rust_decimal::Decimal;
 use crate::error::MmexError;
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct CurrencyId(pub i64);
+pub use crate::domain::types::CurrencyId;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Currency {

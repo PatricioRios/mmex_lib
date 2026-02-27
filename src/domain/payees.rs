@@ -1,8 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::error::MmexError;
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct PayeeId(pub i64);
+pub use crate::domain::types::PayeeId;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Payee {

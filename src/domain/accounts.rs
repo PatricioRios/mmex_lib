@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
-pub use crate::domain::types::{AccountId, Money};
-use crate::domain::currencies::CurrencyId;
+pub use crate::domain::types::{AccountId, Money, CurrencyId};
 use crate::error::MmexError;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
