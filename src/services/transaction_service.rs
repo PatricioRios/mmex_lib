@@ -1,8 +1,9 @@
 use rusqlite::Connection;
-use crate::domain::transactions::{Transaction, TransactionId, TransactionRepository};
+use crate::domain::transactions::{Transaction, TransactionId, TransactionRepository, SplitTransaction, SplitRepository};
 use crate::domain::tags::{Tag, TagId, TagRepository};
 use crate::infrastructure::transactions_repository::SqlTransactionRepository;
 use crate::infrastructure::tags_repository::SqlTagRepository;
+use crate::infrastructure::splits_repository::SqlSplitRepository;
 use crate::error::MmexError;
 
 pub struct TransactionService<'a> {
@@ -35,13 +36,19 @@ impl<'a> TransactionService<'a> {
     }
 
     pub fn delete_transaction(&self, id: TransactionId) -> Result<(), MmexError> {
-        let repo = SqlTransactionRepository::new(self.conn);
-        // Nota: Deberíamos eliminar también vínculos de tags si no hay integridad referencial
+        // 1. Eliminar vínculos de tags
         let tag_repo = SqlTagRepository::new(self.conn);
         let tags = tag_repo.find_for_reference("Transaction", id.0)?;
         for tag in tags {
             tag_repo.unlink_from_reference("Transaction", id.0, tag.id)?;
         }
+        
+        // 2. Eliminar desgloses (splits)
+        let split_repo = SqlSplitRepository::new(self.conn);
+        split_repo.delete_for_transaction(id)?;
+
+        // 3. Eliminar transacción
+        let repo = SqlTransactionRepository::new(self.conn);
         repo.delete(id)
     }
 
@@ -59,5 +66,26 @@ impl<'a> TransactionService<'a> {
     pub fn unlink_tag(&self, tx_id: TransactionId, tag_id: TagId) -> Result<(), MmexError> {
         let repo = SqlTagRepository::new(self.conn);
         repo.unlink_from_reference("Transaction", tx_id.0, tag_id)
+    }
+
+    // Gestión de Splits (Desgloses)
+    pub fn get_splits_for_transaction(&self, tx_id: TransactionId) -> Result<Vec<SplitTransaction>, MmexError> {
+        let repo = SqlSplitRepository::new(self.conn);
+        repo.find_for_transaction(tx_id)
+    }
+
+    pub fn add_split(&self, split: &SplitTransaction) -> Result<SplitTransaction, MmexError> {
+        let repo = SqlSplitRepository::new(self.conn);
+        repo.insert(split)
+    }
+
+    pub fn update_split(&self, split: &SplitTransaction) -> Result<(), MmexError> {
+        let repo = SqlSplitRepository::new(self.conn);
+        repo.update(split)
+    }
+
+    pub fn delete_split(&self, split_id: i64) -> Result<(), MmexError> {
+        let repo = SqlSplitRepository::new(self.conn);
+        repo.delete(split_id)
     }
 }

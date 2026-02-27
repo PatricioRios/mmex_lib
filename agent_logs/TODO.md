@@ -17,31 +17,17 @@ Este documento detalla la hoja de ruta para la implementación completa de la l�
 - [x] **Módulo de Transacciones** - `CHECKINGACCOUNT_V1`
 - [x] **Gestión de Tags en Transacciones** - `TAGLINK_V1`
 
-## Fase 5: CRUD Extendido (Hacia Versión Utilizable)
-Implementación de las entidades restantes del esquema para permitir la gestión total del archivo .mmb.
+## Fase 5: CRUD Extendido (Hacia Versión Utilizable) [COMPLETADA]
+- [x] **Split Transactions (Desgloses)** - `SPLITTRANSACTIONS_V1`
+- [x] **Scheduled Bills (Transacciones Programadas)** - `BILLSDEPOSITS_V1`
+- [x] **Assets (Activos)** - `ASSETS_V1`
+- [x] **Stocks (Inversiones)** - `STOCK_V1`
 
-- [ ] **Split Transactions (Desgloses)** - `SPLITTRANSACTIONS_V1`
-    - [ ] Domain: `SplitTransaction` model.
-    - [ ] Infrastructure: Repositorio y Mapeo.
-    - [ ] Service: Integración con `TransactionService`.
-- [ ] **Scheduled Bills (Transacciones Programadas)** - `BILLSDEPOSITS_V1`
-    - [ ] Domain: `ScheduledTransaction` model.
-    - [ ] Infrastructure: Repositorio y Mapeo.
-    - [ ] Service: `ScheduledService`.
-- [ ] **Assets (Activos)** - `ASSETS_V1`
-    - [ ] Domain: `Asset` model.
-    - [ ] Infrastructure: Repositorio y Mapeo.
-    - [ ] Service: `AssetService`.
-- [ ] **Stocks (Inversiones)** - `STOCK_V1`
-    - [ ] Domain: `Stock` model.
-    - [ ] Infrastructure: Repositorio y Mapeo.
-    - [ ] Service: `StockService`.
-
-## Fase 6: Lógica de Negocio Avanzada
-- [ ] **Cálculo de Balances**
-    - [ ] Lógica para calcular saldos actuales sumando transacciones al balance inicial.
-- [ ] **Transferencias entre Cuentas**
-    - [ ] Lógica para manejar el par de transacciones vinculadas (Gasto/Ingreso).
+## Fase 6: Lógica de Negocio Avanzada [COMPLETADA]
+- [x] **Cálculo de Balances**
+    - [x] Lógica para calcular saldos actuales sumando transacciones al balance inicial.
+    - [x] Gestión de transferencias bidireccionales.
+- [ ] **Transferencias entre Cuentas** (Refinamiento de creación atómica)
 
 ## Fase 7: Metadata & Settings
 - [ ] **Módulo de Metadatos** - `INFOTABLE_V1`

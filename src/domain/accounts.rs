@@ -78,6 +78,15 @@ pub struct Account {
     pub favorite: bool,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AccountBalance {
+    pub account_id: AccountId,
+    pub initial_balance: Money,
+    pub total_deposits: Money,
+    pub total_withdrawals: Money,
+    pub current_balance: Money,
+}
+
 pub trait AccountRepository {
     fn find_all(&self) -> Result<Vec<Account>, MmexError>;
     fn find_by_id(&self, id: AccountId) -> Result<Option<Account>, MmexError>;

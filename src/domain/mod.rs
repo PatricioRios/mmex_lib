@@ -6,6 +6,9 @@ pub mod currencies;
 pub mod categories;
 pub mod accounts;
 pub mod transactions;
+pub mod scheduled_transactions;
+pub mod assets;
+pub mod stocks;
 
 pub use types::*;
 pub use tags::*;
@@ -14,3 +17,6 @@ pub use currencies::*;
 pub use categories::*;
 pub use accounts::*;
 pub use transactions::*;
+pub use scheduled_transactions::*;
+pub use assets::*;
+pub use stocks::*;

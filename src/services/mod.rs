@@ -4,6 +4,10 @@ pub mod tags_service;
 pub mod payees_service;
 pub mod currencies_service;
 pub mod categories_service;
+pub mod scheduled_service;
+pub mod asset_service;
+pub mod stocks_service;
+pub mod support_service;
 
 pub use account_service::AccountService;
 pub use transaction_service::TransactionService;
@@ -11,3 +15,7 @@ pub use tags_service::TagService;
 pub use payees_service::PayeeService;
 pub use currencies_service::CurrencyService;
 pub use categories_service::CategoryService;
+pub use scheduled_service::ScheduledService;
+pub use asset_service::AssetService;
+pub use stocks_service::StockService;
+pub use support_service::SupportService;

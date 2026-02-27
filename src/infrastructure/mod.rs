@@ -6,6 +6,10 @@ pub mod payees_repository;
 pub mod currencies_repository;
 pub mod categories_repository;
 pub mod transactions_repository;
+pub mod splits_repository;
+pub mod scheduled_repository;
+pub mod assets_repository;
+pub mod stocks_repository;
 
 pub use repositories::*;
 pub use db_executor::DbExecutor;
@@ -14,3 +18,7 @@ pub use payees_repository::SqlPayeeRepository;
 pub use currencies_repository::SqlCurrencyRepository;
 pub use categories_repository::SqlCategoryRepository;
 pub use transactions_repository::SqlTransactionRepository;
+pub use splits_repository::SqlSplitRepository;
+pub use scheduled_repository::SqlScheduledRepository;
+pub use assets_repository::SqlAssetRepository;
+pub use stocks_repository::SqlStockRepository;

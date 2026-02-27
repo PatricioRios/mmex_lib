@@ -1,6 +1,20 @@
-pub use crate::domain::accounts::Account;
-pub use crate::domain::categories::Category;
-pub use crate::domain::tags::Tag;
-pub use crate::domain::payees::Payee;
-pub use crate::domain::currencies::Currency;
-pub use crate::domain::transactions::Transaction;
+use serde::{Deserialize, Serialize};
+use crate::error::MmexError;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DbMetadata {
+    pub name: String,
+    pub value: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct UserSetting {
+    pub name: String,
+    pub value: Option<String>,
+}
+
+pub trait SupportRepository {
+    fn get_metadata(&self, name: &str) -> Result<Option<String>, MmexError>;
+    fn get_setting(&self, name: &str) -> Result<Option<String>, MmexError>;
+    fn set_setting(&self, name: &str, value: &str) -> Result<(), MmexError>;
+}

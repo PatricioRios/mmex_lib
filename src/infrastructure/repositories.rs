@@ -67,3 +67,39 @@ impl<'a, E: DbExecutor> AccountRepository for SqlAccountRepository<'a, E> {
         Ok(())
     }
 }
+
+pub struct SqlSupportRepository<'a, E: DbExecutor> {
+    executor: &'a E,
+}
+
+impl<'a, E: DbExecutor> SqlSupportRepository<'a, E> {
+    pub fn new(executor: &'a E) -> Self {
+        Self { executor }
+    }
+}
+
+impl<'a, E: DbExecutor> crate::domain::models::SupportRepository for SqlSupportRepository<'a, E> {
+    fn get_metadata(&self, name: &str) -> Result<Option<String>, MmexError> {
+        let sql = "SELECT INFOVALUE FROM INFOTABLE_V1 WHERE INFONAME = ?";
+        match self.executor.query_row_ext(sql, [name], |r| r.get(0)) {
+            Ok(val) => Ok(Some(val)),
+            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(e) => Err(e),
+        }
+    }
+
+    fn get_setting(&self, name: &str) -> Result<Option<String>, MmexError> {
+        let sql = "SELECT SETTINGVALUE FROM SETTING_V1 WHERE SETTINGNAME = ?";
+        match self.executor.query_row_ext(sql, [name], |r| r.get(0)) {
+            Ok(val) => Ok(Some(val)),
+            Err(MmexError::Database(rusqlite::Error::QueryReturnedNoRows)) => Ok(None),
+            Err(e) => Err(e),
+        }
+    }
+
+    fn set_setting(&self, name: &str, value: &str) -> Result<(), MmexError> {
+        let sql = "INSERT OR REPLACE INTO SETTING_V1 (SETTINGNAME, SETTINGVALUE) VALUES (?, ?)";
+        self.executor.execute_ext(sql, [name, value])?;
+        Ok(())
+    }
+}
