@@ -1,7 +1,10 @@
-use std::path::Path;
+use crate::MmexError;
+use crate::services::{
+    AccountService, AssetService, CategoryService, CurrencyService, PayeeService, ScheduledService,
+    StockService, SupportService, TagService, TransactionService,
+};
 use rusqlite::Connection;
-use crate::error::MmexError;
-use crate::services::{AccountService, TagService, PayeeService, CurrencyService, CategoryService, TransactionService, ScheduledService, AssetService, StockService, SupportService};
+use std::path::Path;
 
 pub struct MmexContext {
     pub(crate) conn: Connection,

@@ -1,11 +1,28 @@
-use serde::{Deserialize, Serialize};
-use crate::domain::types::{Money};
 use crate::domain::currencies::CurrencyId;
+use crate::domain::types::Money;
+use crate::MmexError;
 use chrono::NaiveDate;
-use crate::error::MmexError;
+use serde::{Deserialize, Serialize};
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+#[cfg_attr(feature = "uniffi", derive(uniffi::Error))]
+pub enum AssetError {
+    #[error("Asset common error: {0}")]
+    Common(#[from] MmexError),
+
+    #[error("Asset not found: {0}")]
+    NotFound(AssetId),
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct AssetId(pub i64);
+
+impl std::fmt::Display for AssetId {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum AssetStatus {
@@ -50,9 +67,18 @@ pub struct Asset {
 }
 
 pub trait AssetRepository {
-    fn find_all(&self) -> Result<Vec<Asset>, MmexError>;
-    fn find_by_id(&self, id: AssetId) -> Result<Option<Asset>, MmexError>;
-    fn insert(&self, asset: &Asset) -> Result<Asset, MmexError>;
-    fn update(&self, asset: &Asset) -> Result<(), MmexError>;
-    fn delete(&self, id: AssetId) -> Result<(), MmexError>;
+    fn find_all(&self) -> Result<Vec<Asset>, AssetError>;
+    fn find_by_id(&self, id: AssetId) -> Result<Option<Asset>, AssetError>;
+    fn insert(&self, asset: &Asset) -> Result<Asset, AssetError>;
+    fn update(&self, asset: &Asset) -> Result<(), AssetError>;
+    fn delete(&self, id: AssetId) -> Result<(), AssetError>;
+}
+
+impl From<AssetError> for MmexError {
+    fn from(e: AssetError) -> Self {
+        match e {
+            AssetError::Common(c) => c,
+            _ => MmexError::Internal(e.to_string()),
+        }
+    }
 }

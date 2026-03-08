@@ -1,12 +1,32 @@
-use serde::{Deserialize, Serialize};
-pub use crate::domain::types::{AccountId, Money, TransactionId, CategoryId};
 use crate::domain::payees::PayeeId;
+pub use crate::domain::types::{AccountId, CategoryId, Money, TransactionId};
+use crate::MmexError;
 use chrono::NaiveDate;
-use crate::error::MmexError;
+use serde::{Deserialize, Serialize};
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+#[cfg_attr(feature = "uniffi", derive(uniffi::Error))]
+pub enum TransactionError {
+    #[error("Transaction common error: {0}")]
+    Common(#[from] MmexError),
+
+    #[error("Transaction not found: {0}")]
+    NotFound(TransactionId),
+
+    #[error("Invalid transaction amount")]
+    InvalidAmount,
+
+    #[error("Split error: {0}")]
+    SplitError(String),
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum TransactionCode {
-    Withdrawal, Deposit, Transfer, Unknown(String),
+    Withdrawal,
+    Deposit,
+    Transfer,
+    Unknown(String),
 }
 
 impl From<String> for TransactionCode {
@@ -33,7 +53,12 @@ impl ToString for TransactionCode {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum TransactionStatus {
-    None, Reconciled, Void, FollowUp, Duplicate, Unknown(String),
+    None,
+    Reconciled,
+    Void,
+    FollowUp,
+    Duplicate,
+    Unknown(String),
 }
 
 impl From<String> for TransactionStatus {
@@ -80,25 +105,37 @@ pub struct Transaction {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SplitTransaction {
-    pub id: i64, // SPLITTRANSID
-    pub transaction_id: TransactionId, // TRANSID
+    pub id: i64,                         // SPLITTRANSID
+    pub transaction_id: TransactionId,   // TRANSID
     pub category_id: Option<CategoryId>, // CATEGID
-    pub amount: Money, // SPLITTRANSAMOUNT
+    pub amount: Money,                   // SPLITTRANSAMOUNT
     pub notes: Option<String>,
 }
 
 pub trait TransactionRepository {
-    fn find_all(&self) -> Result<Vec<Transaction>, MmexError>;
-    fn find_by_id(&self, id: TransactionId) -> Result<Option<Transaction>, MmexError>;
-    fn insert(&self, tx: &Transaction) -> Result<Transaction, MmexError>;
-    fn update(&self, tx: &Transaction) -> Result<(), MmexError>;
-    fn delete(&self, id: TransactionId) -> Result<(), MmexError>;
+    fn find_all(&self) -> Result<Vec<Transaction>, TransactionError>;
+    fn find_by_id(&self, id: TransactionId) -> Result<Option<Transaction>, TransactionError>;
+    fn insert(&self, tx: &Transaction) -> Result<Transaction, TransactionError>;
+    fn update(&self, tx: &Transaction) -> Result<(), TransactionError>;
+    fn delete(&self, id: TransactionId) -> Result<(), TransactionError>;
 }
 
 pub trait SplitRepository {
-    fn find_for_transaction(&self, tx_id: TransactionId) -> Result<Vec<SplitTransaction>, MmexError>;
-    fn insert(&self, split: &SplitTransaction) -> Result<SplitTransaction, MmexError>;
-    fn update(&self, split: &SplitTransaction) -> Result<(), MmexError>;
-    fn delete(&self, id: i64) -> Result<(), MmexError>;
-    fn delete_for_transaction(&self, tx_id: TransactionId) -> Result<(), MmexError>;
+    fn find_for_transaction(
+        &self,
+        tx_id: TransactionId,
+    ) -> Result<Vec<SplitTransaction>, TransactionError>;
+    fn insert(&self, split: &SplitTransaction) -> Result<SplitTransaction, TransactionError>;
+    fn update(&self, split: &SplitTransaction) -> Result<(), TransactionError>;
+    fn delete(&self, id: i64) -> Result<(), TransactionError>;
+    fn delete_for_transaction(&self, tx_id: TransactionId) -> Result<(), TransactionError>;
+}
+
+impl From<TransactionError> for MmexError {
+    fn from(e: TransactionError) -> Self {
+        match e {
+            TransactionError::Common(c) => c,
+            _ => MmexError::Internal(e.to_string()),
+        }
+    }
 }

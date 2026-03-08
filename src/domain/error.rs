@@ -10,12 +10,6 @@ pub enum MmexError {
     #[error("Encryption error (SQLCipher): {0}")]
     Crypto(String),
 
-    #[error("Validation error: {0}")]
-    Validation(String),
-
-    #[error("Entity not found: {0}")]
-    NotFound(String),
-
     #[error("Mapping error from legacy schema: {0}")]
     LegacyMapping(String),
 

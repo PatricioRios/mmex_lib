@@ -1,7 +1,6 @@
-use rusqlite::Connection;
-use crate::domain::tags::{Tag, TagId, TagRepository};
+use crate::domain::tags::{Tag, TagError, TagId, TagRepository};
 use crate::infrastructure::tags_repository::SqlTagRepository;
-use crate::error::MmexError;
+use rusqlite::Connection;
 
 pub struct TagService<'a> {
     conn: &'a Connection,
@@ -12,33 +11,33 @@ impl<'a> TagService<'a> {
         Self { conn }
     }
 
-    pub fn get_all_tags(&self) -> Result<Vec<Tag>, MmexError> {
+    pub fn get_all_tags(&self) -> Result<Vec<Tag>, TagError> {
         let repo = SqlTagRepository::new(self.conn);
         repo.find_all()
     }
 
-    pub fn get_tag_by_id(&self, id: TagId) -> Result<Option<Tag>, MmexError> {
+    pub fn get_tag_by_id(&self, id: TagId) -> Result<Option<Tag>, TagError> {
         let repo = SqlTagRepository::new(self.conn);
         repo.find_by_id(id)
     }
 
-    pub fn create_tag(&self, name: &str) -> Result<Tag, MmexError> {
+    pub fn create_tag(&self, name: &str) -> Result<Tag, TagError> {
         if name.trim().is_empty() {
-            return Err(MmexError::Validation("Tag name cannot be empty".into()));
+            return Err(TagError::NameRequired);
         }
         let repo = SqlTagRepository::new(self.conn);
         repo.insert(name)
     }
 
-    pub fn update_tag(&self, tag: &Tag) -> Result<(), MmexError> {
+    pub fn update_tag(&self, tag: &Tag) -> Result<(), TagError> {
         if tag.name.trim().is_empty() {
-            return Err(MmexError::Validation("Tag name cannot be empty".into()));
+            return Err(TagError::NameRequired);
         }
         let repo = SqlTagRepository::new(self.conn);
         repo.update(tag)
     }
 
-    pub fn delete_tag(&self, id: TagId) -> Result<(), MmexError> {
+    pub fn delete_tag(&self, id: TagId) -> Result<(), TagError> {
         let repo = SqlTagRepository::new(self.conn);
         repo.delete(id)
     }

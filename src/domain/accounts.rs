@@ -1,10 +1,32 @@
+pub use crate::domain::types::{AccountId, CurrencyId, Money};
+use crate::MmexError;
 use serde::{Deserialize, Serialize};
-pub use crate::domain::types::{AccountId, Money, CurrencyId};
-use crate::error::MmexError;
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+#[cfg_attr(feature = "uniffi", derive(uniffi::Error))]
+pub enum AccountError {
+    #[error("Account common error: {0}")]
+    Common(#[from] MmexError),
+
+    #[error("Account not found: {0}")]
+    NotFound(AccountId),
+
+    #[error("Account name is required")]
+    NameRequired,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum AccountType {
-    Cash, Checking, Term, Investment, CreditCard, Loan, Asset, Shares, Unknown(String),
+    Cash,
+    Checking,
+    Term,
+    Investment,
+    CreditCard,
+    Loan,
+    Asset,
+    Shares,
+    Unknown(String),
 }
 
 impl From<String> for AccountType {
@@ -41,7 +63,9 @@ impl ToString for AccountType {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum AccountStatus {
-    Open, Closed, Unknown(String),
+    Open,
+    Closed,
+    Unknown(String),
 }
 
 impl From<String> for AccountStatus {
@@ -87,9 +111,18 @@ pub struct AccountBalance {
 }
 
 pub trait AccountRepository {
-    fn find_all(&self) -> Result<Vec<Account>, MmexError>;
-    fn find_by_id(&self, id: AccountId) -> Result<Option<Account>, MmexError>;
-    fn insert(&self, account: &Account) -> Result<Account, MmexError>;
-    fn update(&self, account: &Account) -> Result<(), MmexError>;
-    fn delete(&self, id: AccountId) -> Result<(), MmexError>;
+    fn find_all(&self) -> Result<Vec<Account>, AccountError>;
+    fn find_by_id(&self, id: AccountId) -> Result<Option<Account>, AccountError>;
+    fn insert(&self, account: &Account) -> Result<Account, AccountError>;
+    fn update(&self, account: &Account) -> Result<(), AccountError>;
+    fn delete(&self, id: AccountId) -> Result<(), AccountError>;
+}
+
+impl From<AccountError> for MmexError {
+    fn from(e: AccountError) -> Self {
+        match e {
+            AccountError::Common(c) => c,
+            _ => MmexError::Internal(e.to_string()),
+        }
+    }
 }

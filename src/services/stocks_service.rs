@@ -1,7 +1,6 @@
-use rusqlite::Connection;
-use crate::domain::stocks::{Stock, StockId, StockRepository};
+use crate::domain::stocks::{Stock, StockError, StockId, StockRepository};
 use crate::infrastructure::stocks_repository::SqlStockRepository;
-use crate::error::MmexError;
+use rusqlite::Connection;
 
 pub struct StockService<'a> {
     conn: &'a Connection,
@@ -12,27 +11,27 @@ impl<'a> StockService<'a> {
         Self { conn }
     }
 
-    pub fn get_all_stocks(&self) -> Result<Vec<Stock>, MmexError> {
+    pub fn get_all_stocks(&self) -> Result<Vec<Stock>, StockError> {
         let repo = SqlStockRepository::new(self.conn);
         repo.find_all()
     }
 
-    pub fn get_stock_by_id(&self, id: StockId) -> Result<Option<Stock>, MmexError> {
+    pub fn get_stock_by_id(&self, id: StockId) -> Result<Option<Stock>, StockError> {
         let repo = SqlStockRepository::new(self.conn);
         repo.find_by_id(id)
     }
 
-    pub fn create_stock(&self, stock: &Stock) -> Result<Stock, MmexError> {
+    pub fn create_stock(&self, stock: &Stock) -> Result<Stock, StockError> {
         let repo = SqlStockRepository::new(self.conn);
         repo.insert(stock)
     }
 
-    pub fn update_stock(&self, stock: &Stock) -> Result<(), MmexError> {
+    pub fn update_stock(&self, stock: &Stock) -> Result<(), StockError> {
         let repo = SqlStockRepository::new(self.conn);
         repo.update(stock)
     }
 
-    pub fn delete_stock(&self, id: StockId) -> Result<(), MmexError> {
+    pub fn delete_stock(&self, id: StockId) -> Result<(), StockError> {
         let repo = SqlStockRepository::new(self.conn);
         repo.delete(id)
     }

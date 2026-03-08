@@ -1,14 +1,14 @@
-use rusqlite::Row;
-use sea_query::{Expr, Query, SqliteQueryBuilder};
-use rust_decimal::Decimal;
-use std::str::FromStr;
-use rust_decimal::prelude::FromPrimitive;
 use chrono::NaiveDate;
+use rusqlite::Row;
+use rust_decimal::prelude::FromPrimitive;
+use rust_decimal::Decimal;
+use sea_query::{Expr, Query, SqliteQueryBuilder};
+use std::str::FromStr;
 
-use crate::domain::assets::{Asset, AssetId, AssetStatus, AssetRepository};
-use crate::domain::types::{Money, CurrencyId};
-use crate::error::MmexError;
+use crate::domain::assets::{Asset, AssetError, AssetId, AssetRepository, AssetStatus};
+use crate::domain::types::{CurrencyId, Money};
 use crate::infrastructure::db_executor::DbExecutor;
+use crate::MmexError;
 
 pub struct AssetMapper;
 
@@ -53,66 +53,113 @@ impl<'a, E: DbExecutor> SqlAssetRepository<'a, E> {
 }
 
 impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
-    fn find_all(&self) -> Result<Vec<Asset>, MmexError> {
+    fn find_all(&self) -> Result<Vec<Asset>, AssetError> {
         let (sql, _) = Query::select()
             .columns([
-                "ASSETID", "STARTDATE", "ASSETNAME", "ASSETSTATUS", "CURRENCYID",
-                "VALUECHANGEMODE", "VALUE", "VALUECHANGE", "NOTES", "VALUECHANGERATE", "ASSETTYPE"
+                "ASSETID",
+                "STARTDATE",
+                "ASSETNAME",
+                "ASSETSTATUS",
+                "CURRENCYID",
+                "VALUECHANGEMODE",
+                "VALUE",
+                "VALUECHANGE",
+                "NOTES",
+                "VALUECHANGERATE",
+                "ASSETTYPE",
             ])
             .from_as("ASSETS_V1", "a")
             .build(SqliteQueryBuilder);
 
-        self.executor.query_map_ext(&sql, [], |row| AssetMapper::map_row(row))
+        Ok(self
+            .executor
+            .query_map_ext(&sql, [], |row| AssetMapper::map_row(row))?)
     }
 
-    fn find_by_id(&self, id: AssetId) -> Result<Option<Asset>, MmexError> {
+    fn find_by_id(&self, id: AssetId) -> Result<Option<Asset>, AssetError> {
         let (sql, _) = Query::select()
             .columns([
-                "ASSETID", "STARTDATE", "ASSETNAME", "ASSETSTATUS", "CURRENCYID",
-                "VALUECHANGEMODE", "VALUE", "VALUECHANGE", "NOTES", "VALUECHANGERATE", "ASSETTYPE"
+                "ASSETID",
+                "STARTDATE",
+                "ASSETNAME",
+                "ASSETSTATUS",
+                "CURRENCYID",
+                "VALUECHANGEMODE",
+                "VALUE",
+                "VALUECHANGE",
+                "NOTES",
+                "VALUECHANGERATE",
+                "ASSETTYPE",
             ])
             .from_as("ASSETS_V1", "a")
             .and_where(Expr::col("ASSETID").eq(id.0))
             .build(SqliteQueryBuilder);
 
-        match self.executor.query_row_ext(&sql, [id.0], |row| AssetMapper::map_row(row)) {
+        match self
+            .executor
+            .query_row_ext(&sql, [id.0], |row| AssetMapper::map_row(row))
+        {
             Ok(asset) => Ok(Some(asset)),
             Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
-            Err(e) => Err(e),
+            Err(e) => Err(AssetError::Common(e)),
         }
     }
 
-    fn insert(&self, a: &Asset) -> Result<Asset, MmexError> {
+    fn insert(&self, a: &Asset) -> Result<Asset, AssetError> {
         let sql = "INSERT INTO ASSETS_V1 (STARTDATE, ASSETNAME, ASSETSTATUS, CURRENCYID, VALUECHANGEMODE, VALUE, VALUECHANGE, NOTES, VALUECHANGERATE, ASSETTYPE) 
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
-        self.executor.execute_ext(sql, (
-            a.start_date.to_string(), &a.name, a.status.to_string(), a.currency_id.map(|id| id.0), 
-            &a.value_change_mode, a.value.0.to_string(), &a.value_change, &a.notes, 
-            a.value_change_rate, &a.asset_type
-        ))?;
-        
-        let last_id: i64 = self.executor.query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
+
+        self.executor.execute_ext(
+            sql,
+            (
+                a.start_date.to_string(),
+                &a.name,
+                a.status.to_string(),
+                a.currency_id.map(|id| id.0),
+                &a.value_change_mode,
+                a.value.0.to_string(),
+                &a.value_change,
+                &a.notes,
+                a.value_change_rate,
+                &a.asset_type,
+            ),
+        )?;
+
+        let last_id: i64 = self
+            .executor
+            .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
         let mut new_asset = a.clone();
         new_asset.id = AssetId(last_id);
         Ok(new_asset)
     }
 
-    fn update(&self, a: &Asset) -> Result<(), MmexError> {
+    fn update(&self, a: &Asset) -> Result<(), AssetError> {
         let sql = "UPDATE ASSETS_V1 SET 
                    STARTDATE = ?, ASSETNAME = ?, ASSETSTATUS = ?, CURRENCYID = ?, VALUECHANGEMODE = ?, VALUE = ?, VALUECHANGE = ?, NOTES = ?, VALUECHANGERATE = ?, ASSETTYPE = ?
                    WHERE ASSETID = ?";
-        
-        self.executor.execute_ext(sql, (
-            a.start_date.to_string(), &a.name, a.status.to_string(), a.currency_id.map(|id| id.0), 
-            &a.value_change_mode, a.value.0.to_string(), &a.value_change, &a.notes, 
-            a.value_change_rate, &a.asset_type, a.id.0
-        ))?;
+
+        self.executor.execute_ext(
+            sql,
+            (
+                a.start_date.to_string(),
+                &a.name,
+                a.status.to_string(),
+                a.currency_id.map(|id| id.0),
+                &a.value_change_mode,
+                a.value.0.to_string(),
+                &a.value_change,
+                &a.notes,
+                a.value_change_rate,
+                &a.asset_type,
+                a.id.0,
+            ),
+        )?;
         Ok(())
     }
 
-    fn delete(&self, id: AssetId) -> Result<(), MmexError> {
-        self.executor.execute_ext("DELETE FROM ASSETS_V1 WHERE ASSETID = ?", [id.0])?;
+    fn delete(&self, id: AssetId) -> Result<(), AssetError> {
+        self.executor
+            .execute_ext("DELETE FROM ASSETS_V1 WHERE ASSETID = ?", [id.0])?;
         Ok(())
     }
 }

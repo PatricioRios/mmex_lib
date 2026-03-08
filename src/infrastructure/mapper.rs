@@ -1,10 +1,10 @@
 use rusqlite::Row;
+use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
 use std::str::FromStr;
-use rust_decimal::prelude::FromPrimitive;
 
-use crate::domain::accounts::{Account, AccountType, AccountStatus};
-use crate::domain::types::{AccountId, Money, CurrencyId};
+use crate::domain::accounts::{Account, AccountStatus, AccountType};
+use crate::domain::types::{AccountId, CurrencyId, Money};
 
 pub struct AccountMapper;
 

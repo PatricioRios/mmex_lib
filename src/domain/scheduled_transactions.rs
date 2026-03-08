@@ -1,10 +1,21 @@
-use serde::{Deserialize, Serialize};
-use crate::domain::types::{AccountId, Money};
-use crate::domain::payees::PayeeId;
 use crate::domain::categories::CategoryId;
+use crate::domain::payees::PayeeId;
 use crate::domain::transactions::{TransactionCode, TransactionStatus};
+use crate::domain::types::{AccountId, Money};
+use crate::MmexError;
 use chrono::NaiveDate;
-use crate::error::MmexError;
+use serde::{Deserialize, Serialize};
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+#[cfg_attr(feature = "uniffi", derive(uniffi::Error))]
+pub enum ScheduledError {
+    #[error("Scheduled common error: {0}")]
+    Common(#[from] MmexError),
+
+    #[error("Scheduled transaction not found: {0}")]
+    NotFound(i64),
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ScheduledTransaction {
@@ -26,9 +37,18 @@ pub struct ScheduledTransaction {
 }
 
 pub trait ScheduledRepository {
-    fn find_all(&self) -> Result<Vec<ScheduledTransaction>, MmexError>;
-    fn find_by_id(&self, id: i64) -> Result<Option<ScheduledTransaction>, MmexError>;
-    fn insert(&self, tx: &ScheduledTransaction) -> Result<ScheduledTransaction, MmexError>;
-    fn update(&self, tx: &ScheduledTransaction) -> Result<(), MmexError>;
-    fn delete(&self, id: i64) -> Result<(), MmexError>;
+    fn find_all(&self) -> Result<Vec<ScheduledTransaction>, ScheduledError>;
+    fn find_by_id(&self, id: i64) -> Result<Option<ScheduledTransaction>, ScheduledError>;
+    fn insert(&self, tx: &ScheduledTransaction) -> Result<ScheduledTransaction, ScheduledError>;
+    fn update(&self, tx: &ScheduledTransaction) -> Result<(), ScheduledError>;
+    fn delete(&self, id: i64) -> Result<(), ScheduledError>;
+}
+
+impl From<ScheduledError> for MmexError {
+    fn from(e: ScheduledError) -> Self {
+        match e {
+            ScheduledError::Common(c) => c,
+            _ => MmexError::Internal(e.to_string()),
+        }
+    }
 }

@@ -1,7 +1,6 @@
-use rusqlite::Connection;
-use crate::domain::payees::{Payee, PayeeId, PayeeRepository};
+use crate::domain::payees::{Payee, PayeeError, PayeeId, PayeeRepository};
 use crate::infrastructure::payees_repository::SqlPayeeRepository;
-use crate::error::MmexError;
+use rusqlite::Connection;
 
 pub struct PayeeService<'a> {
     conn: &'a Connection,
@@ -12,19 +11,19 @@ impl<'a> PayeeService<'a> {
         Self { conn }
     }
 
-    pub fn get_all_payees(&self) -> Result<Vec<Payee>, MmexError> {
+    pub fn get_all_payees(&self) -> Result<Vec<Payee>, PayeeError> {
         let repo = SqlPayeeRepository::new(self.conn);
         repo.find_all()
     }
 
-    pub fn get_payee_by_id(&self, id: PayeeId) -> Result<Option<Payee>, MmexError> {
+    pub fn get_payee_by_id(&self, id: PayeeId) -> Result<Option<Payee>, PayeeError> {
         let repo = SqlPayeeRepository::new(self.conn);
         repo.find_by_id(id)
     }
 
-    pub fn create_payee(&self, name: &str) -> Result<Payee, MmexError> {
+    pub fn create_payee(&self, name: &str) -> Result<Payee, PayeeError> {
         if name.trim().is_empty() {
-            return Err(MmexError::Validation("Payee name cannot be empty".into()));
+            return Err(PayeeError::NameRequired);
         }
         let repo = SqlPayeeRepository::new(self.conn);
         let new_payee = Payee {
@@ -40,15 +39,15 @@ impl<'a> PayeeService<'a> {
         repo.insert(&new_payee)
     }
 
-    pub fn update_payee(&self, payee: &Payee) -> Result<(), MmexError> {
+    pub fn update_payee(&self, payee: &Payee) -> Result<(), PayeeError> {
         if payee.name.trim().is_empty() {
-            return Err(MmexError::Validation("Payee name cannot be empty".into()));
+            return Err(PayeeError::NameRequired);
         }
         let repo = SqlPayeeRepository::new(self.conn);
         repo.update(payee)
     }
 
-    pub fn delete_payee(&self, id: PayeeId) -> Result<(), MmexError> {
+    pub fn delete_payee(&self, id: PayeeId) -> Result<(), PayeeError> {
         let repo = SqlPayeeRepository::new(self.conn);
         repo.delete(id)
     }

@@ -1,5 +1,5 @@
-use rusqlite::{Connection, Transaction, Params, Row};
-use crate::error::MmexError;
+use crate::MmexError;
+use rusqlite::{Connection, Params, Row, Transaction};
 
 /// Abstracción para ejecutar comandos SQL.
 /// No usamos dyn porque los métodos son genéricos.

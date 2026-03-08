@@ -1,11 +1,28 @@
-use serde::{Deserialize, Serialize};
-use crate::domain::types::{Money};
+use crate::domain::types::Money;
+use crate::MmexError;
 use chrono::NaiveDate;
-use crate::error::MmexError;
 use rust_decimal::Decimal;
+use serde::{Deserialize, Serialize};
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+#[cfg_attr(feature = "uniffi", derive(uniffi::Error))]
+pub enum StockError {
+    #[error("Stock common error: {0}")]
+    Common(#[from] MmexError),
+
+    #[error("Stock not found: {0}")]
+    NotFound(StockId),
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct StockId(pub i64);
+
+impl std::fmt::Display for StockId {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Stock {
@@ -23,9 +40,18 @@ pub struct Stock {
 }
 
 pub trait StockRepository {
-    fn find_all(&self) -> Result<Vec<Stock>, MmexError>;
-    fn find_by_id(&self, id: StockId) -> Result<Option<Stock>, MmexError>;
-    fn insert(&self, stock: &Stock) -> Result<Stock, MmexError>;
-    fn update(&self, stock: &Stock) -> Result<(), MmexError>;
-    fn delete(&self, id: StockId) -> Result<(), MmexError>;
+    fn find_all(&self) -> Result<Vec<Stock>, StockError>;
+    fn find_by_id(&self, id: StockId) -> Result<Option<Stock>, StockError>;
+    fn insert(&self, stock: &Stock) -> Result<Stock, StockError>;
+    fn update(&self, stock: &Stock) -> Result<(), StockError>;
+    fn delete(&self, id: StockId) -> Result<(), StockError>;
+}
+
+impl From<StockError> for MmexError {
+    fn from(e: StockError) -> Self {
+        match e {
+            StockError::Common(c) => c,
+            _ => MmexError::Internal(e.to_string()),
+        }
+    }
 }

@@ -1,7 +1,7 @@
-use std::sync::{Arc, Mutex};
 use crate::api::MmexContext;
-use crate::error::MmexError;
 use crate::domain::types::AccountId;
+use crate::MmexError;
+use std::sync::{Arc, Mutex};
 
 #[cfg_attr(feature = "uniffi", derive(uniffi::Object))]
 #[cfg_attr(feature = "napi", napi_derive::napi)]
@@ -23,20 +23,29 @@ impl MmexEngine {
 
     #[cfg_attr(feature = "napi", napi_derive::napi)]
     pub fn get_db_version(&self) -> Result<String, MmexError> {
-        let ctx = self.context.lock().map_err(|e| MmexError::Internal(e.to_string()))?;
-        ctx.support().get_db_version()
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| MmexError::Internal(e.to_string()))?;
+        Ok(ctx.support().get_db_version()?)
     }
 
     #[cfg_attr(feature = "napi", napi_derive::napi)]
     pub fn get_accounts_json(&self) -> Result<String, MmexError> {
-        let ctx = self.context.lock().map_err(|e| MmexError::Internal(e.to_string()))?;
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| MmexError::Internal(e.to_string()))?;
         let accounts = ctx.accounts().get_all_accounts()?;
         serde_json::to_string(&accounts).map_err(|e| MmexError::Internal(e.to_string()))
     }
 
     #[cfg_attr(feature = "napi", napi_derive::napi)]
     pub fn get_account_balance_json(&self, account_id: i64) -> Result<String, MmexError> {
-        let ctx = self.context.lock().map_err(|e| MmexError::Internal(e.to_string()))?;
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| MmexError::Internal(e.to_string()))?;
         let balance = ctx.accounts().get_account_balance(AccountId(account_id))?;
         serde_json::to_string(&balance).map_err(|e| MmexError::Internal(e.to_string()))
     }
@@ -45,12 +54,27 @@ impl MmexEngine {
 // --- Capa Raw C-ABI (Para Go, C, Bun FFI, etc.) ---
 
 #[no_mangle]
-pub extern "C" fn mmex_engine_new(path: *const std::os::raw::c_char, key: *const std::os::raw::c_char) -> *mut MmexEngine {
+pub extern "C" fn mmex_engine_new(
+    path: *const std::os::raw::c_char,
+    key: *const std::os::raw::c_char,
+) -> *mut MmexEngine {
     use std::ffi::CStr;
-    if path.is_null() { return std::ptr::null_mut(); }
-    let c_path = unsafe { CStr::from_ptr(path) }.to_string_lossy().into_owned();
-    let c_key = if key.is_null() { None } else { Some(unsafe { CStr::from_ptr(key) }.to_string_lossy().into_owned()) };
-    
+    if path.is_null() {
+        return std::ptr::null_mut();
+    }
+    let c_path = unsafe { CStr::from_ptr(path) }
+        .to_string_lossy()
+        .into_owned();
+    let c_key = if key.is_null() {
+        None
+    } else {
+        Some(
+            unsafe { CStr::from_ptr(key) }
+                .to_string_lossy()
+                .into_owned(),
+        )
+    };
+
     match MmexEngine::new(c_path, c_key) {
         Ok(engine) => Box::into_raw(Box::new(engine)),
         Err(_) => std::ptr::null_mut(),
@@ -71,7 +95,9 @@ pub extern "C" fn mmex_get_accounts_json(engine: *mut MmexEngine) -> *mut std::o
     let engine = unsafe { &*(engine) };
     match engine.get_accounts_json() {
         Ok(json) => std::ffi::CString::new(json).unwrap().into_raw(),
-        Err(e) => std::ffi::CString::new(format!(r#"{{"error": "{}"}}"#, e)).unwrap().into_raw(),
+        Err(e) => std::ffi::CString::new(format!(r#"{{"error": "{}"}}"#, e))
+            .unwrap()
+            .into_raw(),
     }
 }
 

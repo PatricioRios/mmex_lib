@@ -1,5 +1,16 @@
+use crate::MmexError;
 use serde::{Deserialize, Serialize};
-use crate::error::MmexError;
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+#[cfg_attr(feature = "uniffi", derive(uniffi::Error))]
+pub enum SupportError {
+    #[error("Support common error: {0}")]
+    Common(#[from] MmexError),
+
+    #[error("Metadata or setting not found: {0}")]
+    NotFound(String),
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct DbMetadata {
@@ -14,7 +25,16 @@ pub struct UserSetting {
 }
 
 pub trait SupportRepository {
-    fn get_metadata(&self, name: &str) -> Result<Option<String>, MmexError>;
-    fn get_setting(&self, name: &str) -> Result<Option<String>, MmexError>;
-    fn set_setting(&self, name: &str, value: &str) -> Result<(), MmexError>;
+    fn get_metadata(&self, name: &str) -> Result<Option<String>, SupportError>;
+    fn get_setting(&self, name: &str) -> Result<Option<String>, SupportError>;
+    fn set_setting(&self, name: &str, value: &str) -> Result<(), SupportError>;
+}
+
+impl From<SupportError> for MmexError {
+    fn from(e: SupportError) -> Self {
+        match e {
+            SupportError::Common(c) => c,
+            _ => MmexError::Internal(e.to_string()),
+        }
+    }
 }

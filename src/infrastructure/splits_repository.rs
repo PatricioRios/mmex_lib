@@ -1,12 +1,13 @@
 use rusqlite::Row;
-use sea_query::{Expr, Query, SqliteQueryBuilder};
-use rust_decimal::Decimal;
-use std::str::FromStr;
 use rust_decimal::prelude::FromPrimitive;
+use rust_decimal::Decimal;
+use sea_query::{Expr, Query, SqliteQueryBuilder};
+use std::str::FromStr;
 
-use crate::domain::transactions::{SplitTransaction, TransactionId, SplitRepository};
-use crate::domain::types::{Money, CategoryId};
-use crate::error::MmexError;
+use crate::domain::transactions::{
+    SplitRepository, SplitTransaction, TransactionError, TransactionId,
+};
+use crate::domain::types::{CategoryId, Money};
 use crate::infrastructure::db_executor::DbExecutor;
 
 pub struct SplitMapper;
@@ -42,38 +43,74 @@ impl<'a, E: DbExecutor> SqlSplitRepository<'a, E> {
 }
 
 impl<'a, E: DbExecutor> SplitRepository for SqlSplitRepository<'a, E> {
-    fn find_for_transaction(&self, tx_id: TransactionId) -> Result<Vec<SplitTransaction>, MmexError> {
+    fn find_for_transaction(
+        &self,
+        tx_id: TransactionId,
+    ) -> Result<Vec<SplitTransaction>, TransactionError> {
         let (sql, _) = Query::select()
-            .columns(["SPLITTRANSID", "TRANSID", "CATEGID", "SPLITTRANSAMOUNT", "NOTES"])
+            .columns([
+                "SPLITTRANSID",
+                "TRANSID",
+                "CATEGID",
+                "SPLITTRANSAMOUNT",
+                "NOTES",
+            ])
             .from_as("SPLITTRANSACTIONS_V1", "s")
             .and_where(Expr::col("TRANSID").eq(tx_id.0))
             .build(SqliteQueryBuilder);
 
-        self.executor.query_map_ext(&sql, [tx_id.0], |row| SplitMapper::map_row(row))
+        Ok(self
+            .executor
+            .query_map_ext(&sql, [tx_id.0], |row| SplitMapper::map_row(row))?)
     }
 
-    fn insert(&self, s: &SplitTransaction) -> Result<SplitTransaction, MmexError> {
+    fn insert(&self, s: &SplitTransaction) -> Result<SplitTransaction, TransactionError> {
         let sql = "INSERT INTO SPLITTRANSACTIONS_V1 (TRANSID, CATEGID, SPLITTRANSAMOUNT, NOTES) VALUES (?, ?, ?, ?)";
-        self.executor.execute_ext(sql, (s.transaction_id.0, s.category_id.map(|id| id.0), s.amount.0.to_string(), &s.notes))?;
-        let last_id: i64 = self.executor.query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
+        self.executor.execute_ext(
+            sql,
+            (
+                s.transaction_id.0,
+                s.category_id.map(|id| id.0),
+                s.amount.0.to_string(),
+                &s.notes,
+            ),
+        )?;
+        let last_id: i64 = self
+            .executor
+            .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
         let mut new_split = s.clone();
         new_split.id = last_id;
         Ok(new_split)
     }
 
-    fn update(&self, s: &SplitTransaction) -> Result<(), MmexError> {
+    fn update(&self, s: &SplitTransaction) -> Result<(), TransactionError> {
         let sql = "UPDATE SPLITTRANSACTIONS_V1 SET TRANSID = ?, CATEGID = ?, SPLITTRANSAMOUNT = ?, NOTES = ? WHERE SPLITTRANSID = ?";
-        self.executor.execute_ext(sql, (s.transaction_id.0, s.category_id.map(|id| id.0), s.amount.0.to_string(), &s.notes, s.id))?;
+        self.executor.execute_ext(
+            sql,
+            (
+                s.transaction_id.0,
+                s.category_id.map(|id| id.0),
+                s.amount.0.to_string(),
+                &s.notes,
+                s.id,
+            ),
+        )?;
         Ok(())
     }
 
-    fn delete(&self, id: i64) -> Result<(), MmexError> {
-        self.executor.execute_ext("DELETE FROM SPLITTRANSACTIONS_V1 WHERE SPLITTRANSID = ?", [id])?;
+    fn delete(&self, id: i64) -> Result<(), TransactionError> {
+        self.executor.execute_ext(
+            "DELETE FROM SPLITTRANSACTIONS_V1 WHERE SPLITTRANSID = ?",
+            [id],
+        )?;
         Ok(())
     }
 
-    fn delete_for_transaction(&self, tx_id: TransactionId) -> Result<(), MmexError> {
-        self.executor.execute_ext("DELETE FROM SPLITTRANSACTIONS_V1 WHERE TRANSID = ?", [tx_id.0])?;
+    fn delete_for_transaction(&self, tx_id: TransactionId) -> Result<(), TransactionError> {
+        self.executor.execute_ext(
+            "DELETE FROM SPLITTRANSACTIONS_V1 WHERE TRANSID = ?",
+            [tx_id.0],
+        )?;
         Ok(())
     }
 }
