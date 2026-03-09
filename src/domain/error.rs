@@ -1,8 +1,6 @@
 use thiserror::Error;
 
 #[derive(Error, Debug)]
-#[cfg_attr(feature = "uniffi", derive(uniffi::Error))]
-#[cfg_attr(feature = "uniffi", uniffi(flat_error))]
 pub enum MmexError {
     #[error("Database error: {0}")]
     Database(String),
@@ -17,7 +15,7 @@ pub enum MmexError {
     Internal(String),
 }
 
-// Implementación manual de From<rusqlite::Error> para evitar conflictos con uniffi
+// Implementación manual de From<rusqlite::Error>
 impl From<rusqlite::Error> for MmexError {
     fn from(e: rusqlite::Error) -> Self {
         Self::Database(e.to_string())

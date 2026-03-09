@@ -4,7 +4,6 @@ use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
 #[derive(Error, Debug)]
-#[cfg_attr(feature = "uniffi", derive(uniffi::Error))]
 pub enum TagError {
     #[error("Tag common error: {0}")]
     Common(#[from] MmexError),

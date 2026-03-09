@@ -6,5 +6,7 @@ pub mod services;
 pub use api::MmexContext;
 pub use domain::error::MmexError;
 
-#[cfg(feature = "uniffi")]
-uniffi::setup_scaffolding!();
+pub fn sum(a: i32, b: i32) -> i32 {
+    println!("sumando desde Rust: {} + {} = {}", a, b, a + b);
+    a + b
+}

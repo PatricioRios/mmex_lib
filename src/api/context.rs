@@ -1,8 +1,8 @@
-use crate::MmexError;
 use crate::services::{
     AccountService, AssetService, CategoryService, CurrencyService, PayeeService, ScheduledService,
     StockService, SupportService, TagService, TransactionService,
 };
+use crate::MmexError;
 use rusqlite::Connection;
 use std::path::Path;
 

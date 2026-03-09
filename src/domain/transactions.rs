@@ -6,7 +6,6 @@ use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
 #[derive(Error, Debug)]
-#[cfg_attr(feature = "uniffi", derive(uniffi::Error))]
 pub enum TransactionError {
     #[error("Transaction common error: {0}")]
     Common(#[from] MmexError),

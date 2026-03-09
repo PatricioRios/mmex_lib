@@ -3,17 +3,11 @@ use crate::domain::types::AccountId;
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
-#[cfg_attr(feature = "uniffi", derive(uniffi::Object))]
-#[cfg_attr(feature = "napi", napi_derive::napi)]
 pub struct MmexEngine {
     context: Arc<Mutex<MmexContext>>,
 }
 
-#[cfg_attr(feature = "uniffi", uniffi::export)]
-#[cfg_attr(feature = "napi", napi_derive::napi)]
 impl MmexEngine {
-    #[cfg_attr(feature = "uniffi", uniffi::constructor)]
-    #[cfg_attr(feature = "napi", napi_derive::napi(constructor))]
     pub fn new(path: String, key: Option<String>) -> Result<Self, MmexError> {
         let ctx = MmexContext::open((&path).as_ref(), key)?;
         Ok(Self {
@@ -21,7 +15,6 @@ impl MmexEngine {
         })
     }
 
-    #[cfg_attr(feature = "napi", napi_derive::napi)]
     pub fn get_db_version(&self) -> Result<String, MmexError> {
         let ctx = self
             .context
@@ -30,7 +23,6 @@ impl MmexEngine {
         Ok(ctx.support().get_db_version()?)
     }
 
-    #[cfg_attr(feature = "napi", napi_derive::napi)]
     pub fn get_accounts_json(&self) -> Result<String, MmexError> {
         let ctx = self
             .context
@@ -40,7 +32,6 @@ impl MmexEngine {
         serde_json::to_string(&accounts).map_err(|e| MmexError::Internal(e.to_string()))
     }
 
-    #[cfg_attr(feature = "napi", napi_derive::napi)]
     pub fn get_account_balance_json(&self, account_id: i64) -> Result<String, MmexError> {
         let ctx = self
             .context
