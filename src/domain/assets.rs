@@ -14,12 +14,14 @@ pub enum AssetError {
     NotFound(AssetId),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct AssetId(pub i64);
+#[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct AssetId {
+    pub v1: i64,
+}
 
 impl std::fmt::Display for AssetId {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
+        write!(f, "{}", self.v1)
     }
 }
 

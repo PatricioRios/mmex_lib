@@ -38,16 +38,26 @@ impl TransactionMapper {
         let date = date_str.and_then(|s| NaiveDate::parse_from_str(&s, "%Y-%m-%d").ok());
 
         Ok(Transaction {
-            id: TransactionId(row.get("TRANSID")?),
-            account_id: AccountId(row.get("ACCOUNTID")?),
-            to_account_id: row.get::<_, Option<i64>>("TOACCOUNTID")?.map(AccountId),
-            payee_id: PayeeId(row.get("PAYEEID")?),
+            id: TransactionId {
+                v1: row.get("TRANSID")?,
+            },
+            account_id: AccountId {
+                v1: row.get("ACCOUNTID")?,
+            },
+            to_account_id: row
+                .get::<_, Option<i64>>("TOACCOUNTID")?
+                .map(|v1| AccountId { v1 }),
+            payee_id: PayeeId {
+                v1: row.get("PAYEEID")?,
+            },
             trans_code: TransactionCode::from(row.get::<_, String>("TRANSCODE")?),
             amount: Money(amount_val),
             status: TransactionStatus::from(row.get::<_, String>("STATUS")?),
             transaction_number: row.get("TRANSACTIONNUMBER")?,
             notes: row.get("NOTES")?,
-            category_id: row.get::<_, Option<i64>>("CATEGID")?.map(CategoryId),
+            category_id: row
+                .get::<_, Option<i64>>("CATEGID")?
+                .map(|v1| CategoryId { v1 }),
             date,
             to_amount: to_amount_val,
         })
@@ -105,11 +115,11 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
                 "TOTRANSAMOUNT",
             ])
             .from_as("CHECKINGACCOUNT_V1", "t")
-            .and_where(Expr::col("TRANSID").eq(id.0))
+            .and_where(Expr::col("TRANSID").eq(id.v1))
             .build(SqliteQueryBuilder);
         match self
             .executor
-            .query_row_ext(&sql, [id.0], |row| TransactionMapper::map_row(row))
+            .query_row_ext(&sql, [id.v1], |row| TransactionMapper::map_row(row))
         {
             Ok(tx) => Ok(Some(tx)),
             Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
@@ -124,15 +134,15 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
         self.executor.execute_ext(
             sql,
             (
-                tx.account_id.0,
-                tx.to_account_id.map(|id| id.0),
-                tx.payee_id.0,
+                tx.account_id.v1,
+                tx.to_account_id.map(|id| id.v1),
+                tx.payee_id.v1,
                 tx.trans_code.to_string(),
                 tx.amount.0.to_string(),
                 tx.status.to_string(),
                 &tx.transaction_number,
                 &tx.notes,
-                tx.category_id.map(|id| id.0),
+                tx.category_id.map(|id| id.v1),
                 date_str,
                 tx.to_amount.as_ref().map(|m| m.0.to_string()),
             ),
@@ -141,7 +151,7 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
         let mut new_tx = tx.clone();
-        new_tx.id = TransactionId(last_id);
+        new_tx.id = TransactionId { v1: last_id };
         Ok(new_tx)
     }
 
@@ -153,18 +163,18 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
         self.executor.execute_ext(
             sql,
             (
-                tx.account_id.0,
-                tx.to_account_id.map(|id| id.0),
-                tx.payee_id.0,
+                tx.account_id.v1,
+                tx.to_account_id.map(|id| id.v1),
+                tx.payee_id.v1,
                 tx.trans_code.to_string(),
                 tx.amount.0.to_string(),
                 tx.status.to_string(),
                 &tx.transaction_number,
                 &tx.notes,
-                tx.category_id.map(|id| id.0),
+                tx.category_id.map(|id| id.v1),
                 date_str,
                 tx.to_amount.as_ref().map(|m| m.0.to_string()),
-                tx.id.0,
+                tx.id.v1,
             ),
         )?;
         Ok(())
@@ -172,7 +182,7 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
 
     fn delete(&self, id: TransactionId) -> Result<(), TransactionError> {
         self.executor
-            .execute_ext("DELETE FROM CHECKINGACCOUNT_V1 WHERE TRANSID = ?", [id.0])?;
+            .execute_ext("DELETE FROM CHECKINGACCOUNT_V1 WHERE TRANSID = ?", [id.v1])?;
         Ok(())
     }
 }

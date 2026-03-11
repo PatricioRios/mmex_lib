@@ -13,11 +13,13 @@ impl CategoryMapper {
         let parent_id = if parent_id_val == -1 {
             None
         } else {
-            Some(CategoryId(parent_id_val))
+            Some(CategoryId { v1: parent_id_val })
         };
 
         Ok(Category {
-            id: CategoryId(row.get("CATEGID")?),
+            id: CategoryId {
+                v1: row.get("CATEGID")?,
+            },
             name: row.get("CATEGNAME")?,
             active: row.get::<_, i32>("ACTIVE")? != 0,
             parent_id,
@@ -50,11 +52,11 @@ impl<'a, E: DbExecutor> CategoryRepository for SqlCategoryRepository<'a, E> {
         let (sql, _) = Query::select()
             .columns(["CATEGID", "CATEGNAME", "ACTIVE", "PARENTID"])
             .from_as("CATEGORY_V1", "c")
-            .and_where(Expr::col("CATEGID").eq(id.0))
+            .and_where(Expr::col("CATEGID").eq(id.v1))
             .build(SqliteQueryBuilder);
         match self
             .executor
-            .query_row_ext(&sql, [id.0], |row| CategoryMapper::map_row(row))
+            .query_row_ext(&sql, [id.v1], |row| CategoryMapper::map_row(row))
         {
             Ok(cat) => Ok(Some(cat)),
             Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
@@ -66,15 +68,15 @@ impl<'a, E: DbExecutor> CategoryRepository for SqlCategoryRepository<'a, E> {
         let (sql, _) = Query::select()
             .columns(["CATEGID", "CATEGNAME", "ACTIVE", "PARENTID"])
             .from_as("CATEGORY_V1", "c")
-            .and_where(Expr::col("PARENTID").eq(parent_id.0))
+            .and_where(Expr::col("PARENTID").eq(parent_id.v1))
             .build(SqliteQueryBuilder);
         Ok(self
             .executor
-            .query_map_ext(&sql, [parent_id.0], |row| CategoryMapper::map_row(row))?)
+            .query_map_ext(&sql, [parent_id.v1], |row| CategoryMapper::map_row(row))?)
     }
 
     fn insert(&self, c: &Category) -> Result<Category, CategoryError> {
-        let parent_id = c.parent_id.map(|id| id.0).unwrap_or(-1);
+        let parent_id = c.parent_id.map(|id| id.v1).unwrap_or(-1);
         let sql = "INSERT INTO CATEGORY_V1 (CATEGNAME, ACTIVE, PARENTID) VALUES (?, ?, ?)";
         self.executor
             .execute_ext(sql, (&c.name, if c.active { 1 } else { 0 }, parent_id))?;
@@ -82,24 +84,24 @@ impl<'a, E: DbExecutor> CategoryRepository for SqlCategoryRepository<'a, E> {
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
         let mut new_cat = c.clone();
-        new_cat.id = CategoryId(last_id);
+        new_cat.id = CategoryId { v1: last_id };
         Ok(new_cat)
     }
 
     fn update(&self, c: &Category) -> Result<(), CategoryError> {
-        let parent_id = c.parent_id.map(|id| id.0).unwrap_or(-1);
+        let parent_id = c.parent_id.map(|id| id.v1).unwrap_or(-1);
         let sql =
             "UPDATE CATEGORY_V1 SET CATEGNAME = ?, ACTIVE = ?, PARENTID = ? WHERE CATEGID = ?";
         self.executor.execute_ext(
             sql,
-            (&c.name, if c.active { 1 } else { 0 }, parent_id, c.id.0),
+            (&c.name, if c.active { 1 } else { 0 }, parent_id, c.id.v1),
         )?;
         Ok(())
     }
 
     fn delete(&self, id: CategoryId) -> Result<(), CategoryError> {
         self.executor
-            .execute_ext("DELETE FROM CATEGORY_V1 WHERE CATEGID = ?", [id.0])?;
+            .execute_ext("DELETE FROM CATEGORY_V1 WHERE CATEGID = ?", [id.v1])?;
         Ok(())
     }
 }

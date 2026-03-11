@@ -21,7 +21,9 @@ impl CurrencyMapper {
         };
 
         Ok(Currency {
-            id: CurrencyId(row.get("CURRENCYID")?),
+            id: CurrencyId {
+                v1: row.get("CURRENCYID")?,
+            },
             name: row.get("CURRENCYNAME")?,
             pfx_symbol: row.get("PFX_SYMBOL")?,
             sfx_symbol: row.get("SFX_SYMBOL")?,
@@ -88,11 +90,11 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
                 "CURRENCY_TYPE",
             ])
             .from_as("CURRENCYFORMATS_V1", "c")
-            .and_where(Expr::col("CURRENCYID").eq(id.0))
+            .and_where(Expr::col("CURRENCYID").eq(id.v1))
             .build(SqliteQueryBuilder);
         match self
             .executor
-            .query_row_ext(&sql, [id.0], |row| CurrencyMapper::map_row(row))
+            .query_row_ext(&sql, [id.v1], |row| CurrencyMapper::map_row(row))
         {
             Ok(curr) => Ok(Some(curr)),
             Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
@@ -152,7 +154,7 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
         let mut new_curr = c.clone();
-        new_curr.id = CurrencyId(last_id);
+        new_curr.id = CurrencyId { v1: last_id };
         Ok(new_curr)
     }
 
@@ -174,7 +176,7 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
                 c.base_conv_rate.to_string(),
                 &c.symbol,
                 &c.currency_type,
-                c.id.0,
+                c.id.v1,
             ),
         )?;
         Ok(())
@@ -183,7 +185,7 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
     fn delete(&self, id: CurrencyId) -> Result<(), CurrencyError> {
         self.executor.execute_ext(
             "DELETE FROM CURRENCYFORMATS_V1 WHERE CURRENCYID = ?",
-            [id.0],
+            [id.v1],
         )?;
         Ok(())
     }

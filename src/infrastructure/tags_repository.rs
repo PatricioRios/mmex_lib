@@ -10,7 +10,9 @@ pub struct TagMapper;
 impl TagMapper {
     pub fn map_row(row: &Row) -> rusqlite::Result<Tag> {
         Ok(Tag {
-            id: TagId(row.get("TAGID")?),
+            id: TagId {
+                v1: row.get("TAGID")?,
+            },
             name: row.get("TAGNAME")?,
         })
     }
@@ -42,12 +44,12 @@ impl<'a, E: DbExecutor> TagRepository for SqlTagRepository<'a, E> {
         let (sql, _) = Query::select()
             .columns(["TAGID", "TAGNAME"])
             .from_as("TAG_V1", "t")
-            .and_where(Expr::col("TAGID").eq(id.0))
+            .and_where(Expr::col("TAGID").eq(id.v1))
             .build(SqliteQueryBuilder);
 
         match self
             .executor
-            .query_row_ext(&sql, [id.0], |row| TagMapper::map_row(row))
+            .query_row_ext(&sql, [id.v1], |row| TagMapper::map_row(row))
         {
             Ok(tag) => Ok(Some(tag)),
             Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
@@ -62,22 +64,22 @@ impl<'a, E: DbExecutor> TagRepository for SqlTagRepository<'a, E> {
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
         Ok(Tag {
-            id: TagId(last_id),
+            id: TagId { v1: last_id },
             name: name.to_string(),
         })
     }
 
     fn update(&self, tag: &Tag) -> Result<(), TagError> {
         let sql = "UPDATE TAG_V1 SET TAGNAME = ? WHERE TAGID = ?";
-        self.executor.execute_ext(sql, (&tag.name, tag.id.0))?;
+        self.executor.execute_ext(sql, (&tag.name, tag.id.v1))?;
         Ok(())
     }
 
     fn delete(&self, id: TagId) -> Result<(), TagError> {
         self.executor
-            .execute_ext("DELETE FROM TAGLINK_V1 WHERE TAGID = ?", [id.0])?;
+            .execute_ext("DELETE FROM TAGLINK_V1 WHERE TAGID = ?", [id.v1])?;
         self.executor
-            .execute_ext("DELETE FROM TAG_V1 WHERE TAGID = ?", [id.0])?;
+            .execute_ext("DELETE FROM TAG_V1 WHERE TAGID = ?", [id.v1])?;
         Ok(())
     }
 
@@ -109,7 +111,7 @@ impl<'a, E: DbExecutor> TagRepository for SqlTagRepository<'a, E> {
     ) -> Result<(), TagError> {
         let sql = "INSERT OR IGNORE INTO TAGLINK_V1 (REFTYPE, REFID, TAGID) VALUES (?, ?, ?)";
         self.executor
-            .execute_ext(sql, (ref_type, ref_id, tag_id.0))?;
+            .execute_ext(sql, (ref_type, ref_id, tag_id.v1))?;
         Ok(())
     }
 
@@ -121,7 +123,7 @@ impl<'a, E: DbExecutor> TagRepository for SqlTagRepository<'a, E> {
     ) -> Result<(), TagError> {
         let sql = "DELETE FROM TAGLINK_V1 WHERE REFTYPE = ? AND REFID = ? AND TAGID = ?";
         self.executor
-            .execute_ext(sql, (ref_type, ref_id, tag_id.0))?;
+            .execute_ext(sql, (ref_type, ref_id, tag_id.v1))?;
         Ok(())
     }
 }

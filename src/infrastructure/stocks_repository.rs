@@ -29,7 +29,9 @@ impl StockMapper {
             .unwrap_or_else(|_| NaiveDate::from_ymd_opt(1970, 1, 1).unwrap());
 
         Ok(Stock {
-            id: StockId(row.get("STOCKID")?),
+            id: StockId {
+                v1: row.get("STOCKID")?,
+            },
             held_at: row.get("HELDAT")?,
             purchase_date,
             name: row.get("STOCKNAME")?,
@@ -94,12 +96,12 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
                 "COMMISSION",
             ])
             .from_as("STOCK_V1", "s")
-            .and_where(Expr::col("STOCKID").eq(id.0))
+            .and_where(Expr::col("STOCKID").eq(id.v1))
             .build(SqliteQueryBuilder);
 
         match self
             .executor
-            .query_row_ext(&sql, [id.0], |row| StockMapper::map_row(row))
+            .query_row_ext(&sql, [id.v1], |row| StockMapper::map_row(row))
         {
             Ok(stock) => Ok(Some(stock)),
             Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
@@ -131,7 +133,7 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
         let mut new_stock = s.clone();
-        new_stock.id = StockId(last_id);
+        new_stock.id = StockId { v1: last_id };
         Ok(new_stock)
     }
 
@@ -153,7 +155,7 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
                 s.current_price.0.to_string(),
                 s.value.0.to_string(),
                 s.commission.0.to_string(),
-                s.id.0,
+                s.id.v1,
             ),
         )?;
         Ok(())
@@ -161,7 +163,7 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
 
     fn delete(&self, id: StockId) -> Result<(), StockError> {
         self.executor
-            .execute_ext("DELETE FROM STOCK_V1 WHERE STOCKID = ?", [id.0])?;
+            .execute_ext("DELETE FROM STOCK_V1 WHERE STOCKID = ?", [id.v1])?;
         Ok(())
     }
 }

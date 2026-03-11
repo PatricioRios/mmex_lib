@@ -23,14 +23,18 @@ impl AccountMapper {
         let favorite_str: String = row.get("FAVORITEACCT")?;
 
         Ok(Account {
-            id: AccountId(row.get("ACCOUNTID")?),
+            id: AccountId {
+                v1: row.get("ACCOUNTID")?,
+            },
             name: row.get("ACCOUNTNAME")?,
             account_type: AccountType::from(type_str),
             account_num: row.get("ACCOUNTNUM")?,
             status: AccountStatus::from(status_str),
             notes: row.get("NOTES")?,
             initial_balance: Money(initial_bal),
-            currency_id: CurrencyId(row.get("CURRENCYID")?),
+            currency_id: CurrencyId {
+                v1: row.get("CURRENCYID")?,
+            },
             favorite: favorite_str == "TRUE" || favorite_str == "1",
         })
     }

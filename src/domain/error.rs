@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-#[derive(Error, Debug)]
+#[derive(uniffi::Error, Error, Debug)]
 pub enum MmexError {
     #[error("Database error: {0}")]
     Database(String),

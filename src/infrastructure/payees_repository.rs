@@ -10,7 +10,9 @@ pub struct PayeeMapper;
 impl PayeeMapper {
     pub fn map_row(row: &Row) -> rusqlite::Result<Payee> {
         Ok(Payee {
-            id: PayeeId(row.get("PAYEEID")?),
+            id: PayeeId {
+                v1: row.get("PAYEEID")?,
+            },
             name: row.get("PAYEENAME")?,
             category_id: row.get("CATEGID")?,
             number: row.get("NUMBER")?,
@@ -66,12 +68,12 @@ impl<'a, E: DbExecutor> PayeeRepository for SqlPayeeRepository<'a, E> {
                 "PATTERN",
             ])
             .from_as("PAYEE_V1", "p")
-            .and_where(Expr::col("PAYEEID").eq(id.0))
+            .and_where(Expr::col("PAYEEID").eq(id.v1))
             .build(SqliteQueryBuilder);
 
         match self
             .executor
-            .query_row_ext(&sql, [id.0], |row| PayeeMapper::map_row(row))
+            .query_row_ext(&sql, [id.v1], |row| PayeeMapper::map_row(row))
         {
             Ok(payee) => Ok(Some(payee)),
             Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
@@ -99,7 +101,7 @@ impl<'a, E: DbExecutor> PayeeRepository for SqlPayeeRepository<'a, E> {
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
         let mut new_payee = p.clone();
-        new_payee.id = PayeeId(last_id);
+        new_payee.id = PayeeId { v1: last_id };
         Ok(new_payee)
     }
 
@@ -117,7 +119,7 @@ impl<'a, E: DbExecutor> PayeeRepository for SqlPayeeRepository<'a, E> {
                 &p.notes,
                 if p.active { 1 } else { 0 },
                 &p.pattern,
-                p.id.0,
+                p.id.v1,
             ),
         )?;
         Ok(())
@@ -125,7 +127,7 @@ impl<'a, E: DbExecutor> PayeeRepository for SqlPayeeRepository<'a, E> {
 
     fn delete(&self, id: PayeeId) -> Result<(), PayeeError> {
         self.executor
-            .execute_ext("DELETE FROM PAYEE_V1 WHERE PAYEEID = ?", [id.0])?;
+            .execute_ext("DELETE FROM PAYEE_V1 WHERE PAYEEID = ?", [id.v1])?;
         Ok(())
     }
 }

@@ -27,7 +27,7 @@ impl<'a> PayeeService<'a> {
         }
         let repo = SqlPayeeRepository::new(self.conn);
         let new_payee = Payee {
-            id: PayeeId(0),
+            id: PayeeId { v1: 0 },
             name: name.to_string(),
             category_id: None,
             number: None,

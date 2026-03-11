@@ -1,16 +1,16 @@
 mod common;
-use mmex_lib::domain::stocks::{Stock, StockId};
-use mmex_lib::domain::types::{Money};
-use rust_decimal_macros::dec;
 use chrono::NaiveDate;
+use mmex_lib::domain::stocks::{Stock, StockId};
+use mmex_lib::domain::types::Money;
+use rust_decimal_macros::dec;
 
 #[test]
 fn test_stock_full_crud() {
     let ctx = common::setup_test_db();
     let service = ctx.stocks();
-    
+
     let mut stock = Stock {
-        id: StockId(0),
+        id: StockId { v1: 0 },
         held_at: 1, // Referencia a cuenta
         purchase_date: NaiveDate::from_ymd_opt(2023, 5, 10).unwrap(),
         name: "Apple Inc.".to_string(),
@@ -22,12 +22,12 @@ fn test_stock_full_crud() {
         value: Money(dec!(1890.0)),
         commission: Money(dec!(5.0)),
     };
-    
+
     // 1. Create
     let created = service.create_stock(&stock).expect("Failed create");
     stock.id = created.id;
-    assert!(stock.id.0 > 0);
-    
+    assert!(stock.id.v1 > 0);
+
     // 2. Update
     stock.name = "Apple Inc. Updated".to_string();
     stock.current_price = Money(dec!(190.0));
@@ -35,7 +35,7 @@ fn test_stock_full_crud() {
     let found = service.get_stock_by_id(stock.id).unwrap().unwrap();
     assert_eq!(found.name, "Apple Inc. Updated");
     assert_eq!(found.current_price.0, dec!(190.0));
-    
+
     // 3. Delete
     service.delete_stock(stock.id).expect("Failed delete");
     let after_delete = service.get_stock_by_id(stock.id).unwrap();

@@ -24,8 +24,12 @@ impl SplitMapper {
 
         Ok(SplitTransaction {
             id: row.get("SPLITTRANSID")?,
-            transaction_id: TransactionId(row.get("TRANSID")?),
-            category_id: row.get::<_, Option<i64>>("CATEGID")?.map(CategoryId),
+            transaction_id: TransactionId {
+                v1: row.get("TRANSID")?,
+            },
+            category_id: row
+                .get::<_, Option<i64>>("CATEGID")?
+                .map(|v1| CategoryId { v1 }),
             amount: Money(amount_val),
             notes: row.get("NOTES")?,
         })
@@ -56,12 +60,12 @@ impl<'a, E: DbExecutor> SplitRepository for SqlSplitRepository<'a, E> {
                 "NOTES",
             ])
             .from_as("SPLITTRANSACTIONS_V1", "s")
-            .and_where(Expr::col("TRANSID").eq(tx_id.0))
+            .and_where(Expr::col("TRANSID").eq(tx_id.v1))
             .build(SqliteQueryBuilder);
 
         Ok(self
             .executor
-            .query_map_ext(&sql, [tx_id.0], |row| SplitMapper::map_row(row))?)
+            .query_map_ext(&sql, [tx_id.v1], |row| SplitMapper::map_row(row))?)
     }
 
     fn insert(&self, s: &SplitTransaction) -> Result<SplitTransaction, TransactionError> {
@@ -69,8 +73,8 @@ impl<'a, E: DbExecutor> SplitRepository for SqlSplitRepository<'a, E> {
         self.executor.execute_ext(
             sql,
             (
-                s.transaction_id.0,
-                s.category_id.map(|id| id.0),
+                s.transaction_id.v1,
+                s.category_id.map(|id| id.v1),
                 s.amount.0.to_string(),
                 &s.notes,
             ),
@@ -88,8 +92,8 @@ impl<'a, E: DbExecutor> SplitRepository for SqlSplitRepository<'a, E> {
         self.executor.execute_ext(
             sql,
             (
-                s.transaction_id.0,
-                s.category_id.map(|id| id.0),
+                s.transaction_id.v1,
+                s.category_id.map(|id| id.v1),
                 s.amount.0.to_string(),
                 &s.notes,
                 s.id,
@@ -109,7 +113,7 @@ impl<'a, E: DbExecutor> SplitRepository for SqlSplitRepository<'a, E> {
     fn delete_for_transaction(&self, tx_id: TransactionId) -> Result<(), TransactionError> {
         self.executor.execute_ext(
             "DELETE FROM SPLITTRANSACTIONS_V1 WHERE TRANSID = ?",
-            [tx_id.0],
+            [tx_id.v1],
         )?;
         Ok(())
     }

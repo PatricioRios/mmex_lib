@@ -13,10 +13,10 @@ fn test_transaction_full_crud() {
     let service = ctx.transactions();
 
     let mut tx = Transaction {
-        id: TransactionId(0),
-        account_id: AccountId(1),
+        id: TransactionId { v1: 0 },
+        account_id: AccountId { v1: 1 },
         to_account_id: None,
-        payee_id: PayeeId(1),
+        payee_id: PayeeId { v1: 1 },
         trans_code: TransactionCode::Withdrawal,
         amount: Money(dec!(50.0)),
         status: TransactionStatus::None,

@@ -44,14 +44,14 @@ impl<'a> TransactionService<'a> {
         // 1. Eliminar vínculos de tags
         let tag_repo = SqlTagRepository::new(self.conn);
         let tags = tag_repo
-            .find_for_reference("Transaction", id.0)
+            .find_for_reference("Transaction", id.v1)
             .map_err(|e| match e {
                 TagError::Common(ce) => TransactionError::Common(ce),
                 _ => TransactionError::SplitError(e.to_string()),
             })?;
         for tag in tags {
             tag_repo
-                .unlink_from_reference("Transaction", id.0, tag.id)
+                .unlink_from_reference("Transaction", id.v1, tag.id)
                 .map_err(|e| match e {
                     TagError::Common(ce) => TransactionError::Common(ce),
                     _ => TransactionError::SplitError(e.to_string()),
@@ -73,7 +73,7 @@ impl<'a> TransactionService<'a> {
         id: TransactionId,
     ) -> Result<Vec<Tag>, TransactionError> {
         let repo = SqlTagRepository::new(self.conn);
-        repo.find_for_reference("Transaction", id.0)
+        repo.find_for_reference("Transaction", id.v1)
             .map_err(|e| match e {
                 TagError::Common(ce) => TransactionError::Common(ce),
                 _ => TransactionError::SplitError(e.to_string()),
@@ -82,7 +82,7 @@ impl<'a> TransactionService<'a> {
 
     pub fn link_tag(&self, tx_id: TransactionId, tag_id: TagId) -> Result<(), TransactionError> {
         let repo = SqlTagRepository::new(self.conn);
-        repo.link_to_reference("Transaction", tx_id.0, tag_id)
+        repo.link_to_reference("Transaction", tx_id.v1, tag_id)
             .map_err(|e| match e {
                 TagError::Common(ce) => TransactionError::Common(ce),
                 _ => TransactionError::SplitError(e.to_string()),
@@ -91,7 +91,7 @@ impl<'a> TransactionService<'a> {
 
     pub fn unlink_tag(&self, tx_id: TransactionId, tag_id: TagId) -> Result<(), TransactionError> {
         let repo = SqlTagRepository::new(self.conn);
-        repo.unlink_from_reference("Transaction", tx_id.0, tag_id)
+        repo.unlink_from_reference("Transaction", tx_id.v1, tag_id)
             .map_err(|e| match e {
                 TagError::Common(ce) => TransactionError::Common(ce),
                 _ => TransactionError::SplitError(e.to_string()),

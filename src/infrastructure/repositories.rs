@@ -51,11 +51,11 @@ impl<'a, E: DbExecutor> AccountRepository for SqlAccountRepository<'a, E> {
                 "FAVORITEACCT",
             ])
             .from_as("ACCOUNTLIST_V1", "a")
-            .and_where(Expr::col("ACCOUNTID").eq(id.0))
+            .and_where(Expr::col("ACCOUNTID").eq(id.v1))
             .build(SqliteQueryBuilder);
         match self
             .executor
-            .query_row_ext(&sql, [id.0], |row| AccountMapper::map_row(row))
+            .query_row_ext(&sql, [id.v1], |row| AccountMapper::map_row(row))
         {
             Ok(account) => Ok(Some(account)),
             Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
@@ -75,7 +75,7 @@ impl<'a, E: DbExecutor> AccountRepository for SqlAccountRepository<'a, E> {
                 a.status.to_string(),
                 &a.notes,
                 a.initial_balance.0.to_string(),
-                a.currency_id.0,
+                a.currency_id.v1,
                 if a.favorite { "1" } else { "0" },
             ),
         )?;
@@ -83,7 +83,7 @@ impl<'a, E: DbExecutor> AccountRepository for SqlAccountRepository<'a, E> {
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
         let mut new_acc = a.clone();
-        new_acc.id = AccountId(last_id);
+        new_acc.id = AccountId { v1: last_id };
         Ok(new_acc)
     }
 
@@ -100,9 +100,9 @@ impl<'a, E: DbExecutor> AccountRepository for SqlAccountRepository<'a, E> {
                 a.status.to_string(),
                 &a.notes,
                 a.initial_balance.0.to_string(),
-                a.currency_id.0,
+                a.currency_id.v1,
                 if a.favorite { "1" } else { "0" },
-                a.id.0,
+                a.id.v1,
             ),
         )?;
         Ok(())
@@ -110,7 +110,7 @@ impl<'a, E: DbExecutor> AccountRepository for SqlAccountRepository<'a, E> {
 
     fn delete(&self, id: AccountId) -> Result<(), AccountError> {
         self.executor
-            .execute_ext("DELETE FROM ACCOUNTLIST_V1 WHERE ACCOUNTID = ?", [id.0])?;
+            .execute_ext("DELETE FROM ACCOUNTLIST_V1 WHERE ACCOUNTID = ?", [id.v1])?;
         Ok(())
     }
 }

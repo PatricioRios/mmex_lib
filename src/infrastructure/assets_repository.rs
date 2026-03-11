@@ -27,11 +27,15 @@ impl AssetMapper {
             .unwrap_or_else(|_| NaiveDate::from_ymd_opt(1970, 1, 1).unwrap());
 
         Ok(Asset {
-            id: AssetId(row.get("ASSETID")?),
+            id: AssetId {
+                v1: row.get("ASSETID")?,
+            },
             name: row.get("ASSETNAME")?,
             start_date,
             status: AssetStatus::from(row.get::<_, String>("ASSETSTATUS").unwrap_or_default()),
-            currency_id: row.get::<_, Option<i64>>("CURRENCYID")?.map(CurrencyId),
+            currency_id: row
+                .get::<_, Option<i64>>("CURRENCYID")?
+                .map(|v1| CurrencyId { v1 }),
             value_change_mode: row.get("VALUECHANGEMODE")?,
             value: Money(value_val),
             value_change: row.get("VALUECHANGE")?,
@@ -92,12 +96,12 @@ impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
                 "ASSETTYPE",
             ])
             .from_as("ASSETS_V1", "a")
-            .and_where(Expr::col("ASSETID").eq(id.0))
+            .and_where(Expr::col("ASSETID").eq(id.v1))
             .build(SqliteQueryBuilder);
 
         match self
             .executor
-            .query_row_ext(&sql, [id.0], |row| AssetMapper::map_row(row))
+            .query_row_ext(&sql, [id.v1], |row| AssetMapper::map_row(row))
         {
             Ok(asset) => Ok(Some(asset)),
             Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
@@ -115,7 +119,7 @@ impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
                 a.start_date.to_string(),
                 &a.name,
                 a.status.to_string(),
-                a.currency_id.map(|id| id.0),
+                a.currency_id.map(|id| id.v1),
                 &a.value_change_mode,
                 a.value.0.to_string(),
                 &a.value_change,
@@ -129,7 +133,7 @@ impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
         let mut new_asset = a.clone();
-        new_asset.id = AssetId(last_id);
+        new_asset.id = AssetId { v1: last_id };
         Ok(new_asset)
     }
 
@@ -144,14 +148,14 @@ impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
                 a.start_date.to_string(),
                 &a.name,
                 a.status.to_string(),
-                a.currency_id.map(|id| id.0),
+                a.currency_id.map(|id| id.v1),
                 &a.value_change_mode,
                 a.value.0.to_string(),
                 &a.value_change,
                 &a.notes,
                 a.value_change_rate,
                 &a.asset_type,
-                a.id.0,
+                a.id.v1,
             ),
         )?;
         Ok(())
@@ -159,7 +163,7 @@ impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
 
     fn delete(&self, id: AssetId) -> Result<(), AssetError> {
         self.executor
-            .execute_ext("DELETE FROM ASSETS_V1 WHERE ASSETID = ?", [id.0])?;
+            .execute_ext("DELETE FROM ASSETS_V1 WHERE ASSETID = ?", [id.v1])?;
         Ok(())
     }
 }

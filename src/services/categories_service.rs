@@ -36,7 +36,7 @@ impl<'a> CategoryService<'a> {
         }
         let repo = SqlCategoryRepository::new(self.conn);
         let new_cat = Category {
-            id: CategoryId(0),
+            id: CategoryId { v1: 0 },
             name: name.to_string(),
             active: true,
             parent_id,

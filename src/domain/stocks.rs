@@ -14,12 +14,14 @@ pub enum StockError {
     NotFound(StockId),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct StockId(pub i64);
+#[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct StockId {
+    pub v1: i64,
+}
 
 impl std::fmt::Display for StockId {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
+        write!(f, "{}", self.v1)
     }
 }
 

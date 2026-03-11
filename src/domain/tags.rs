@@ -15,7 +15,7 @@ pub enum TagError {
     NameRequired,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct Tag {
     pub id: TagId,
     pub name: String,

@@ -43,15 +43,23 @@ impl ScheduledMapper {
 
         Ok(ScheduledTransaction {
             id: row.get("BDID")?,
-            account_id: AccountId(row.get("ACCOUNTID")?),
-            to_account_id: row.get::<_, Option<i64>>("TOACCOUNTID")?.map(AccountId),
-            payee_id: PayeeId(row.get("PAYEEID")?),
+            account_id: AccountId {
+                v1: row.get("ACCOUNTID")?,
+            },
+            to_account_id: row
+                .get::<_, Option<i64>>("TOACCOUNTID")?
+                .map(|v1| AccountId { v1 }),
+            payee_id: PayeeId {
+                v1: row.get("PAYEEID")?,
+            },
             trans_code: TransactionCode::from(row.get::<_, String>("TRANSCODE")?),
             amount: Money(amount_val),
             status: TransactionStatus::from(row.get::<_, String>("STATUS")?),
             transaction_number: row.get("TRANSACTIONNUMBER")?,
             notes: row.get("NOTES")?,
-            category_id: row.get::<_, Option<i64>>("CATEGID")?.map(CategoryId),
+            category_id: row
+                .get::<_, Option<i64>>("CATEGID")?
+                .map(|v1| CategoryId { v1 }),
             trans_date,
             next_occurrence_date,
             repeats: row.get("REPEATS")?,
@@ -142,15 +150,15 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
         self.executor.execute_ext(
             sql,
             (
-                s.account_id.0,
-                s.to_account_id.map(|id| id.0),
-                s.payee_id.0,
+                s.account_id.v1,
+                s.to_account_id.map(|id| id.v1),
+                s.payee_id.v1,
                 s.trans_code.to_string(),
                 s.amount.0.to_string(),
                 s.status.to_string(),
                 &s.transaction_number,
                 &s.notes,
-                s.category_id.map(|id| id.0),
+                s.category_id.map(|id| id.v1),
                 trans_date_str,
                 s.to_trans_amount.as_ref().map(|m| m.0.to_string()),
                 s.repeats,
@@ -178,15 +186,15 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
         self.executor.execute_ext(
             sql,
             (
-                s.account_id.0,
-                s.to_account_id.map(|id| id.0),
-                s.payee_id.0,
+                s.account_id.v1,
+                s.to_account_id.map(|id| id.v1),
+                s.payee_id.v1,
                 s.trans_code.to_string(),
                 s.amount.0.to_string(),
                 s.status.to_string(),
                 &s.transaction_number,
                 &s.notes,
-                s.category_id.map(|id| id.0),
+                s.category_id.map(|id| id.v1),
                 trans_date_str,
                 s.to_trans_amount.as_ref().map(|m| m.0.to_string()),
                 s.repeats,
