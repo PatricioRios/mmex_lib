@@ -17,7 +17,7 @@ fn test_scheduled_full_crud() {
         to_account_id: None,
         payee_id: PayeeId { v1: 1 },
         trans_code: TransactionCode::Withdrawal,
-        amount: Money(dec!(120.0)),
+        amount: Money::from(dec!(120.0)),
         status: TransactionStatus::None,
         transaction_number: None,
         notes: Some("Gimnasio".into()),
@@ -35,10 +35,10 @@ fn test_scheduled_full_crud() {
     assert!(stx.id > 0);
 
     // 2. Update
-    stx.amount = Money(dec!(130.0));
+    stx.amount = Money::from(dec!(130.0));
     service.update_scheduled(&stx).expect("Failed update");
     let found = service.get_scheduled_by_id(stx.id).unwrap().unwrap();
-    assert_eq!(found.amount.0, dec!(130.0));
+    assert_eq!(found.amount.to_decimal(), dec!(130.0));
 
     // 3. Delete
     service.delete_scheduled(stx.id).expect("Failed delete");

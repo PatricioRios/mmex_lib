@@ -30,7 +30,7 @@ impl SplitMapper {
             category_id: row
                 .get::<_, Option<i64>>("CATEGID")?
                 .map(|v1| CategoryId { v1 }),
-            amount: Money(amount_val),
+            amount: Money::from(amount_val),
             notes: row.get("NOTES")?,
         })
     }
@@ -75,7 +75,7 @@ impl<'a, E: DbExecutor> SplitRepository for SqlSplitRepository<'a, E> {
             (
                 s.transaction_id.v1,
                 s.category_id.map(|id| id.v1),
-                s.amount.0.to_string(),
+                s.amount.v1.clone(),
                 &s.notes,
             ),
         )?;
@@ -94,7 +94,7 @@ impl<'a, E: DbExecutor> SplitRepository for SqlSplitRepository<'a, E> {
             (
                 s.transaction_id.v1,
                 s.category_id.map(|id| id.v1),
-                s.amount.0.to_string(),
+                s.amount.v1.clone(),
                 &s.notes,
                 s.id,
             ),

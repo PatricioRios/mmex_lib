@@ -2,6 +2,7 @@ use crate::api::MmexContext;
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
+/// Utilidades de soporte y metadatos del sistema.
 #[derive(uniffi::Object)]
 pub struct SupportManager {
     pub(crate) context: Arc<Mutex<MmexContext>>,
@@ -9,6 +10,7 @@ pub struct SupportManager {
 
 #[uniffi::export]
 impl SupportManager {
+    /// Obtiene la versión del esquema de la base de datos actual.
     pub fn get_db_version(&self) -> Result<String, MmexError> {
         let ctx = self
             .context

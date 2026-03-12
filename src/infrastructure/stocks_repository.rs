@@ -37,11 +37,11 @@ impl StockMapper {
             name: row.get("STOCKNAME")?,
             symbol: row.get("SYMBOL")?,
             num_shares: Self::parse_decimal(row, "NUMSHARES"),
-            purchase_price: Money(Self::parse_decimal(row, "PURCHASEPRICE")),
+            purchase_price: Money::from(Self::parse_decimal(row, "PURCHASEPRICE")),
             notes: row.get("NOTES")?,
-            current_price: Money(Self::parse_decimal(row, "CURRENTPRICE")),
-            value: Money(Self::parse_decimal(row, "VALUE")),
-            commission: Money(Self::parse_decimal(row, "COMMISSION")),
+            current_price: Money::from(Self::parse_decimal(row, "CURRENTPRICE")),
+            value: Money::from(Self::parse_decimal(row, "VALUE")),
+            commission: Money::from(Self::parse_decimal(row, "COMMISSION")),
         })
     }
 }
@@ -121,11 +121,11 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
                 &s.name,
                 &s.symbol,
                 s.num_shares.to_string(),
-                s.purchase_price.0.to_string(),
+                s.purchase_price.v1.clone(),
                 &s.notes,
-                s.current_price.0.to_string(),
-                s.value.0.to_string(),
-                s.commission.0.to_string(),
+                s.current_price.v1.clone(),
+                s.value.v1.clone(),
+                s.commission.v1.clone(),
             ),
         )?;
 
@@ -150,11 +150,11 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
                 &s.name,
                 &s.symbol,
                 s.num_shares.to_string(),
-                s.purchase_price.0.to_string(),
+                s.purchase_price.v1.clone(),
                 &s.notes,
-                s.current_price.0.to_string(),
-                s.value.0.to_string(),
-                s.commission.0.to_string(),
+                s.current_price.v1.clone(),
+                s.value.v1.clone(),
+                s.commission.v1.clone(),
                 s.id.v1,
             ),
         )?;

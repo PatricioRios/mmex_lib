@@ -478,31 +478,43 @@ def _uniffi_check_contract_api_version(lib):
         raise InternalError("UniFFI contract version mismatch: try cleaning and rebuilding your project")
 
 def _uniffi_check_api_checksums(lib):
-    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_all_json() != 30298:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_create() != 40302:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_balance_json() != 38673:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_delete() != 28049:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_constructor_mmexengine_new() != 39945:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_all() != 51972:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_mmexengine_accounts() != 57967:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_all_json() != 23589:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_mmexengine_support() != 47536:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_balance() != 24544:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_mmexengine_tags() != 4509:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_balance_json() != 21318:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_supportmanager_get_db_version() != 37852:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_by_id() != 22381:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_tagmanager_create() != 42958:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_update() != 46249:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_tagmanager_delete() != 17237:
+    if lib.uniffi_mmex_lib_checksum_constructor_mmexengine_new() != 61734:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_all() != 48620:
+    if lib.uniffi_mmex_lib_checksum_method_mmexengine_accounts() != 60616:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_all_json() != 52184:
+    if lib.uniffi_mmex_lib_checksum_method_mmexengine_support() != 13844:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_by_id() != 2358:
+    if lib.uniffi_mmex_lib_checksum_method_mmexengine_tags() != 5149:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_tagmanager_update() != 45772:
+    if lib.uniffi_mmex_lib_checksum_method_supportmanager_get_db_version() != 32866:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_create() != 50818:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_delete() != 51171:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_all() != 51759:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_all_json() != 50087:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_by_id() != 13551:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_update() != 47369:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
 
 # A ctypes library to expose the extern-C FFI definitions.
@@ -807,17 +819,52 @@ _UniffiLib.uniffi_mmex_lib_fn_free_tagmanager.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_free_tagmanager.restype = None
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_create.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_create.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_delete.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_int64,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_delete.restype = None
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_all.argtypes = (
+    ctypes.c_uint64,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_all.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_all_json.argtypes = (
     ctypes.c_uint64,
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_all_json.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_balance.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_int64,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_balance.restype = _UniffiRustBuffer
 _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_balance_json.argtypes = (
     ctypes.c_uint64,
     ctypes.c_int64,
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_balance_json.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_by_id.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_int64,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_by_id.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_update.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_update.restype = None
 _UniffiLib.uniffi_mmex_lib_fn_constructor_mmexengine_new.argtypes = (
     _UniffiRustBuffer,
     _UniffiRustBuffer,
@@ -882,12 +929,30 @@ _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_update.restype = None
 _UniffiLib.ffi_mmex_lib_uniffi_contract_version.argtypes = (
 )
 _UniffiLib.ffi_mmex_lib_uniffi_contract_version.restype = ctypes.c_uint32
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_create.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_create.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_delete.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_delete.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_get_all.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_get_all.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_get_all_json.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_get_all_json.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_get_balance.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_get_balance.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_get_balance_json.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_get_balance_json.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_get_by_id.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_get_by_id.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_update.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_update.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_constructor_mmexengine_new.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_constructor_mmexengine_new.restype = ctypes.c_uint16
@@ -973,6 +1038,748 @@ class _UniffiFfiConverterTypeAccountId(_UniffiConverterRustBuffer):
     def write(value, buf):
         _UniffiFfiConverterInt64.write(value.v1, buf)
 
+class _UniffiFfiConverterString:
+    @staticmethod
+    def check_lower(value):
+        if not isinstance(value, str):
+            raise TypeError("argument must be str, not {}".format(type(value).__name__))
+        return value
+
+    @staticmethod
+    def read(buf):
+        size = buf.read_i32()
+        if size < 0:
+            raise InternalError("Unexpected negative string length")
+        utf8_bytes = buf.read(size)
+        return utf8_bytes.decode("utf-8")
+
+    @staticmethod
+    def write(value, buf):
+        utf8_bytes = value.encode("utf-8")
+        buf.write_i32(len(utf8_bytes))
+        buf.write(utf8_bytes)
+
+    @staticmethod
+    def lift(buf):
+        with buf.consume_with_stream() as stream:
+            return stream.read(stream.remaining()).decode("utf-8")
+
+    @staticmethod
+    def lower(value):
+        with _UniffiRustBuffer.alloc_with_builder() as builder:
+            builder.write(value.encode("utf-8"))
+            return builder.finalize()
+
+
+
+
+
+
+class AccountType:
+    def __init__(self):
+        raise RuntimeError("AccountType cannot be instantiated directly")
+
+    # Each enum variant is a nested class of the enum itself.
+    @dataclass
+    class CASH:
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "AccountType.CASH()".format()
+        def __eq__(self, other):
+            if not isinstance(other, AccountType):
+                return NotImplemented
+            if not other.is_CASH():
+                return False
+            return True
+
+    @dataclass
+    class CHECKING:
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "AccountType.CHECKING()".format()
+        def __eq__(self, other):
+            if not isinstance(other, AccountType):
+                return NotImplemented
+            if not other.is_CHECKING():
+                return False
+            return True
+
+    @dataclass
+    class TERM:
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "AccountType.TERM()".format()
+        def __eq__(self, other):
+            if not isinstance(other, AccountType):
+                return NotImplemented
+            if not other.is_TERM():
+                return False
+            return True
+
+    @dataclass
+    class INVESTMENT:
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "AccountType.INVESTMENT()".format()
+        def __eq__(self, other):
+            if not isinstance(other, AccountType):
+                return NotImplemented
+            if not other.is_INVESTMENT():
+                return False
+            return True
+
+    @dataclass
+    class CREDIT_CARD:
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "AccountType.CREDIT_CARD()".format()
+        def __eq__(self, other):
+            if not isinstance(other, AccountType):
+                return NotImplemented
+            if not other.is_CREDIT_CARD():
+                return False
+            return True
+
+    @dataclass
+    class LOAN:
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "AccountType.LOAN()".format()
+        def __eq__(self, other):
+            if not isinstance(other, AccountType):
+                return NotImplemented
+            if not other.is_LOAN():
+                return False
+            return True
+
+    @dataclass
+    class ASSET:
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "AccountType.ASSET()".format()
+        def __eq__(self, other):
+            if not isinstance(other, AccountType):
+                return NotImplemented
+            if not other.is_ASSET():
+                return False
+            return True
+
+    @dataclass
+    class SHARES:
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "AccountType.SHARES()".format()
+        def __eq__(self, other):
+            if not isinstance(other, AccountType):
+                return NotImplemented
+            if not other.is_SHARES():
+                return False
+            return True
+
+    @dataclass
+    class UNKNOWN:
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+    
+            
+            
+
+    
+        def __str__(self):
+            return f"AccountType.UNKNOWN{self._values!r}"
+        def __eq__(self, other):
+            if not isinstance(other, AccountType):
+                return NotImplemented
+            if not other.is_UNKNOWN():
+                return False
+            return self._values == other._values
+
+    
+
+    # For each variant, we have `is_NAME` and `is_name` methods for easily checking
+    # whether an instance is that variant.
+    def is_CASH(self) -> bool:
+        return isinstance(self, AccountType.CASH)
+    def is_cash(self) -> bool:
+        return isinstance(self, AccountType.CASH)
+    def is_CHECKING(self) -> bool:
+        return isinstance(self, AccountType.CHECKING)
+    def is_checking(self) -> bool:
+        return isinstance(self, AccountType.CHECKING)
+    def is_TERM(self) -> bool:
+        return isinstance(self, AccountType.TERM)
+    def is_term(self) -> bool:
+        return isinstance(self, AccountType.TERM)
+    def is_INVESTMENT(self) -> bool:
+        return isinstance(self, AccountType.INVESTMENT)
+    def is_investment(self) -> bool:
+        return isinstance(self, AccountType.INVESTMENT)
+    def is_CREDIT_CARD(self) -> bool:
+        return isinstance(self, AccountType.CREDIT_CARD)
+    def is_credit_card(self) -> bool:
+        return isinstance(self, AccountType.CREDIT_CARD)
+    def is_LOAN(self) -> bool:
+        return isinstance(self, AccountType.LOAN)
+    def is_loan(self) -> bool:
+        return isinstance(self, AccountType.LOAN)
+    def is_ASSET(self) -> bool:
+        return isinstance(self, AccountType.ASSET)
+    def is_asset(self) -> bool:
+        return isinstance(self, AccountType.ASSET)
+    def is_SHARES(self) -> bool:
+        return isinstance(self, AccountType.SHARES)
+    def is_shares(self) -> bool:
+        return isinstance(self, AccountType.SHARES)
+    def is_UNKNOWN(self) -> bool:
+        return isinstance(self, AccountType.UNKNOWN)
+    def is_unknown(self) -> bool:
+        return isinstance(self, AccountType.UNKNOWN)
+    
+
+# Now, a little trick - we make each nested variant class be a subclass of the main
+# enum class, so that method calls and instance checks etc will work intuitively.
+# We might be able to do this a little more neatly with a metaclass, but this'll do.
+AccountType.CASH = type("AccountType.CASH", (AccountType.CASH, AccountType,), {})  # type: ignore
+AccountType.CHECKING = type("AccountType.CHECKING", (AccountType.CHECKING, AccountType,), {})  # type: ignore
+AccountType.TERM = type("AccountType.TERM", (AccountType.TERM, AccountType,), {})  # type: ignore
+AccountType.INVESTMENT = type("AccountType.INVESTMENT", (AccountType.INVESTMENT, AccountType,), {})  # type: ignore
+AccountType.CREDIT_CARD = type("AccountType.CREDIT_CARD", (AccountType.CREDIT_CARD, AccountType,), {})  # type: ignore
+AccountType.LOAN = type("AccountType.LOAN", (AccountType.LOAN, AccountType,), {})  # type: ignore
+AccountType.ASSET = type("AccountType.ASSET", (AccountType.ASSET, AccountType,), {})  # type: ignore
+AccountType.SHARES = type("AccountType.SHARES", (AccountType.SHARES, AccountType,), {})  # type: ignore
+AccountType.UNKNOWN = type("AccountType.UNKNOWN", (AccountType.UNKNOWN, AccountType,), {})  # type: ignore
+
+
+
+
+class _UniffiFfiConverterTypeAccountType(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return AccountType.CASH(
+            )
+        if variant == 2:
+            return AccountType.CHECKING(
+            )
+        if variant == 3:
+            return AccountType.TERM(
+            )
+        if variant == 4:
+            return AccountType.INVESTMENT(
+            )
+        if variant == 5:
+            return AccountType.CREDIT_CARD(
+            )
+        if variant == 6:
+            return AccountType.LOAN(
+            )
+        if variant == 7:
+            return AccountType.ASSET(
+            )
+        if variant == 8:
+            return AccountType.SHARES(
+            )
+        if variant == 9:
+            return AccountType.UNKNOWN(
+                _UniffiFfiConverterString.read(buf),
+            )
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if value.is_CASH():
+            return
+        if value.is_CHECKING():
+            return
+        if value.is_TERM():
+            return
+        if value.is_INVESTMENT():
+            return
+        if value.is_CREDIT_CARD():
+            return
+        if value.is_LOAN():
+            return
+        if value.is_ASSET():
+            return
+        if value.is_SHARES():
+            return
+        if value.is_UNKNOWN():
+            _UniffiFfiConverterString.check_lower(value._values[0])
+            return
+        raise ValueError(value)
+
+    @staticmethod
+    def write(value, buf):
+        if value.is_CASH():
+            buf.write_i32(1)
+        if value.is_CHECKING():
+            buf.write_i32(2)
+        if value.is_TERM():
+            buf.write_i32(3)
+        if value.is_INVESTMENT():
+            buf.write_i32(4)
+        if value.is_CREDIT_CARD():
+            buf.write_i32(5)
+        if value.is_LOAN():
+            buf.write_i32(6)
+        if value.is_ASSET():
+            buf.write_i32(7)
+        if value.is_SHARES():
+            buf.write_i32(8)
+        if value.is_UNKNOWN():
+            buf.write_i32(9)
+            _UniffiFfiConverterString.write(value._values[0], buf)
+
+
+
+class _UniffiFfiConverterOptionalString(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterString.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterString.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterString.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+
+
+
+
+
+class AccountStatus:
+    def __init__(self):
+        raise RuntimeError("AccountStatus cannot be instantiated directly")
+
+    # Each enum variant is a nested class of the enum itself.
+    @dataclass
+    class OPEN:
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "AccountStatus.OPEN()".format()
+        def __eq__(self, other):
+            if not isinstance(other, AccountStatus):
+                return NotImplemented
+            if not other.is_OPEN():
+                return False
+            return True
+
+    @dataclass
+    class CLOSED:
+        
+        def __init__(self, ):
+            pass
+
+    
+            
+            
+    
+        def __str__(self):
+            return "AccountStatus.CLOSED()".format()
+        def __eq__(self, other):
+            if not isinstance(other, AccountStatus):
+                return NotImplemented
+            if not other.is_CLOSED():
+                return False
+            return True
+
+    @dataclass
+    class UNKNOWN:
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+    
+            
+            
+
+    
+        def __str__(self):
+            return f"AccountStatus.UNKNOWN{self._values!r}"
+        def __eq__(self, other):
+            if not isinstance(other, AccountStatus):
+                return NotImplemented
+            if not other.is_UNKNOWN():
+                return False
+            return self._values == other._values
+
+    
+
+    # For each variant, we have `is_NAME` and `is_name` methods for easily checking
+    # whether an instance is that variant.
+    def is_OPEN(self) -> bool:
+        return isinstance(self, AccountStatus.OPEN)
+    def is_open(self) -> bool:
+        return isinstance(self, AccountStatus.OPEN)
+    def is_CLOSED(self) -> bool:
+        return isinstance(self, AccountStatus.CLOSED)
+    def is_closed(self) -> bool:
+        return isinstance(self, AccountStatus.CLOSED)
+    def is_UNKNOWN(self) -> bool:
+        return isinstance(self, AccountStatus.UNKNOWN)
+    def is_unknown(self) -> bool:
+        return isinstance(self, AccountStatus.UNKNOWN)
+    
+
+# Now, a little trick - we make each nested variant class be a subclass of the main
+# enum class, so that method calls and instance checks etc will work intuitively.
+# We might be able to do this a little more neatly with a metaclass, but this'll do.
+AccountStatus.OPEN = type("AccountStatus.OPEN", (AccountStatus.OPEN, AccountStatus,), {})  # type: ignore
+AccountStatus.CLOSED = type("AccountStatus.CLOSED", (AccountStatus.CLOSED, AccountStatus,), {})  # type: ignore
+AccountStatus.UNKNOWN = type("AccountStatus.UNKNOWN", (AccountStatus.UNKNOWN, AccountStatus,), {})  # type: ignore
+
+
+
+
+class _UniffiFfiConverterTypeAccountStatus(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return AccountStatus.OPEN(
+            )
+        if variant == 2:
+            return AccountStatus.CLOSED(
+            )
+        if variant == 3:
+            return AccountStatus.UNKNOWN(
+                _UniffiFfiConverterString.read(buf),
+            )
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if value.is_OPEN():
+            return
+        if value.is_CLOSED():
+            return
+        if value.is_UNKNOWN():
+            _UniffiFfiConverterString.check_lower(value._values[0])
+            return
+        raise ValueError(value)
+
+    @staticmethod
+    def write(value, buf):
+        if value.is_OPEN():
+            buf.write_i32(1)
+        if value.is_CLOSED():
+            buf.write_i32(2)
+        if value.is_UNKNOWN():
+            buf.write_i32(3)
+            _UniffiFfiConverterString.write(value._values[0], buf)
+
+
+
+@dataclass
+class Money:
+    def __init__(self, *, v1:str):
+        self.v1 = v1
+        
+        
+
+    
+    def __str__(self):
+        return "Money(v1={})".format(self.v1)
+    def __eq__(self, other):
+        if self.v1 != other.v1:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeMoney(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return Money(
+            v1=_UniffiFfiConverterString.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterString.check_lower(value.v1)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterString.write(value.v1, buf)
+
+@dataclass
+class CurrencyId:
+    def __init__(self, *, v1:int):
+        self.v1 = v1
+        
+        
+
+    
+    def __str__(self):
+        return "CurrencyId(v1={})".format(self.v1)
+    def __eq__(self, other):
+        if self.v1 != other.v1:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeCurrencyId(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return CurrencyId(
+            v1=_UniffiFfiConverterInt64.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterInt64.check_lower(value.v1)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterInt64.write(value.v1, buf)
+
+class _UniffiFfiConverterBoolean:
+    @classmethod
+    def check_lower(cls, value):
+        return not not value
+
+    @classmethod
+    def lower(cls, value):
+        return 1 if value else 0
+
+    @staticmethod
+    def lift(value):
+        return value != 0
+
+    @classmethod
+    def read(cls, buf):
+        return cls.lift(buf.read_u8())
+
+    @classmethod
+    def write(cls, value, buf):
+        buf.write_u8(value)
+
+@dataclass
+class Account:
+    """
+    Representa una cuenta financiera en el sistema.
+"""
+    def __init__(self, *, id:AccountId, name:str, account_type:AccountType, account_num:typing.Optional[str], status:AccountStatus, notes:typing.Optional[str], initial_balance:Money, currency_id:CurrencyId, favorite:bool):
+        self.id = id
+        self.name = name
+        self.account_type = account_type
+        self.account_num = account_num
+        self.status = status
+        self.notes = notes
+        self.initial_balance = initial_balance
+        self.currency_id = currency_id
+        self.favorite = favorite
+        
+        
+
+    
+    def __str__(self):
+        return "Account(id={}, name={}, account_type={}, account_num={}, status={}, notes={}, initial_balance={}, currency_id={}, favorite={})".format(self.id, self.name, self.account_type, self.account_num, self.status, self.notes, self.initial_balance, self.currency_id, self.favorite)
+    def __eq__(self, other):
+        if self.id != other.id:
+            return False
+        if self.name != other.name:
+            return False
+        if self.account_type != other.account_type:
+            return False
+        if self.account_num != other.account_num:
+            return False
+        if self.status != other.status:
+            return False
+        if self.notes != other.notes:
+            return False
+        if self.initial_balance != other.initial_balance:
+            return False
+        if self.currency_id != other.currency_id:
+            return False
+        if self.favorite != other.favorite:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeAccount(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return Account(
+            id=_UniffiFfiConverterTypeAccountId.read(buf),
+            name=_UniffiFfiConverterString.read(buf),
+            account_type=_UniffiFfiConverterTypeAccountType.read(buf),
+            account_num=_UniffiFfiConverterOptionalString.read(buf),
+            status=_UniffiFfiConverterTypeAccountStatus.read(buf),
+            notes=_UniffiFfiConverterOptionalString.read(buf),
+            initial_balance=_UniffiFfiConverterTypeMoney.read(buf),
+            currency_id=_UniffiFfiConverterTypeCurrencyId.read(buf),
+            favorite=_UniffiFfiConverterBoolean.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterTypeAccountId.check_lower(value.id)
+        _UniffiFfiConverterString.check_lower(value.name)
+        _UniffiFfiConverterTypeAccountType.check_lower(value.account_type)
+        _UniffiFfiConverterOptionalString.check_lower(value.account_num)
+        _UniffiFfiConverterTypeAccountStatus.check_lower(value.status)
+        _UniffiFfiConverterOptionalString.check_lower(value.notes)
+        _UniffiFfiConverterTypeMoney.check_lower(value.initial_balance)
+        _UniffiFfiConverterTypeCurrencyId.check_lower(value.currency_id)
+        _UniffiFfiConverterBoolean.check_lower(value.favorite)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterTypeAccountId.write(value.id, buf)
+        _UniffiFfiConverterString.write(value.name, buf)
+        _UniffiFfiConverterTypeAccountType.write(value.account_type, buf)
+        _UniffiFfiConverterOptionalString.write(value.account_num, buf)
+        _UniffiFfiConverterTypeAccountStatus.write(value.status, buf)
+        _UniffiFfiConverterOptionalString.write(value.notes, buf)
+        _UniffiFfiConverterTypeMoney.write(value.initial_balance, buf)
+        _UniffiFfiConverterTypeCurrencyId.write(value.currency_id, buf)
+        _UniffiFfiConverterBoolean.write(value.favorite, buf)
+
+@dataclass
+class AccountBalance:
+    """
+    Resume el estado financiero actual de una cuenta.
+"""
+    def __init__(self, *, account_id:AccountId, initial_balance:Money, total_deposits:Money, total_withdrawals:Money, current_balance:Money):
+        self.account_id = account_id
+        self.initial_balance = initial_balance
+        self.total_deposits = total_deposits
+        self.total_withdrawals = total_withdrawals
+        self.current_balance = current_balance
+        
+        
+
+    
+    def __str__(self):
+        return "AccountBalance(account_id={}, initial_balance={}, total_deposits={}, total_withdrawals={}, current_balance={})".format(self.account_id, self.initial_balance, self.total_deposits, self.total_withdrawals, self.current_balance)
+    def __eq__(self, other):
+        if self.account_id != other.account_id:
+            return False
+        if self.initial_balance != other.initial_balance:
+            return False
+        if self.total_deposits != other.total_deposits:
+            return False
+        if self.total_withdrawals != other.total_withdrawals:
+            return False
+        if self.current_balance != other.current_balance:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeAccountBalance(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return AccountBalance(
+            account_id=_UniffiFfiConverterTypeAccountId.read(buf),
+            initial_balance=_UniffiFfiConverterTypeMoney.read(buf),
+            total_deposits=_UniffiFfiConverterTypeMoney.read(buf),
+            total_withdrawals=_UniffiFfiConverterTypeMoney.read(buf),
+            current_balance=_UniffiFfiConverterTypeMoney.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterTypeAccountId.check_lower(value.account_id)
+        _UniffiFfiConverterTypeMoney.check_lower(value.initial_balance)
+        _UniffiFfiConverterTypeMoney.check_lower(value.total_deposits)
+        _UniffiFfiConverterTypeMoney.check_lower(value.total_withdrawals)
+        _UniffiFfiConverterTypeMoney.check_lower(value.current_balance)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterTypeAccountId.write(value.account_id, buf)
+        _UniffiFfiConverterTypeMoney.write(value.initial_balance, buf)
+        _UniffiFfiConverterTypeMoney.write(value.total_deposits, buf)
+        _UniffiFfiConverterTypeMoney.write(value.total_withdrawals, buf)
+        _UniffiFfiConverterTypeMoney.write(value.current_balance, buf)
+
 @dataclass
 class AssetId:
     def __init__(self, *, v1:int):
@@ -1022,36 +1829,6 @@ class _UniffiFfiConverterTypeCategoryId(_UniffiConverterRustBuffer):
     @staticmethod
     def read(buf):
         return CategoryId(
-            v1=_UniffiFfiConverterInt64.read(buf),
-        )
-
-    @staticmethod
-    def check_lower(value):
-        _UniffiFfiConverterInt64.check_lower(value.v1)
-
-    @staticmethod
-    def write(value, buf):
-        _UniffiFfiConverterInt64.write(value.v1, buf)
-
-@dataclass
-class CurrencyId:
-    def __init__(self, *, v1:int):
-        self.v1 = v1
-        
-        
-
-    
-    def __str__(self):
-        return "CurrencyId(v1={})".format(self.v1)
-    def __eq__(self, other):
-        if self.v1 != other.v1:
-            return False
-        return True
-
-class _UniffiFfiConverterTypeCurrencyId(_UniffiConverterRustBuffer):
-    @staticmethod
-    def read(buf):
-        return CurrencyId(
             v1=_UniffiFfiConverterInt64.read(buf),
         )
 
@@ -1153,40 +1930,11 @@ class _UniffiFfiConverterTypeTagId(_UniffiConverterRustBuffer):
     def write(value, buf):
         _UniffiFfiConverterInt64.write(value.v1, buf)
 
-class _UniffiFfiConverterString:
-    @staticmethod
-    def check_lower(value):
-        if not isinstance(value, str):
-            raise TypeError("argument must be str, not {}".format(type(value).__name__))
-        return value
-
-    @staticmethod
-    def read(buf):
-        size = buf.read_i32()
-        if size < 0:
-            raise InternalError("Unexpected negative string length")
-        utf8_bytes = buf.read(size)
-        return utf8_bytes.decode("utf-8")
-
-    @staticmethod
-    def write(value, buf):
-        utf8_bytes = value.encode("utf-8")
-        buf.write_i32(len(utf8_bytes))
-        buf.write(utf8_bytes)
-
-    @staticmethod
-    def lift(buf):
-        with buf.consume_with_stream() as stream:
-            return stream.read(stream.remaining()).decode("utf-8")
-
-    @staticmethod
-    def lower(value):
-        with _UniffiRustBuffer.alloc_with_builder() as builder:
-            builder.write(value.encode("utf-8"))
-            return builder.finalize()
-
 @dataclass
 class Tag:
+    """
+    Representa una etiqueta (Tag) para categorizar transacciones.
+"""
     def __init__(self, *, id:TagId, name:str):
         self.id = id
         self.name = name
@@ -1388,14 +2136,203 @@ class _UniffiFfiConverterTypeMmexError(_UniffiConverterRustBuffer):
             _UniffiFfiConverterString.write(value._values[0], buf)
 
 
-class AccountManagerProtocol(typing.Protocol):
+
+# AccountError
+# We want to define each variant as a nested class that's also a subclass,
+# which is tricky in Python.  To accomplish this we're going to create each
+# class separately, then manually add the child classes to the base class's
+# __dict__.  All of this happens in dummy class to avoid polluting the module
+# namespace.
+class AccountError(Exception):
+    pass
+
+_UniffiTempAccountError = AccountError
+
+class AccountError:  # type: ignore
     
+    class Common(_UniffiTempAccountError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], MmexError):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'MmexError', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "AccountError.Common({})".format(str(self))
+    _UniffiTempAccountError.Common = Common # type: ignore
+    class NotFound(_UniffiTempAccountError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], AccountId):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'AccountId', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "AccountError.NotFound({})".format(str(self))
+    _UniffiTempAccountError.NotFound = NotFound # type: ignore
+    class NameRequired(_UniffiTempAccountError):
+        
+        def __init__(self):
+            pass
+
+        def __repr__(self):
+            return "AccountError.NameRequired({})".format(str(self))
+    _UniffiTempAccountError.NameRequired = NameRequired # type: ignore
+
+AccountError = _UniffiTempAccountError # type: ignore
+del _UniffiTempAccountError
+
+
+class _UniffiFfiConverterTypeAccountError(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return AccountError.Common(
+                _UniffiFfiConverterTypeMmexError.read(buf),
+            )
+        if variant == 2:
+            return AccountError.NotFound(
+                _UniffiFfiConverterTypeAccountId.read(buf),
+            )
+        if variant == 3:
+            return AccountError.NameRequired(
+            )
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if isinstance(value, AccountError.Common):
+            _UniffiFfiConverterTypeMmexError.check_lower(value._values[0])
+            return
+        if isinstance(value, AccountError.NotFound):
+            _UniffiFfiConverterTypeAccountId.check_lower(value._values[0])
+            return
+        if isinstance(value, AccountError.NameRequired):
+            return
+
+    @staticmethod
+    def write(value, buf):
+        if isinstance(value, AccountError.Common):
+            buf.write_i32(1)
+            _UniffiFfiConverterTypeMmexError.write(value._values[0], buf)
+        if isinstance(value, AccountError.NotFound):
+            buf.write_i32(2)
+            _UniffiFfiConverterTypeAccountId.write(value._values[0], buf)
+        if isinstance(value, AccountError.NameRequired):
+            buf.write_i32(3)
+
+class _UniffiFfiConverterSequenceTypeAccount(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        for item in value:
+            _UniffiFfiConverterTypeAccount.check_lower(item)
+
+    @classmethod
+    def write(cls, value, buf):
+        items = len(value)
+        buf.write_i32(items)
+        for item in value:
+            _UniffiFfiConverterTypeAccount.write(item, buf)
+
+    @classmethod
+    def read(cls, buf):
+        count = buf.read_i32()
+        if count < 0:
+            raise InternalError("Unexpected negative sequence length")
+
+        return [
+            _UniffiFfiConverterTypeAccount.read(buf) for i in range(count)
+        ]
+
+class _UniffiFfiConverterOptionalTypeAccount(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypeAccount.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypeAccount.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypeAccount.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+
+class AccountManagerProtocol(typing.Protocol):
+    """
+    Gestor especializado en la administración de cuentas bancarias y balances.
+"""
+    
+    def create(self, account: Account) -> Account:
+        """
+        Crea una nueva cuenta en la base de datos.
+"""
+        raise NotImplementedError
+    def delete(self, id: int) -> None:
+        """
+        Elimina una cuenta de la base de datos.
+"""
+        raise NotImplementedError
+    def get_all(self, ) -> typing.List[Account]:
+        """
+        Obtiene la lista completa de cuentas registradas.
+"""
+        raise NotImplementedError
     def get_all_json(self, ) -> str:
+        """
+        Obtiene todas las cuentas en formato JSON.
+"""
+        raise NotImplementedError
+    def get_balance(self, account_id: int) -> AccountBalance:
+        """
+        Calcula el balance financiero detallado de una cuenta (depósitos, retiros y saldo actual).
+"""
         raise NotImplementedError
     def get_balance_json(self, account_id: int) -> str:
+        """
+        Obtiene el balance de una cuenta en formato JSON.
+"""
+        raise NotImplementedError
+    def get_by_id(self, id: int) -> typing.Optional[Account]:
+        """
+        Busca una cuenta específica por su identificador único.
+"""
+        raise NotImplementedError
+    def update(self, account: Account) -> None:
+        """
+        Actualiza la información de una cuenta existente.
+"""
         raise NotImplementedError
 
 class AccountManager(AccountManagerProtocol):
+    """
+    Gestor especializado en la administración de cuentas bancarias y balances.
+"""
     
     _handle: ctypes.c_uint64
     
@@ -1419,7 +2356,61 @@ class AccountManager(AccountManagerProtocol):
         inst = cls.__new__(cls)
         inst._handle = handle
         return inst
+    def create(self, account: Account) -> Account:
+        """
+        Crea una nueva cuenta en la base de datos.
+"""
+        
+        _UniffiFfiConverterTypeAccount.check_lower(account)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterTypeAccount.lower(account),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterTypeAccount.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_create,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def delete(self, id: int) -> None:
+        """
+        Elimina una cuenta de la base de datos.
+"""
+        
+        _UniffiFfiConverterInt64.check_lower(id)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterInt64.lower(id),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_delete,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def get_all(self, ) -> typing.List[Account]:
+        """
+        Obtiene la lista completa de cuentas registradas.
+"""
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterSequenceTypeAccount.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_all,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
     def get_all_json(self, ) -> str:
+        """
+        Obtiene todas las cuentas en formato JSON.
+"""
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
         )
@@ -1431,7 +2422,28 @@ class AccountManager(AccountManagerProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def get_balance(self, account_id: int) -> AccountBalance:
+        """
+        Calcula el balance financiero detallado de una cuenta (depósitos, retiros y saldo actual).
+"""
+        
+        _UniffiFfiConverterInt64.check_lower(account_id)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterInt64.lower(account_id),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterTypeAccountBalance.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_balance,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
     def get_balance_json(self, account_id: int) -> str:
+        """
+        Obtiene el balance de una cuenta en formato JSON.
+"""
         
         _UniffiFfiConverterInt64.check_lower(account_id)
         _uniffi_lowered_args = (
@@ -1443,6 +2455,42 @@ class AccountManager(AccountManagerProtocol):
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_balance_json,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def get_by_id(self, id: int) -> typing.Optional[Account]:
+        """
+        Busca una cuenta específica por su identificador único.
+"""
+        
+        _UniffiFfiConverterInt64.check_lower(id)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterInt64.lower(id),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterOptionalTypeAccount.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_by_id,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def update(self, account: Account) -> None:
+        """
+        Actualiza la información de una cuenta existente.
+"""
+        
+        _UniffiFfiConverterTypeAccount.check_lower(account)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterTypeAccount.lower(account),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_update,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
@@ -1478,11 +2526,20 @@ class _UniffiFfiConverterTypeAccountManager:
 
 
 class SupportManagerProtocol(typing.Protocol):
+    """
+    Utilidades de soporte y metadatos del sistema.
+"""
     
     def get_db_version(self, ) -> str:
+        """
+        Obtiene la versión del esquema de la base de datos actual.
+"""
         raise NotImplementedError
 
 class SupportManager(SupportManagerProtocol):
+    """
+    Utilidades de soporte y metadatos del sistema.
+"""
     
     _handle: ctypes.c_uint64
     
@@ -1507,6 +2564,9 @@ class SupportManager(SupportManagerProtocol):
         inst._handle = handle
         return inst
     def get_db_version(self, ) -> str:
+        """
+        Obtiene la versión del esquema de la base de datos actual.
+"""
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
         )
@@ -1598,21 +2658,45 @@ class _UniffiFfiConverterOptionalTypeTag(_UniffiConverterRustBuffer):
 
 
 class TagManagerProtocol(typing.Protocol):
+    """
+    Gestor especializado en la administración de etiquetas (Tags).
+"""
     
     def create(self, name: str) -> Tag:
+        """
+        Crea una nueva etiqueta con el nombre proporcionado.
+"""
         raise NotImplementedError
     def delete(self, id: int) -> None:
+        """
+        Elimina una etiqueta de la base de datos.
+"""
         raise NotImplementedError
     def get_all(self, ) -> typing.List[Tag]:
+        """
+        Obtiene la lista completa de etiquetas registradas.
+"""
         raise NotImplementedError
     def get_all_json(self, ) -> str:
+        """
+        Obtiene todas las etiquetas en formato JSON (útil para integraciones heredadas).
+"""
         raise NotImplementedError
     def get_by_id(self, id: int) -> typing.Optional[Tag]:
+        """
+        Busca una etiqueta específica por su identificador único.
+"""
         raise NotImplementedError
     def update(self, id: int,name: str) -> None:
+        """
+        Actualiza el nombre de una etiqueta existente.
+"""
         raise NotImplementedError
 
 class TagManager(TagManagerProtocol):
+    """
+    Gestor especializado en la administración de etiquetas (Tags).
+"""
     
     _handle: ctypes.c_uint64
     
@@ -1637,6 +2721,9 @@ class TagManager(TagManagerProtocol):
         inst._handle = handle
         return inst
     def create(self, name: str) -> Tag:
+        """
+        Crea una nueva etiqueta con el nombre proporcionado.
+"""
         
         _UniffiFfiConverterString.check_lower(name)
         _uniffi_lowered_args = (
@@ -1652,6 +2739,9 @@ class TagManager(TagManagerProtocol):
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
     def delete(self, id: int) -> None:
+        """
+        Elimina una etiqueta de la base de datos.
+"""
         
         _UniffiFfiConverterInt64.check_lower(id)
         _uniffi_lowered_args = (
@@ -1667,6 +2757,9 @@ class TagManager(TagManagerProtocol):
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
     def get_all(self, ) -> typing.List[Tag]:
+        """
+        Obtiene la lista completa de etiquetas registradas.
+"""
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
         )
@@ -1679,6 +2772,9 @@ class TagManager(TagManagerProtocol):
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
     def get_all_json(self, ) -> str:
+        """
+        Obtiene todas las etiquetas en formato JSON (útil para integraciones heredadas).
+"""
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
         )
@@ -1691,6 +2787,9 @@ class TagManager(TagManagerProtocol):
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
     def get_by_id(self, id: int) -> typing.Optional[Tag]:
+        """
+        Busca una etiqueta específica por su identificador único.
+"""
         
         _UniffiFfiConverterInt64.check_lower(id)
         _uniffi_lowered_args = (
@@ -1706,6 +2805,9 @@ class TagManager(TagManagerProtocol):
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
     def update(self, id: int,name: str) -> None:
+        """
+        Actualiza el nombre de una etiqueta existente.
+"""
         
         _UniffiFfiConverterInt64.check_lower(id)
 
@@ -1757,16 +2859,32 @@ class _UniffiFfiConverterTypeTagManager:
 class MmexEngineProtocol(typing.Protocol):
     
     def accounts(self, ) -> AccountManager:
+        """
+        Accede al gestor de cuentas (Accounts).
+"""
         raise NotImplementedError
     def support(self, ) -> SupportManager:
+        """
+        Accede a utilidades de soporte y metadatos de la base de datos.
+"""
         raise NotImplementedError
     def tags(self, ) -> TagManager:
+        """
+        Accede al gestor de etiquetas (Tags).
+"""
         raise NotImplementedError
 
 class MmexEngine(MmexEngineProtocol):
     
     _handle: ctypes.c_uint64
     def __init__(self, path: str,key: typing.Optional[str]):
+        """
+        Crea una nueva instancia del motor de Money Manager EX.
+
+        # Parámetros
+        * `path` - Ruta absoluta al archivo de base de datos (.mmb).
+        * `key` - Clave opcional para bases de datos cifradas (SQLCipher).
+"""
         
         _UniffiFfiConverterString.check_lower(path)
 
@@ -1802,6 +2920,9 @@ class MmexEngine(MmexEngineProtocol):
         inst._handle = handle
         return inst
     def accounts(self, ) -> AccountManager:
+        """
+        Accede al gestor de cuentas (Accounts).
+"""
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
         )
@@ -1814,6 +2935,9 @@ class MmexEngine(MmexEngineProtocol):
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
     def support(self, ) -> SupportManager:
+        """
+        Accede a utilidades de soporte y metadatos de la base de datos.
+"""
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
         )
@@ -1826,6 +2950,9 @@ class MmexEngine(MmexEngineProtocol):
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
     def tags(self, ) -> TagManager:
+        """
+        Accede al gestor de etiquetas (Tags).
+"""
         _uniffi_lowered_args = (
             self._uniffi_clone_handle(),
         )
@@ -1880,38 +3007,19 @@ class _UniffiFfiConverterUInt8(_UniffiConverterPrimitiveInt):
     def write(value, buf):
         buf.write_u8(value)
 
-class _UniffiFfiConverterOptionalString(_UniffiConverterRustBuffer):
-    @classmethod
-    def check_lower(cls, value):
-        if value is not None:
-            _UniffiFfiConverterString.check_lower(value)
-
-    @classmethod
-    def write(cls, value, buf):
-        if value is None:
-            buf.write_u8(0)
-            return
-
-        buf.write_u8(1)
-        _UniffiFfiConverterString.write(value, buf)
-
-    @classmethod
-    def read(cls, buf):
-        flag = buf.read_u8()
-        if flag == 0:
-            return None
-        elif flag == 1:
-            return _UniffiFfiConverterString.read(buf)
-        else:
-            raise InternalError("Unexpected flag byte for optional type")
-
 __all__ = [
     "InternalError",
+    "AccountType",
+    "AccountStatus",
     "MmexError",
+    "AccountError",
     "AccountId",
+    "Money",
+    "CurrencyId",
+    "Account",
+    "AccountBalance",
     "AssetId",
     "CategoryId",
-    "CurrencyId",
     "PayeeId",
     "StockId",
     "TagId",

@@ -27,9 +27,9 @@ impl TransactionMapper {
         };
 
         let to_amount_val = if let Ok(val) = row.get::<_, f64>("TOTRANSAMOUNT") {
-            Some(Money(Decimal::from_f64(val).unwrap_or(Decimal::ZERO)))
+            Some(Money::from(Decimal::from_f64(val).unwrap_or(Decimal::ZERO)))
         } else if let Ok(s) = row.get::<_, String>("TOTRANSAMOUNT") {
-            Some(Money(Decimal::from_str(&s).unwrap_or(Decimal::ZERO)))
+            Some(Money::from(Decimal::from_str(&s).unwrap_or(Decimal::ZERO)))
         } else {
             None
         };
@@ -51,7 +51,7 @@ impl TransactionMapper {
                 v1: row.get("PAYEEID")?,
             },
             trans_code: TransactionCode::from(row.get::<_, String>("TRANSCODE")?),
-            amount: Money(amount_val),
+            amount: Money::from(amount_val),
             status: TransactionStatus::from(row.get::<_, String>("STATUS")?),
             transaction_number: row.get("TRANSACTIONNUMBER")?,
             notes: row.get("NOTES")?,
@@ -138,15 +138,16 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
                 tx.to_account_id.map(|id| id.v1),
                 tx.payee_id.v1,
                 tx.trans_code.to_string(),
-                tx.amount.0.to_string(),
+                tx.amount.v1.clone(),
                 tx.status.to_string(),
                 &tx.transaction_number,
                 &tx.notes,
                 tx.category_id.map(|id| id.v1),
                 date_str,
-                tx.to_amount.as_ref().map(|m| m.0.to_string()),
+                tx.to_amount.as_ref().map(|m| m.v1.clone()),
             ),
         )?;
+
         let last_id: i64 = self
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
@@ -167,13 +168,13 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
                 tx.to_account_id.map(|id| id.v1),
                 tx.payee_id.v1,
                 tx.trans_code.to_string(),
-                tx.amount.0.to_string(),
+                tx.amount.v1.clone(),
                 tx.status.to_string(),
                 &tx.transaction_number,
                 &tx.notes,
                 tx.category_id.map(|id| id.v1),
                 date_str,
-                tx.to_amount.as_ref().map(|m| m.0.to_string()),
+                tx.to_amount.as_ref().map(|m| m.v1.clone()),
                 tx.id.v1,
             ),
         )?;

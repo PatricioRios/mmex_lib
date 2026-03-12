@@ -12,6 +12,11 @@ pub struct MmexEngine {
 
 #[uniffi::export]
 impl MmexEngine {
+    /// Crea una nueva instancia del motor de Money Manager EX.
+    ///
+    /// # Parámetros
+    /// * `path` - Ruta absoluta al archivo de base de datos (.mmb).
+    /// * `key` - Clave opcional para bases de datos cifradas (SQLCipher).
     #[uniffi::constructor]
     pub fn new(path: String, key: Option<String>) -> Result<Arc<Self>, MmexError> {
         let ctx = MmexContext::open((&path).as_ref(), key)?;
@@ -20,18 +25,21 @@ impl MmexEngine {
         }))
     }
 
+    /// Accede al gestor de etiquetas (Tags).
     pub fn tags(&self) -> Arc<TagManager> {
         Arc::new(TagManager {
             context: self.context.clone(),
         })
     }
 
+    /// Accede al gestor de cuentas (Accounts).
     pub fn accounts(&self) -> Arc<AccountManager> {
         Arc::new(AccountManager {
             context: self.context.clone(),
         })
     }
 
+    /// Accede a utilidades de soporte y metadatos de la base de datos.
     pub fn support(&self) -> Arc<SupportManager> {
         Arc::new(SupportManager {
             context: self.context.clone(),

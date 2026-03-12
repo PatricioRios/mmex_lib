@@ -27,9 +27,9 @@ impl ScheduledMapper {
         };
 
         let to_amount_val = if let Ok(val) = row.get::<_, f64>("TOTRANSAMOUNT") {
-            Some(Money(Decimal::from_f64(val).unwrap_or(Decimal::ZERO)))
+            Some(Money::from(Decimal::from_f64(val).unwrap_or(Decimal::ZERO)))
         } else if let Ok(s) = row.get::<_, String>("TOTRANSAMOUNT") {
-            Some(Money(Decimal::from_str(&s).unwrap_or(Decimal::ZERO)))
+            Some(Money::from(Decimal::from_str(&s).unwrap_or(Decimal::ZERO)))
         } else {
             None
         };
@@ -53,7 +53,7 @@ impl ScheduledMapper {
                 v1: row.get("PAYEEID")?,
             },
             trans_code: TransactionCode::from(row.get::<_, String>("TRANSCODE")?),
-            amount: Money(amount_val),
+            amount: Money::from(amount_val),
             status: TransactionStatus::from(row.get::<_, String>("STATUS")?),
             transaction_number: row.get("TRANSACTIONNUMBER")?,
             notes: row.get("NOTES")?,
@@ -154,13 +154,13 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
                 s.to_account_id.map(|id| id.v1),
                 s.payee_id.v1,
                 s.trans_code.to_string(),
-                s.amount.0.to_string(),
+                s.amount.v1.clone(),
                 s.status.to_string(),
                 &s.transaction_number,
                 &s.notes,
                 s.category_id.map(|id| id.v1),
                 trans_date_str,
-                s.to_trans_amount.as_ref().map(|m| m.0.to_string()),
+                s.to_trans_amount.as_ref().map(|m| m.v1.clone()),
                 s.repeats,
                 next_date_str,
                 s.num_occurrences,
@@ -190,13 +190,13 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
                 s.to_account_id.map(|id| id.v1),
                 s.payee_id.v1,
                 s.trans_code.to_string(),
-                s.amount.0.to_string(),
+                s.amount.v1.clone(),
                 s.status.to_string(),
                 &s.transaction_number,
                 &s.notes,
                 s.category_id.map(|id| id.v1),
                 trans_date_str,
-                s.to_trans_amount.as_ref().map(|m| m.0.to_string()),
+                s.to_trans_amount.as_ref().map(|m| m.v1.clone()),
                 s.repeats,
                 next_date_str,
                 s.num_occurrences,

@@ -15,9 +15,12 @@ pub enum TagError {
     NameRequired,
 }
 
+/// Representa una etiqueta (Tag) para categorizar transacciones.
 #[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct Tag {
+    /// Identificador único de la etiqueta.
     pub id: TagId,
+    /// Nombre de la etiqueta.
     pub name: String,
 }
 

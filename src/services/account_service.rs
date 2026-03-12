@@ -35,28 +35,33 @@ impl<'a> AccountService<'a> {
 
         for tx in all_txs {
             if tx.account_id == id {
+                let amount = tx.amount.to_decimal();
                 match tx.trans_code {
-                    TransactionCode::Deposit => deposits += tx.amount.0,
-                    TransactionCode::Withdrawal => withdrawals += tx.amount.0,
-                    TransactionCode::Transfer => withdrawals += tx.amount.0,
+                    TransactionCode::Deposit => deposits += amount,
+                    TransactionCode::Withdrawal => withdrawals += amount,
+                    TransactionCode::Transfer => withdrawals += amount,
                     _ => {}
                 }
             } else if tx.to_account_id == Some(id) {
                 if tx.trans_code == TransactionCode::Transfer {
-                    let incoming = tx.to_amount.map(|m| m.0).unwrap_or(tx.amount.0);
+                    let incoming = tx
+                        .to_amount
+                        .as_ref()
+                        .map(|m| m.to_decimal())
+                        .unwrap_or(tx.amount.to_decimal());
                     deposits += incoming;
                 }
             }
         }
 
-        let current = account.initial_balance.0 + deposits - withdrawals;
+        let current = account.initial_balance.to_decimal() + deposits - withdrawals;
 
         Ok(AccountBalance {
             account_id: id,
             initial_balance: account.initial_balance,
-            total_deposits: Money(deposits),
-            total_withdrawals: Money(withdrawals),
-            current_balance: Money(current),
+            total_deposits: Money::from(deposits),
+            total_withdrawals: Money::from(withdrawals),
+            current_balance: Money::from(current),
         })
     }
 

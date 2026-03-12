@@ -16,11 +16,11 @@ fn test_stock_full_crud() {
         name: "Apple Inc.".to_string(),
         symbol: Some("AAPL".into()),
         num_shares: dec!(10.5),
-        purchase_price: Money(dec!(150.0)),
+        purchase_price: Money::from(dec!(150.0)),
         notes: Some("Inversión a largo plazo".into()),
-        current_price: Money(dec!(180.0)),
-        value: Money(dec!(1890.0)),
-        commission: Money(dec!(5.0)),
+        current_price: Money::from(dec!(180.0)),
+        value: Money::from(dec!(1890.0)),
+        commission: Money::from(dec!(5.0)),
     };
 
     // 1. Create
@@ -30,11 +30,11 @@ fn test_stock_full_crud() {
 
     // 2. Update
     stock.name = "Apple Inc. Updated".to_string();
-    stock.current_price = Money(dec!(190.0));
+    stock.current_price = Money::from(dec!(190.0));
     service.update_stock(&stock).expect("Failed update");
     let found = service.get_stock_by_id(stock.id).unwrap().unwrap();
     assert_eq!(found.name, "Apple Inc. Updated");
-    assert_eq!(found.current_price.0, dec!(190.0));
+    assert_eq!(found.current_price.to_decimal(), dec!(190.0));
 
     // 3. Delete
     service.delete_stock(stock.id).expect("Failed delete");

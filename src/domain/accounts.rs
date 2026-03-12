@@ -3,7 +3,7 @@ use crate::MmexError;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-#[derive(Error, Debug)]
+#[derive(uniffi::Error, Error, Debug)]
 pub enum AccountError {
     #[error("Account common error: {0}")]
     Common(#[from] MmexError),
@@ -15,7 +15,7 @@ pub enum AccountError {
     NameRequired,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(uniffi::Enum, Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum AccountType {
     Cash,
     Checking,
@@ -60,7 +60,7 @@ impl ToString for AccountType {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(uniffi::Enum, Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum AccountStatus {
     Open,
     Closed,
@@ -87,25 +87,41 @@ impl ToString for AccountStatus {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// Representa una cuenta financiera en el sistema.
+#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct Account {
+    /// Identificador único de la cuenta.
     pub id: AccountId,
+    /// Nombre descriptivo de la cuenta.
     pub name: String,
+    /// Tipo de cuenta (Ahorros, Corriente, etc.).
     pub account_type: AccountType,
+    /// Número de cuenta (opcional).
     pub account_num: Option<String>,
+    /// Estado actual de la cuenta (Abierta/Cerrada).
     pub status: AccountStatus,
+    /// Notas adicionales sobre la cuenta.
     pub notes: Option<String>,
+    /// Saldo inicial al crear la cuenta.
     pub initial_balance: Money,
+    /// Moneda asociada a la cuenta.
     pub currency_id: CurrencyId,
+    /// Indica si la cuenta es una de las favoritas del usuario.
     pub favorite: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+/// Resume el estado financiero actual de una cuenta.
+#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct AccountBalance {
+    /// Identificador de la cuenta.
     pub account_id: AccountId,
+    /// Saldo con el que se inició la cuenta.
     pub initial_balance: Money,
+    /// Suma total de todos los depósitos realizados.
     pub total_deposits: Money,
+    /// Suma total de todos los retiros y gastos realizados.
     pub total_withdrawals: Money,
+    /// Saldo neto actual calculado.
     pub current_balance: Money,
 }
 

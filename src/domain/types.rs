@@ -68,18 +68,25 @@ impl fmt::Display for CurrencyId {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-pub struct Money(pub Decimal);
+#[derive(uniffi::Record, Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+pub struct Money {
+    pub v1: String,
+}
 
 impl From<Decimal> for Money {
     fn from(d: Decimal) -> Self {
-        Self(d)
+        Self { v1: d.to_string() }
     }
 }
 
 impl Money {
+    pub fn to_decimal(&self) -> Decimal {
+        use std::str::FromStr;
+        Decimal::from_str(&self.v1).unwrap_or(Decimal::ZERO)
+    }
+
     pub fn to_f64(&self) -> f64 {
         use rust_decimal::prelude::ToPrimitive;
-        self.0.to_f64().unwrap_or(0.0)
+        self.to_decimal().to_f64().unwrap_or(0.0)
     }
 }

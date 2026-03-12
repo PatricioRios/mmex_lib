@@ -19,7 +19,7 @@ fn test_transaction_splits_integration() {
         to_account_id: None,
         payee_id: PayeeId { v1: 1 },
         trans_code: TransactionCode::Withdrawal,
-        amount: Money(dec!(100.0)),
+        amount: Money::from(dec!(100.0)),
         status: TransactionStatus::None,
         transaction_number: None,
         notes: None,
@@ -34,14 +34,14 @@ fn test_transaction_splits_integration() {
         id: 0,
         transaction_id: created_tx.id,
         category_id: Some(CategoryId { v1: 10 }),
-        amount: Money(dec!(60.0)),
+        amount: Money::from(dec!(60.0)),
         notes: Some("Comida".into()),
     };
     let split2 = SplitTransaction {
         id: 0,
         transaction_id: created_tx.id,
         category_id: Some(CategoryId { v1: 11 }),
-        amount: Money(dec!(40.0)),
+        amount: Money::from(dec!(40.0)),
         notes: Some("Bebida".into()),
     };
 
@@ -51,7 +51,7 @@ fn test_transaction_splits_integration() {
     // 3. Verificar recuperación
     let splits = service.get_splits_for_transaction(created_tx.id).unwrap();
     assert_eq!(splits.len(), 2);
-    assert_eq!(splits[0].amount.0, dec!(60.0));
+    assert_eq!(splits[0].amount.to_decimal(), dec!(60.0));
 
     // 4. Borrar transacción y verificar borrado de splits
     service.delete_transaction(created_tx.id).unwrap();

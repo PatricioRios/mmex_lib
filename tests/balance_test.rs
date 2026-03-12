@@ -19,7 +19,7 @@ fn test_account_balance_calculation() {
         account_num: None,
         status: AccountStatus::Open,
         notes: None,
-        initial_balance: Money(dec!(1000.0)),
+        initial_balance: Money::from(dec!(1000.0)),
         currency_id: mmex_lib::domain::currencies::CurrencyId { v1: 1 },
         favorite: false,
     };
@@ -33,7 +33,7 @@ fn test_account_balance_calculation() {
         account_num: None,
         status: AccountStatus::Open,
         notes: None,
-        initial_balance: Money(dec!(0.0)),
+        initial_balance: Money::from(dec!(0.0)),
         currency_id: mmex_lib::domain::currencies::CurrencyId { v1: 1 },
         favorite: false,
     };
@@ -49,7 +49,7 @@ fn test_account_balance_calculation() {
             to_account_id: None,
             payee_id: PayeeId { v1: 1 },
             trans_code: TransactionCode::Deposit,
-            amount: Money(dec!(500.0)),
+            amount: Money::from(dec!(500.0)),
             status: TransactionStatus::None,
             transaction_number: None,
             notes: None,
@@ -67,7 +67,7 @@ fn test_account_balance_calculation() {
             to_account_id: None,
             payee_id: PayeeId { v1: 1 },
             trans_code: TransactionCode::Withdrawal,
-            amount: Money(dec!(200.0)),
+            amount: Money::from(dec!(200.0)),
             status: TransactionStatus::None,
             transaction_number: None,
             notes: None,
@@ -85,7 +85,7 @@ fn test_account_balance_calculation() {
             to_account_id: Some(AccountId { v1: 1 }),
             payee_id: PayeeId { v1: 1 },
             trans_code: TransactionCode::Transfer,
-            amount: Money(dec!(300.0)),
+            amount: Money::from(dec!(300.0)),
             status: TransactionStatus::None,
             transaction_number: None,
             notes: None,
@@ -103,7 +103,7 @@ fn test_account_balance_calculation() {
             to_account_id: Some(AccountId { v1: 2 }),
             payee_id: PayeeId { v1: 1 },
             trans_code: TransactionCode::Transfer,
-            amount: Money(dec!(100.0)),
+            amount: Money::from(dec!(100.0)),
             status: TransactionStatus::None,
             transaction_number: None,
             notes: None,
@@ -119,7 +119,7 @@ fn test_account_balance_calculation() {
         .expect("Failed to calculate balance");
 
     // Balance esperado: 1000 (init) + 500 (dep) - 200 (with) + 300 (trans in) - 100 (trans out) = 1500
-    assert_eq!(balance.current_balance.0, dec!(1500.0));
-    assert_eq!(balance.total_deposits.0, dec!(800.0)); // 500 + 300
-    assert_eq!(balance.total_withdrawals.0, dec!(300.0)); // 200 + 100
+    assert_eq!(balance.current_balance.to_decimal(), dec!(1500.0));
+    assert_eq!(balance.total_deposits.to_decimal(), dec!(800.0)); // 500 + 300
+    assert_eq!(balance.total_withdrawals.to_decimal(), dec!(300.0)); // 200 + 100
 }

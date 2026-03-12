@@ -16,7 +16,7 @@ fn test_asset_full_crud() {
         status: AssetStatus::Open,
         currency_id: Some(mmex_lib::domain::currencies::CurrencyId { v1: 1 }),
         value_change_mode: Some("Linear".into()),
-        value: Money(dec!(250000.0)),
+        value: Money::from(dec!(250000.0)),
         value_change: Some("Appreciates".into()),
         notes: Some("Inversión inmobiliaria".into()),
         value_change_rate: 5.0,
@@ -30,11 +30,11 @@ fn test_asset_full_crud() {
 
     // 2. Update
     asset.name = "Casa de Playa Actualizada".to_string();
-    asset.value = Money(dec!(260000.0));
+    asset.value = Money::from(dec!(260000.0));
     service.update_asset(&asset).expect("Failed update");
     let found = service.get_asset_by_id(asset.id).unwrap().unwrap();
     assert_eq!(found.name, "Casa de Playa Actualizada");
-    assert_eq!(found.value.0, dec!(260000.0));
+    assert_eq!(found.value.to_decimal(), dec!(260000.0));
 
     // 3. Delete
     service.delete_asset(asset.id).expect("Failed delete");

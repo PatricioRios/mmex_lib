@@ -3,7 +3,7 @@ from mmex_lib import *
 
 
 def main():
-    db_path = "personal_finance.mmb"
+    db_path = "cp_of_personal_finance.mmb"
 
     if not os.path.exists(db_path) or os.path.getsize(db_path) == 0:
         print(f"Error: No se encontró '{db_path}' o está vacío.")
@@ -21,39 +21,53 @@ def main():
         # Support
         print(f"DB Version: {support_manager.get_db_version()}")
 
-        # 1. Obtener todos los tags como objetos
+        # --- TAGS ---
+        print("\n--- GESTIÓN DE TAGS ---")
         tags = tag_manager.get_all()
-        print(f"\nTags encontrados ({len(tags)}):")
+        print(f"Tags encontrados ({len(tags)}):")
         for tag in tags:
             print(f"- ID: {tag.id.v1}, Name: {tag.name}")
 
-        # 2. Crear un nuevo tag
-        new_tag_name = "Test Namespaced Tag"
-        print(f"\nCreando tag: '{new_tag_name}'...")
-        new_tag = tag_manager.create(new_tag_name)
-        print(f"Creado: ID={new_tag.id.v1}, Name={new_tag.name}")
+        # --- ACCOUNTS ---
+        print("\n--- GESTIÓN DE CUENTAS ---")
+        accounts = account_manager.get_all()
+        print(f"Cuentas encontradas ({len(accounts)}):")
+        for acc in accounts:
+            acc_type_name = type(acc.account_type).__name__
+            print(f"- [{acc.id.v1}] {acc.name} ({acc_type_name})")
 
-        # 3. Actualizar el tag
-        print(f"Actualizando tag {new_tag.id.v1}...")
-        tag_manager.update(new_tag.id.v1, "Namespaced Tag Updated")
+            # Obtener balance de la cuenta
+            balance = account_manager.get_balance(acc.id.v1)
+            print(
+                f"  Balance: {balance.current_balance.v1} (Inicial: {balance.initial_balance.v1})"
+            )
+            if acc.name == "MercadoPago":
+                print("  Detalles de Mercado Pago:")
+                print(f"    - Currency ID: {acc.currency_id.v1}")
+                print(f"    - Status: {acc.status}")
+                print(f"    - Notes: {acc.notes}")
+                print("\n")
+                print("\n")
+                print(f"    - balance From function of service: {account_manager.get_balance(acc.id.v1)}")
+                print("\n")
+                print("\n")
 
-        # 4. Obtener por ID
-        updated_tag = tag_manager.get_by_id(new_tag.id.v1)
-        if updated_tag:
-            print(f"Tag actualizado: Name={updated_tag.name}")
 
-        # 5. Cuentas (JSON por ahora)
-        accounts_json = account_manager.get_all_json()
-        print("\nCuentas (JSON):")
-        print(accounts_json[:100] + "...")
 
-        # 6. Borrar el tag
-        print(f"\nBorrando tag {new_tag.id.v1}...")
-        tag_manager.delete(new_tag.id.v1)
-
-        # Verificar borrado
-        if tag_manager.get_by_id(new_tag.id.v1) is None:
-            print("Tag borrado exitosamente.")
+        # Ejemplo de creación de cuenta (comentado para no alterar la DB permanentemente)
+        # new_acc = Account(
+        #     id=AccountId(v1=0),
+        #     name="Nueva Cuenta UniFFI",
+        #     account_type=AccountType.CHECKING,
+        #     account_num=None,
+        #     status=AccountStatus.OPEN,
+        #     notes="Creada desde Python",
+        #     initial_balance=Money(v1="1500.50"),
+        #     currency_id=CurrencyId(v1=1),
+        #     favorite=False
+        # )
+        # created = account_manager.create(new_acc)
+        # print(f"\nCreada cuenta: {created.name} con ID {created.id.v1}")
 
     except MmexError.Database as e:
         print(f"Error de base de datos: {e}")

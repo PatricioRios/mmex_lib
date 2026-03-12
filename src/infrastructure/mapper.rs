@@ -31,7 +31,7 @@ impl AccountMapper {
             account_num: row.get("ACCOUNTNUM")?,
             status: AccountStatus::from(status_str),
             notes: row.get("NOTES")?,
-            initial_balance: Money(initial_bal),
+            initial_balance: Money::from(initial_bal),
             currency_id: CurrencyId {
                 v1: row.get("CURRENCYID")?,
             },

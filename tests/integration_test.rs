@@ -16,7 +16,7 @@ fn test_account_full_crud() {
         account_num: None,
         status: AccountStatus::Open,
         notes: None,
-        initial_balance: Money(dec!(100.0)),
+        initial_balance: Money::from(dec!(100.0)),
         currency_id: CurrencyId { v1: 1 },
         favorite: false,
     };
