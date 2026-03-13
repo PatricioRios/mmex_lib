@@ -1,5 +1,5 @@
 use crate::api::MmexContext;
-use crate::domain::categories::{Category, CategoryId};
+use crate::domain::categories::{Category, CategoryError, CategoryId};
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
@@ -12,68 +12,69 @@ pub struct CategoryManager {
 #[uniffi::export]
 impl CategoryManager {
     /// Obtiene la lista completa de categorías registradas.
-    pub fn get_all(&self) -> Result<Vec<Category>, MmexError> {
+    pub fn get_all(&self) -> Result<Vec<Category>, CategoryError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| CategoryError::Common(MmexError::Internal(e.to_string())))?;
         Ok(ctx.categories().get_all_categories()?)
     }
 
     /// Busca una categoría específica por su identificador único.
-    pub fn get_by_id(&self, id: i64) -> Result<Option<Category>, MmexError> {
+    pub fn get_by_id(&self, id: i64) -> Result<Option<Category>, CategoryError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| CategoryError::Common(MmexError::Internal(e.to_string())))?;
         Ok(ctx.categories().get_category_by_id(CategoryId { v1: id })?)
     }
 
     /// Obtiene las subcategorías asociadas a una categoría padre.
-    pub fn get_subcategories(&self, parent_id: i64) -> Result<Vec<Category>, MmexError> {
+    pub fn get_subcategories(&self, parent_id: i64) -> Result<Vec<Category>, CategoryError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| CategoryError::Common(MmexError::Internal(e.to_string())))?;
         Ok(ctx
             .categories()
             .get_subcategories(CategoryId { v1: parent_id })?)
     }
 
     /// Crea una nueva categoría con el nombre y padre opcional proporcionados.
-    pub fn create(&self, name: String, parent_id: Option<i64>) -> Result<Category, MmexError> {
+    pub fn create(&self, name: String, parent_id: Option<i64>) -> Result<Category, CategoryError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| CategoryError::Common(MmexError::Internal(e.to_string())))?;
         Ok(ctx
             .categories()
             .create_category(&name, parent_id.map(|v| CategoryId { v1: v }))?)
     }
 
     /// Actualiza la información de una categoría existente.
-    pub fn update(&self, category: Category) -> Result<(), MmexError> {
+    pub fn update(&self, category: Category) -> Result<(), CategoryError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| CategoryError::Common(MmexError::Internal(e.to_string())))?;
         ctx.categories().update_category(&category)?;
         Ok(())
     }
 
     /// Elimina una categoría de la base de datos.
-    pub fn delete(&self, id: i64) -> Result<(), MmexError> {
+    pub fn delete(&self, id: i64) -> Result<(), CategoryError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| CategoryError::Common(MmexError::Internal(e.to_string())))?;
         ctx.categories().delete_category(CategoryId { v1: id })?;
         Ok(())
     }
 
     /// Obtiene todas las categorías en formato JSON.
-    pub fn get_all_json(&self) -> Result<String, MmexError> {
+    pub fn get_all_json(&self) -> Result<String, CategoryError> {
         let categories = self.get_all()?;
-        serde_json::to_string(&categories).map_err(|e| MmexError::Internal(e.to_string()))
+        serde_json::to_string(&categories)
+            .map_err(|e| CategoryError::Common(MmexError::Internal(e.to_string())))
     }
 }

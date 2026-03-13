@@ -41,4 +41,31 @@ impl<'a> TagService<'a> {
         let repo = SqlTagRepository::new(self.conn);
         repo.delete(id)
     }
+
+    // Funciones de vinculación expuestas
+
+    pub fn get_for_reference(&self, ref_type: &str, ref_id: i64) -> Result<Vec<Tag>, TagError> {
+        let repo = SqlTagRepository::new(self.conn);
+        repo.find_for_reference(ref_type, ref_id)
+    }
+
+    pub fn link_to_reference(
+        &self,
+        ref_type: &str,
+        ref_id: i64,
+        tag_id: TagId,
+    ) -> Result<(), TagError> {
+        let repo = SqlTagRepository::new(self.conn);
+        repo.link_to_reference(ref_type, ref_id, tag_id)
+    }
+
+    pub fn unlink_from_reference(
+        &self,
+        ref_type: &str,
+        ref_id: i64,
+        tag_id: TagId,
+    ) -> Result<(), TagError> {
+        let repo = SqlTagRepository::new(self.conn);
+        repo.unlink_from_reference(ref_type, ref_id, tag_id)
+    }
 }

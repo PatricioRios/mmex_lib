@@ -6,6 +6,7 @@ use mmex_lib::domain::transactions::{
 };
 use mmex_lib::domain::types::{AccountId, Money};
 use rust_decimal_macros::dec;
+use mmex_lib::domain::MmexDate;
 
 #[test]
 fn test_transaction_full_crud() {
@@ -23,7 +24,7 @@ fn test_transaction_full_crud() {
         transaction_number: None,
         notes: None,
         category_id: None,
-        date: Some(NaiveDate::from_ymd_opt(2026, 2, 25).unwrap()),
+        date: Some(MmexDate::from(NaiveDate::from_ymd_opt(2026, 2, 25).unwrap())),
         to_amount: None,
     };
 

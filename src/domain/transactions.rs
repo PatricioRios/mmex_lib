@@ -4,7 +4,7 @@ use crate::MmexError;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-#[derive(Error, Debug)]
+#[derive(uniffi::Error, Error, Debug)]
 pub enum TransactionError {
     #[error("Transaction common error: {0}")]
     Common(#[from] MmexError),

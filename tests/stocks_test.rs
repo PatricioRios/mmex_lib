@@ -3,6 +3,7 @@ use chrono::NaiveDate;
 use mmex_lib::domain::stocks::{Stock, StockId};
 use mmex_lib::domain::types::Money;
 use rust_decimal_macros::dec;
+use mmex_lib::domain::MmexDate;
 
 #[test]
 fn test_stock_full_crud() {
@@ -12,10 +13,10 @@ fn test_stock_full_crud() {
     let mut stock = Stock {
         id: StockId { v1: 0 },
         held_at: 1, // Referencia a cuenta
-        purchase_date: NaiveDate::from_ymd_opt(2023, 5, 10).unwrap(),
+        purchase_date: MmexDate::from(NaiveDate::from_ymd_opt(2023, 5, 10).unwrap()),
         name: "Apple Inc.".to_string(),
         symbol: Some("AAPL".into()),
-        num_shares: dec!(10.5),
+        num_shares: Money::from(dec!(10.5)),
         purchase_price: Money::from(dec!(150.0)),
         notes: Some("Inversión a largo plazo".into()),
         current_price: Money::from(dec!(180.0)),

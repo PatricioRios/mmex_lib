@@ -3,6 +3,7 @@ use chrono::NaiveDate;
 use mmex_lib::domain::assets::{Asset, AssetId, AssetStatus};
 use mmex_lib::domain::types::Money;
 use rust_decimal_macros::dec;
+use mmex_lib::domain::MmexDate;
 
 #[test]
 fn test_asset_full_crud() {
@@ -12,7 +13,7 @@ fn test_asset_full_crud() {
     let mut asset = Asset {
         id: AssetId { v1: 0 },
         name: "Casa de Playa".to_string(),
-        start_date: NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
+        start_date: MmexDate::from(NaiveDate::from_ymd_opt(2020, 1, 1).unwrap()),
         status: AssetStatus::Open,
         currency_id: Some(mmex_lib::domain::currencies::CurrencyId { v1: 1 }),
         value_change_mode: Some("Linear".into()),

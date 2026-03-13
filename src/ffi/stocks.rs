@@ -1,5 +1,5 @@
 use crate::api::MmexContext;
-use crate::domain::stocks::{Stock, StockId};
+use crate::domain::stocks::{Stock, StockError, StockId};
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
@@ -12,55 +12,56 @@ pub struct StockManager {
 #[uniffi::export]
 impl StockManager {
     /// Obtiene la lista completa de acciones/valores registrados.
-    pub fn get_all(&self) -> Result<Vec<Stock>, MmexError> {
+    pub fn get_all(&self) -> Result<Vec<Stock>, StockError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| StockError::Common(MmexError::Internal(e.to_string())))?;
         Ok(ctx.stocks().get_all_stocks()?)
     }
 
     /// Busca un valor específico por su identificador único.
-    pub fn get_by_id(&self, id: i64) -> Result<Option<Stock>, MmexError> {
+    pub fn get_by_id(&self, id: i64) -> Result<Option<Stock>, StockError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| StockError::Common(MmexError::Internal(e.to_string())))?;
         Ok(ctx.stocks().get_stock_by_id(StockId { v1: id })?)
     }
 
     /// Registra un nuevo valor en la base de datos.
-    pub fn create(&self, stock: Stock) -> Result<Stock, MmexError> {
+    pub fn create(&self, stock: Stock) -> Result<Stock, StockError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| StockError::Common(MmexError::Internal(e.to_string())))?;
         Ok(ctx.stocks().create_stock(&stock)?)
     }
 
     /// Actualiza la información de un valor existente.
-    pub fn update(&self, stock: Stock) -> Result<(), MmexError> {
+    pub fn update(&self, stock: Stock) -> Result<(), StockError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| StockError::Common(MmexError::Internal(e.to_string())))?;
         ctx.stocks().update_stock(&stock)?;
         Ok(())
     }
 
     /// Elimina un valor de la base de datos.
-    pub fn delete(&self, id: i64) -> Result<(), MmexError> {
+    pub fn delete(&self, id: i64) -> Result<(), StockError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| StockError::Common(MmexError::Internal(e.to_string())))?;
         ctx.stocks().delete_stock(StockId { v1: id })?;
         Ok(())
     }
 
     /// Obtiene todos los valores en formato JSON.
-    pub fn get_all_json(&self) -> Result<String, MmexError> {
+    pub fn get_all_json(&self) -> Result<String, StockError> {
         let stocks = self.get_all()?;
-        serde_json::to_string(&stocks).map_err(|e| MmexError::Internal(e.to_string()))
+        serde_json::to_string(&stocks)
+            .map_err(|e| StockError::Common(MmexError::Internal(e.to_string())))
     }
 }

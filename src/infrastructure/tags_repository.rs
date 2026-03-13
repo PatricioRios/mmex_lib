@@ -1,5 +1,5 @@
 use rusqlite::Row;
-use sea_query::{Expr, JoinType, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, JoinType, Query, SqliteQueryBuilder};
 
 use crate::domain::tags::{Tag, TagError, TagId, TagRepository};
 use crate::infrastructure::db_executor::DbExecutor;
@@ -10,9 +10,7 @@ pub struct TagMapper;
 impl TagMapper {
     pub fn map_row(row: &Row) -> rusqlite::Result<Tag> {
         Ok(Tag {
-            id: TagId {
-                v1: row.get("TAGID")?,
-            },
+            id: TagId::new(row.get("TAGID")?),
             name: row.get("TAGNAME")?,
         })
     }
@@ -32,9 +30,9 @@ impl<'a, E: DbExecutor> TagRepository for SqlTagRepository<'a, E> {
     fn find_all(&self) -> Result<Vec<Tag>, TagError> {
         let (sql, _) = Query::select()
             .columns(["TAGID", "TAGNAME"])
-            .from_as("TAG_V1", "t")
+            .from(Alias::new("TAG_V1"))
+            .and_where(Expr::col(Alias::new("ACTIVE")).eq(1))
             .build(SqliteQueryBuilder);
-
         Ok(self
             .executor
             .query_map_ext(&sql, [], |row| TagMapper::map_row(row))?)
@@ -43,8 +41,8 @@ impl<'a, E: DbExecutor> TagRepository for SqlTagRepository<'a, E> {
     fn find_by_id(&self, id: TagId) -> Result<Option<Tag>, TagError> {
         let (sql, _) = Query::select()
             .columns(["TAGID", "TAGNAME"])
-            .from_as("TAG_V1", "t")
-            .and_where(Expr::col("TAGID").eq(id.v1))
+            .from(Alias::new("TAG_V1"))
+            .and_where(Expr::col(Alias::new("TAGID")).eq(id.v1))
             .build(SqliteQueryBuilder);
 
         match self
@@ -60,11 +58,13 @@ impl<'a, E: DbExecutor> TagRepository for SqlTagRepository<'a, E> {
     fn insert(&self, name: &str) -> Result<Tag, TagError> {
         let sql = "INSERT INTO TAG_V1 (TAGNAME, ACTIVE) VALUES (?, 1)";
         self.executor.execute_ext(sql, [name])?;
+
         let last_id: i64 = self
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
+
         Ok(Tag {
-            id: TagId { v1: last_id },
+            id: TagId::new(last_id),
             name: name.to_string(),
         })
     }
@@ -85,22 +85,24 @@ impl<'a, E: DbExecutor> TagRepository for SqlTagRepository<'a, E> {
 
     fn find_for_reference(&self, ref_type: &str, ref_id: i64) -> Result<Vec<Tag>, TagError> {
         let (sql, _) = Query::select()
-            .columns([("t", "TAGID"), ("t", "TAGNAME")])
-            .from_as("TAG_V1", "t")
+            .columns([
+                (Alias::new("t"), Alias::new("TAGID")),
+                (Alias::new("t"), Alias::new("TAGNAME")),
+            ])
+            .from_as(Alias::new("TAG_V1"), Alias::new("t"))
             .join(
                 JoinType::InnerJoin,
-                "TAGLINK_V1",
-                Expr::col(("TAGLINK_V1", "TAGID")).equals(("t", "TAGID")),
+                Alias::new("TAGLINK_V1"),
+                Expr::col((Alias::new("TAGLINK_V1"), Alias::new("TAGID")))
+                    .equals((Alias::new("t"), Alias::new("TAGID"))),
             )
-            .and_where(Expr::col(("TAGLINK_V1", "REFTYPE")).eq(ref_type))
-            .and_where(Expr::col(("TAGLINK_V1", "REFID")).eq(ref_id))
+            .and_where(Expr::col((Alias::new("TAGLINK_V1"), Alias::new("REFTYPE"))).eq(ref_type))
+            .and_where(Expr::col((Alias::new("TAGLINK_V1"), Alias::new("REFID"))).eq(ref_id))
             .build(SqliteQueryBuilder);
 
         Ok(self
             .executor
-            .query_map_ext(&sql, [ref_type, &ref_id.to_string()], |row| {
-                TagMapper::map_row(row)
-            })?)
+            .query_map_ext(&sql, (ref_type, ref_id), |row| TagMapper::map_row(row))?)
     }
 
     fn link_to_reference(

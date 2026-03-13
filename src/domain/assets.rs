@@ -1,9 +1,9 @@
-pub use crate::domain::types::{ AssetId, CurrencyId, MmexDate, Money};
+pub use crate::domain::types::{AssetId, CurrencyId, MmexDate, Money};
 use crate::MmexError;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-#[derive(Error, Debug)]
+#[derive(uniffi::Error, Error, Debug)]
 pub enum AssetError {
     #[error("Asset common error: {0}")]
     Common(#[from] MmexError),

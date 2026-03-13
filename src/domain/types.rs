@@ -7,6 +7,12 @@ pub struct AccountId {
     pub v1: i64,
 }
 
+impl AccountId {
+    pub fn new(v1: i64) -> Self {
+        Self { v1 }
+    }
+}
+
 impl fmt::Display for AccountId {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.v1)
@@ -16,6 +22,12 @@ impl fmt::Display for AccountId {
 #[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct TransactionId {
     pub v1: i64,
+}
+
+impl TransactionId {
+    pub fn new(v1: i64) -> Self {
+        Self { v1 }
+    }
 }
 
 impl fmt::Display for TransactionId {
@@ -29,6 +41,12 @@ pub struct TagId {
     pub v1: i64,
 }
 
+impl TagId {
+    pub fn new(v1: i64) -> Self {
+        Self { v1 }
+    }
+}
+
 impl fmt::Display for TagId {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.v1)
@@ -38,6 +56,12 @@ impl fmt::Display for TagId {
 #[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct PayeeId {
     pub v1: i64,
+}
+
+impl PayeeId {
+    pub fn new(v1: i64) -> Self {
+        Self { v1 }
+    }
 }
 
 impl fmt::Display for PayeeId {
@@ -51,6 +75,12 @@ pub struct CategoryId {
     pub v1: i64,
 }
 
+impl CategoryId {
+    pub fn new(v1: i64) -> Self {
+        Self { v1 }
+    }
+}
+
 impl fmt::Display for CategoryId {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.v1)
@@ -60,6 +90,12 @@ impl fmt::Display for CategoryId {
 #[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct CurrencyId {
     pub v1: i64,
+}
+
+impl CurrencyId {
+    pub fn new(v1: i64) -> Self {
+        Self { v1 }
+    }
 }
 
 impl fmt::Display for CurrencyId {
@@ -92,6 +128,12 @@ pub struct StockId {
     pub v1: i64,
 }
 
+impl StockId {
+    pub fn new(v1: i64) -> Self {
+        Self { v1 }
+    }
+}
+
 impl fmt::Display for StockId {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.v1)
@@ -101,6 +143,12 @@ impl fmt::Display for StockId {
 #[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct AssetId {
     pub v1: i64,
+}
+
+impl AssetId {
+    pub fn new(v1: i64) -> Self {
+        Self { v1 }
+    }
 }
 
 impl fmt::Display for AssetId {

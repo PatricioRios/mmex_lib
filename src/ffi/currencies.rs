@@ -1,5 +1,5 @@
 use crate::api::MmexContext;
-use crate::domain::currencies::{Currency, CurrencyId};
+use crate::domain::currencies::{Currency, CurrencyError, CurrencyId};
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
@@ -12,64 +12,65 @@ pub struct CurrencyManager {
 #[uniffi::export]
 impl CurrencyManager {
     /// Obtiene la lista completa de monedas registradas.
-    pub fn get_all(&self) -> Result<Vec<Currency>, MmexError> {
+    pub fn get_all(&self) -> Result<Vec<Currency>, CurrencyError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| CurrencyError::Common(MmexError::Internal(e.to_string())))?;
         Ok(ctx.currencies().get_all_currencies()?)
     }
 
     /// Busca una moneda específica por su identificador único.
-    pub fn get_by_id(&self, id: i64) -> Result<Option<Currency>, MmexError> {
+    pub fn get_by_id(&self, id: i64) -> Result<Option<Currency>, CurrencyError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| CurrencyError::Common(MmexError::Internal(e.to_string())))?;
         Ok(ctx.currencies().get_currency_by_id(CurrencyId { v1: id })?)
     }
 
     /// Busca una moneda por su símbolo (ej: "USD").
-    pub fn get_by_symbol(&self, symbol: String) -> Result<Option<Currency>, MmexError> {
+    pub fn get_by_symbol(&self, symbol: String) -> Result<Option<Currency>, CurrencyError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| CurrencyError::Common(MmexError::Internal(e.to_string())))?;
         Ok(ctx.currencies().get_currency_by_symbol(&symbol)?)
     }
 
     /// Crea una nueva moneda en la base de datos.
-    pub fn create(&self, currency: Currency) -> Result<Currency, MmexError> {
+    pub fn create(&self, currency: Currency) -> Result<Currency, CurrencyError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| CurrencyError::Common(MmexError::Internal(e.to_string())))?;
         Ok(ctx.currencies().create_currency(&currency)?)
     }
 
     /// Actualiza la información de una moneda existente.
-    pub fn update(&self, currency: Currency) -> Result<(), MmexError> {
+    pub fn update(&self, currency: Currency) -> Result<(), CurrencyError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| CurrencyError::Common(MmexError::Internal(e.to_string())))?;
         ctx.currencies().update_currency(&currency)?;
         Ok(())
     }
 
     /// Elimina una moneda de la base de datos.
-    pub fn delete(&self, id: i64) -> Result<(), MmexError> {
+    pub fn delete(&self, id: i64) -> Result<(), CurrencyError> {
         let ctx = self
             .context
             .lock()
-            .map_err(|e| MmexError::Internal(e.to_string()))?;
+            .map_err(|e| CurrencyError::Common(MmexError::Internal(e.to_string())))?;
         ctx.currencies().delete_currency(CurrencyId { v1: id })?;
         Ok(())
     }
 
     /// Obtiene todas las monedas en formato JSON.
-    pub fn get_all_json(&self) -> Result<String, MmexError> {
+    pub fn get_all_json(&self) -> Result<String, CurrencyError> {
         let currencies = self.get_all()?;
-        serde_json::to_string(&currencies).map_err(|e| MmexError::Internal(e.to_string()))
+        serde_json::to_string(&currencies)
+            .map_err(|e| CurrencyError::Common(MmexError::Internal(e.to_string())))
     }
 }

@@ -5,6 +5,7 @@ use mmex_lib::domain::scheduled_transactions::ScheduledTransaction;
 use mmex_lib::domain::transactions::{TransactionCode, TransactionStatus};
 use mmex_lib::domain::types::{AccountId, Money};
 use rust_decimal_macros::dec;
+use mmex_lib::domain::MmexDate;
 
 #[test]
 fn test_scheduled_full_crud() {
@@ -22,8 +23,8 @@ fn test_scheduled_full_crud() {
         transaction_number: None,
         notes: Some("Gimnasio".into()),
         category_id: None,
-        trans_date: Some(NaiveDate::from_ymd_opt(2026, 3, 1).unwrap()),
-        next_occurrence_date: Some(NaiveDate::from_ymd_opt(2026, 4, 1).unwrap()),
+        trans_date: Some(MmexDate::from(NaiveDate::from_ymd_opt(2026, 3, 1).unwrap())),
+        next_occurrence_date: Some(MmexDate::from(NaiveDate::from_ymd_opt(2026, 4, 1).unwrap())),
         repeats: 1, // Monthly
         num_occurrences: 12,
         to_trans_amount: None,

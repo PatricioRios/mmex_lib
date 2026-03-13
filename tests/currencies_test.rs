@@ -1,6 +1,7 @@
 mod common;
 use mmex_lib::domain::currencies::{Currency, CurrencyId};
 use rust_decimal_macros::dec;
+use mmex_lib::domain::Money;
 
 #[test]
 fn test_currency_full_crud() {
@@ -17,7 +18,7 @@ fn test_currency_full_crud() {
         unit_name: None,
         cent_name: None,
         scale: 100,
-        base_conv_rate: dec!(1.0),
+        base_conv_rate: Money::from(dec!(1.0)),
         symbol: "TST".to_string(),
         currency_type: "Fiat".to_string(),
     };

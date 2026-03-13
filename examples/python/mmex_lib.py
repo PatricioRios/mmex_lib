@@ -478,61 +478,61 @@ def _uniffi_check_contract_api_version(lib):
         raise InternalError("UniFFI contract version mismatch: try cleaning and rebuilding your project")
 
 def _uniffi_check_api_checksums(lib):
-    if lib.uniffi_mmex_lib_checksum_method_accountmanager_create() != 40302:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_create() != 38827:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_accountmanager_delete() != 28049:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_delete() != 27237:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_all() != 51972:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_all() != 57316:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_all_json() != 23589:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_all_json() != 30065:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_balance() != 24544:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_balance() != 26962:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_balance_json() != 21318:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_balance_json() != 55374:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_by_id() != 22381:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_get_by_id() != 54182:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_accountmanager_update() != 46249:
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_update() != 4980:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_assetmanager_create() != 2583:
+    if lib.uniffi_mmex_lib_checksum_method_assetmanager_create() != 58176:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_assetmanager_delete() != 6770:
+    if lib.uniffi_mmex_lib_checksum_method_assetmanager_delete() != 42196:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_assetmanager_get_all() != 2496:
+    if lib.uniffi_mmex_lib_checksum_method_assetmanager_get_all() != 3032:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_assetmanager_get_all_json() != 37236:
+    if lib.uniffi_mmex_lib_checksum_method_assetmanager_get_all_json() != 43011:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_assetmanager_get_by_id() != 63344:
+    if lib.uniffi_mmex_lib_checksum_method_assetmanager_get_by_id() != 33449:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_assetmanager_update() != 50678:
+    if lib.uniffi_mmex_lib_checksum_method_assetmanager_update() != 38475:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_categorymanager_create() != 18092:
+    if lib.uniffi_mmex_lib_checksum_method_categorymanager_create() != 32119:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_categorymanager_delete() != 34750:
+    if lib.uniffi_mmex_lib_checksum_method_categorymanager_delete() != 4566:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_categorymanager_get_all() != 50464:
+    if lib.uniffi_mmex_lib_checksum_method_categorymanager_get_all() != 21535:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_categorymanager_get_all_json() != 35500:
+    if lib.uniffi_mmex_lib_checksum_method_categorymanager_get_all_json() != 16297:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_categorymanager_get_by_id() != 42336:
+    if lib.uniffi_mmex_lib_checksum_method_categorymanager_get_by_id() != 42194:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_categorymanager_get_subcategories() != 49246:
+    if lib.uniffi_mmex_lib_checksum_method_categorymanager_get_subcategories() != 42659:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_categorymanager_update() != 12392:
+    if lib.uniffi_mmex_lib_checksum_method_categorymanager_update() != 337:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_currencymanager_create() != 6603:
+    if lib.uniffi_mmex_lib_checksum_method_currencymanager_create() != 53132:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_currencymanager_delete() != 50954:
+    if lib.uniffi_mmex_lib_checksum_method_currencymanager_delete() != 39782:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_currencymanager_get_all() != 35996:
+    if lib.uniffi_mmex_lib_checksum_method_currencymanager_get_all() != 42255:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_currencymanager_get_all_json() != 50517:
+    if lib.uniffi_mmex_lib_checksum_method_currencymanager_get_all_json() != 37377:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_currencymanager_get_by_id() != 25212:
+    if lib.uniffi_mmex_lib_checksum_method_currencymanager_get_by_id() != 23125:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_currencymanager_get_by_symbol() != 12965:
+    if lib.uniffi_mmex_lib_checksum_method_currencymanager_get_by_symbol() != 61005:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_currencymanager_update() != 28093:
+    if lib.uniffi_mmex_lib_checksum_method_currencymanager_update() != 11102:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_constructor_mmexengine_new() != 61734:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -556,83 +556,83 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_mmexengine_transactions() != 15571:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_payeemanager_create() != 52373:
+    if lib.uniffi_mmex_lib_checksum_method_payeemanager_create() != 37318:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_payeemanager_delete() != 21411:
+    if lib.uniffi_mmex_lib_checksum_method_payeemanager_delete() != 26053:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_payeemanager_get_all() != 57397:
+    if lib.uniffi_mmex_lib_checksum_method_payeemanager_get_all() != 2005:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_payeemanager_get_all_json() != 31394:
+    if lib.uniffi_mmex_lib_checksum_method_payeemanager_get_all_json() != 47875:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_payeemanager_get_by_id() != 28571:
+    if lib.uniffi_mmex_lib_checksum_method_payeemanager_get_by_id() != 35188:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_payeemanager_update() != 43243:
+    if lib.uniffi_mmex_lib_checksum_method_payeemanager_update() != 48827:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_create() != 56343:
+    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_create() != 62124:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_delete() != 4028:
+    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_delete() != 61130:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_get_all() != 52719:
+    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_get_all() != 32829:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_get_all_json() != 31385:
+    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_get_all_json() != 32795:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_get_by_id() != 17212:
+    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_get_by_id() != 46682:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_update() != 60080:
+    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_update() != 57030:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_stockmanager_create() != 34319:
+    if lib.uniffi_mmex_lib_checksum_method_stockmanager_create() != 54365:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_stockmanager_delete() != 62235:
+    if lib.uniffi_mmex_lib_checksum_method_stockmanager_delete() != 3245:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_stockmanager_get_all() != 62076:
+    if lib.uniffi_mmex_lib_checksum_method_stockmanager_get_all() != 55499:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_stockmanager_get_all_json() != 19129:
+    if lib.uniffi_mmex_lib_checksum_method_stockmanager_get_all_json() != 12771:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_stockmanager_get_by_id() != 53571:
+    if lib.uniffi_mmex_lib_checksum_method_stockmanager_get_by_id() != 29260:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_stockmanager_update() != 11242:
+    if lib.uniffi_mmex_lib_checksum_method_stockmanager_update() != 44200:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_supportmanager_get_db_version() != 32866:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_tagmanager_create() != 50818:
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_create() != 16581:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_tagmanager_delete() != 51171:
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_delete() != 45396:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_all() != 51759:
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_all() != 29301:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_all_json() != 50087:
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_all_json() != 10794:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_by_id() != 13551:
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_by_id() != 22517:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_tagmanager_update() != 47369:
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_update() != 4678:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_add_split() != 51875:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_add_split() != 61628:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_create() != 35240:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_create() != 35432:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_delete() != 26150:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_delete() != 15863:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_delete_split() != 41045:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_delete_split() != 31442:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_get_all() != 54981:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_get_all() != 22998:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_get_all_json() != 41307:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_get_all_json() != 42488:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_get_by_id() != 41162:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_get_by_id() != 15231:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_get_splits() != 34263:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_get_splits() != 11921:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_get_splits_json() != 4739:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_get_splits_json() != 9480:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_get_tags() != 13189:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_get_tags() != 1831:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_link_tag() != 46644:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_link_tag() != 42094:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_unlink_tag() != 37337:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_unlink_tag() != 54789:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_update() != 51622:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_update() != 16005:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
-    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_update_split() != 25741:
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_update_split() != 40040:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
 
 # A ctypes library to expose the extern-C FFI definitions.
@@ -4341,6 +4341,779 @@ class _UniffiFfiConverterTypeAccountError(_UniffiConverterRustBuffer):
         if isinstance(value, AccountError.NameRequired):
             buf.write_i32(3)
 
+
+
+# AssetError
+# We want to define each variant as a nested class that's also a subclass,
+# which is tricky in Python.  To accomplish this we're going to create each
+# class separately, then manually add the child classes to the base class's
+# __dict__.  All of this happens in dummy class to avoid polluting the module
+# namespace.
+class AssetError(Exception):
+    pass
+
+_UniffiTempAssetError = AssetError
+
+class AssetError:  # type: ignore
+    
+    class Common(_UniffiTempAssetError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], MmexError):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'MmexError', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "AssetError.Common({})".format(str(self))
+    _UniffiTempAssetError.Common = Common # type: ignore
+    class NotFound(_UniffiTempAssetError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], AssetId):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'AssetId', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "AssetError.NotFound({})".format(str(self))
+    _UniffiTempAssetError.NotFound = NotFound # type: ignore
+
+AssetError = _UniffiTempAssetError # type: ignore
+del _UniffiTempAssetError
+
+
+class _UniffiFfiConverterTypeAssetError(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return AssetError.Common(
+                _UniffiFfiConverterTypeMmexError.read(buf),
+            )
+        if variant == 2:
+            return AssetError.NotFound(
+                _UniffiFfiConverterTypeAssetId.read(buf),
+            )
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if isinstance(value, AssetError.Common):
+            _UniffiFfiConverterTypeMmexError.check_lower(value._values[0])
+            return
+        if isinstance(value, AssetError.NotFound):
+            _UniffiFfiConverterTypeAssetId.check_lower(value._values[0])
+            return
+
+    @staticmethod
+    def write(value, buf):
+        if isinstance(value, AssetError.Common):
+            buf.write_i32(1)
+            _UniffiFfiConverterTypeMmexError.write(value._values[0], buf)
+        if isinstance(value, AssetError.NotFound):
+            buf.write_i32(2)
+            _UniffiFfiConverterTypeAssetId.write(value._values[0], buf)
+
+
+
+# CategoryError
+# We want to define each variant as a nested class that's also a subclass,
+# which is tricky in Python.  To accomplish this we're going to create each
+# class separately, then manually add the child classes to the base class's
+# __dict__.  All of this happens in dummy class to avoid polluting the module
+# namespace.
+class CategoryError(Exception):
+    pass
+
+_UniffiTempCategoryError = CategoryError
+
+class CategoryError:  # type: ignore
+    
+    class Common(_UniffiTempCategoryError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], MmexError):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'MmexError', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "CategoryError.Common({})".format(str(self))
+    _UniffiTempCategoryError.Common = Common # type: ignore
+    class NotFound(_UniffiTempCategoryError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], CategoryId):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'CategoryId', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "CategoryError.NotFound({})".format(str(self))
+    _UniffiTempCategoryError.NotFound = NotFound # type: ignore
+    class NameRequired(_UniffiTempCategoryError):
+        
+        def __init__(self):
+            pass
+
+        def __repr__(self):
+            return "CategoryError.NameRequired({})".format(str(self))
+    _UniffiTempCategoryError.NameRequired = NameRequired # type: ignore
+
+CategoryError = _UniffiTempCategoryError # type: ignore
+del _UniffiTempCategoryError
+
+
+class _UniffiFfiConverterTypeCategoryError(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return CategoryError.Common(
+                _UniffiFfiConverterTypeMmexError.read(buf),
+            )
+        if variant == 2:
+            return CategoryError.NotFound(
+                _UniffiFfiConverterTypeCategoryId.read(buf),
+            )
+        if variant == 3:
+            return CategoryError.NameRequired(
+            )
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if isinstance(value, CategoryError.Common):
+            _UniffiFfiConverterTypeMmexError.check_lower(value._values[0])
+            return
+        if isinstance(value, CategoryError.NotFound):
+            _UniffiFfiConverterTypeCategoryId.check_lower(value._values[0])
+            return
+        if isinstance(value, CategoryError.NameRequired):
+            return
+
+    @staticmethod
+    def write(value, buf):
+        if isinstance(value, CategoryError.Common):
+            buf.write_i32(1)
+            _UniffiFfiConverterTypeMmexError.write(value._values[0], buf)
+        if isinstance(value, CategoryError.NotFound):
+            buf.write_i32(2)
+            _UniffiFfiConverterTypeCategoryId.write(value._values[0], buf)
+        if isinstance(value, CategoryError.NameRequired):
+            buf.write_i32(3)
+
+
+
+# CurrencyError
+# We want to define each variant as a nested class that's also a subclass,
+# which is tricky in Python.  To accomplish this we're going to create each
+# class separately, then manually add the child classes to the base class's
+# __dict__.  All of this happens in dummy class to avoid polluting the module
+# namespace.
+class CurrencyError(Exception):
+    pass
+
+_UniffiTempCurrencyError = CurrencyError
+
+class CurrencyError:  # type: ignore
+    
+    class Common(_UniffiTempCurrencyError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], MmexError):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'MmexError', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "CurrencyError.Common({})".format(str(self))
+    _UniffiTempCurrencyError.Common = Common # type: ignore
+    class NotFound(_UniffiTempCurrencyError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], CurrencyId):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'CurrencyId', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "CurrencyError.NotFound({})".format(str(self))
+    _UniffiTempCurrencyError.NotFound = NotFound # type: ignore
+    class NameRequired(_UniffiTempCurrencyError):
+        
+        def __init__(self):
+            pass
+
+        def __repr__(self):
+            return "CurrencyError.NameRequired({})".format(str(self))
+    _UniffiTempCurrencyError.NameRequired = NameRequired # type: ignore
+
+CurrencyError = _UniffiTempCurrencyError # type: ignore
+del _UniffiTempCurrencyError
+
+
+class _UniffiFfiConverterTypeCurrencyError(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return CurrencyError.Common(
+                _UniffiFfiConverterTypeMmexError.read(buf),
+            )
+        if variant == 2:
+            return CurrencyError.NotFound(
+                _UniffiFfiConverterTypeCurrencyId.read(buf),
+            )
+        if variant == 3:
+            return CurrencyError.NameRequired(
+            )
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if isinstance(value, CurrencyError.Common):
+            _UniffiFfiConverterTypeMmexError.check_lower(value._values[0])
+            return
+        if isinstance(value, CurrencyError.NotFound):
+            _UniffiFfiConverterTypeCurrencyId.check_lower(value._values[0])
+            return
+        if isinstance(value, CurrencyError.NameRequired):
+            return
+
+    @staticmethod
+    def write(value, buf):
+        if isinstance(value, CurrencyError.Common):
+            buf.write_i32(1)
+            _UniffiFfiConverterTypeMmexError.write(value._values[0], buf)
+        if isinstance(value, CurrencyError.NotFound):
+            buf.write_i32(2)
+            _UniffiFfiConverterTypeCurrencyId.write(value._values[0], buf)
+        if isinstance(value, CurrencyError.NameRequired):
+            buf.write_i32(3)
+
+
+
+# PayeeError
+# We want to define each variant as a nested class that's also a subclass,
+# which is tricky in Python.  To accomplish this we're going to create each
+# class separately, then manually add the child classes to the base class's
+# __dict__.  All of this happens in dummy class to avoid polluting the module
+# namespace.
+class PayeeError(Exception):
+    pass
+
+_UniffiTempPayeeError = PayeeError
+
+class PayeeError:  # type: ignore
+    
+    class Common(_UniffiTempPayeeError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], MmexError):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'MmexError', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "PayeeError.Common({})".format(str(self))
+    _UniffiTempPayeeError.Common = Common # type: ignore
+    class NotFound(_UniffiTempPayeeError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], PayeeId):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'PayeeId', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "PayeeError.NotFound({})".format(str(self))
+    _UniffiTempPayeeError.NotFound = NotFound # type: ignore
+    class NameRequired(_UniffiTempPayeeError):
+        
+        def __init__(self):
+            pass
+
+        def __repr__(self):
+            return "PayeeError.NameRequired({})".format(str(self))
+    _UniffiTempPayeeError.NameRequired = NameRequired # type: ignore
+
+PayeeError = _UniffiTempPayeeError # type: ignore
+del _UniffiTempPayeeError
+
+
+class _UniffiFfiConverterTypePayeeError(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return PayeeError.Common(
+                _UniffiFfiConverterTypeMmexError.read(buf),
+            )
+        if variant == 2:
+            return PayeeError.NotFound(
+                _UniffiFfiConverterTypePayeeId.read(buf),
+            )
+        if variant == 3:
+            return PayeeError.NameRequired(
+            )
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if isinstance(value, PayeeError.Common):
+            _UniffiFfiConverterTypeMmexError.check_lower(value._values[0])
+            return
+        if isinstance(value, PayeeError.NotFound):
+            _UniffiFfiConverterTypePayeeId.check_lower(value._values[0])
+            return
+        if isinstance(value, PayeeError.NameRequired):
+            return
+
+    @staticmethod
+    def write(value, buf):
+        if isinstance(value, PayeeError.Common):
+            buf.write_i32(1)
+            _UniffiFfiConverterTypeMmexError.write(value._values[0], buf)
+        if isinstance(value, PayeeError.NotFound):
+            buf.write_i32(2)
+            _UniffiFfiConverterTypePayeeId.write(value._values[0], buf)
+        if isinstance(value, PayeeError.NameRequired):
+            buf.write_i32(3)
+
+
+
+# ScheduledError
+# We want to define each variant as a nested class that's also a subclass,
+# which is tricky in Python.  To accomplish this we're going to create each
+# class separately, then manually add the child classes to the base class's
+# __dict__.  All of this happens in dummy class to avoid polluting the module
+# namespace.
+class ScheduledError(Exception):
+    pass
+
+_UniffiTempScheduledError = ScheduledError
+
+class ScheduledError:  # type: ignore
+    
+    class Common(_UniffiTempScheduledError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], MmexError):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'MmexError', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "ScheduledError.Common({})".format(str(self))
+    _UniffiTempScheduledError.Common = Common # type: ignore
+    class NotFound(_UniffiTempScheduledError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], int):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'int', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "ScheduledError.NotFound({})".format(str(self))
+    _UniffiTempScheduledError.NotFound = NotFound # type: ignore
+
+ScheduledError = _UniffiTempScheduledError # type: ignore
+del _UniffiTempScheduledError
+
+
+class _UniffiFfiConverterTypeScheduledError(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return ScheduledError.Common(
+                _UniffiFfiConverterTypeMmexError.read(buf),
+            )
+        if variant == 2:
+            return ScheduledError.NotFound(
+                _UniffiFfiConverterInt64.read(buf),
+            )
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if isinstance(value, ScheduledError.Common):
+            _UniffiFfiConverterTypeMmexError.check_lower(value._values[0])
+            return
+        if isinstance(value, ScheduledError.NotFound):
+            _UniffiFfiConverterInt64.check_lower(value._values[0])
+            return
+
+    @staticmethod
+    def write(value, buf):
+        if isinstance(value, ScheduledError.Common):
+            buf.write_i32(1)
+            _UniffiFfiConverterTypeMmexError.write(value._values[0], buf)
+        if isinstance(value, ScheduledError.NotFound):
+            buf.write_i32(2)
+            _UniffiFfiConverterInt64.write(value._values[0], buf)
+
+
+
+# StockError
+# We want to define each variant as a nested class that's also a subclass,
+# which is tricky in Python.  To accomplish this we're going to create each
+# class separately, then manually add the child classes to the base class's
+# __dict__.  All of this happens in dummy class to avoid polluting the module
+# namespace.
+class StockError(Exception):
+    pass
+
+_UniffiTempStockError = StockError
+
+class StockError:  # type: ignore
+    
+    class Common(_UniffiTempStockError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], MmexError):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'MmexError', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "StockError.Common({})".format(str(self))
+    _UniffiTempStockError.Common = Common # type: ignore
+    class NotFound(_UniffiTempStockError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], StockId):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'StockId', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "StockError.NotFound({})".format(str(self))
+    _UniffiTempStockError.NotFound = NotFound # type: ignore
+
+StockError = _UniffiTempStockError # type: ignore
+del _UniffiTempStockError
+
+
+class _UniffiFfiConverterTypeStockError(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return StockError.Common(
+                _UniffiFfiConverterTypeMmexError.read(buf),
+            )
+        if variant == 2:
+            return StockError.NotFound(
+                _UniffiFfiConverterTypeStockId.read(buf),
+            )
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if isinstance(value, StockError.Common):
+            _UniffiFfiConverterTypeMmexError.check_lower(value._values[0])
+            return
+        if isinstance(value, StockError.NotFound):
+            _UniffiFfiConverterTypeStockId.check_lower(value._values[0])
+            return
+
+    @staticmethod
+    def write(value, buf):
+        if isinstance(value, StockError.Common):
+            buf.write_i32(1)
+            _UniffiFfiConverterTypeMmexError.write(value._values[0], buf)
+        if isinstance(value, StockError.NotFound):
+            buf.write_i32(2)
+            _UniffiFfiConverterTypeStockId.write(value._values[0], buf)
+
+
+
+# TagError
+# We want to define each variant as a nested class that's also a subclass,
+# which is tricky in Python.  To accomplish this we're going to create each
+# class separately, then manually add the child classes to the base class's
+# __dict__.  All of this happens in dummy class to avoid polluting the module
+# namespace.
+class TagError(Exception):
+    pass
+
+_UniffiTempTagError = TagError
+
+class TagError:  # type: ignore
+    
+    class Common(_UniffiTempTagError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], MmexError):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'MmexError', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "TagError.Common({})".format(str(self))
+    _UniffiTempTagError.Common = Common # type: ignore
+    class NotFound(_UniffiTempTagError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], TagId):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'TagId', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "TagError.NotFound({})".format(str(self))
+    _UniffiTempTagError.NotFound = NotFound # type: ignore
+    class NameRequired(_UniffiTempTagError):
+        
+        def __init__(self):
+            pass
+
+        def __repr__(self):
+            return "TagError.NameRequired({})".format(str(self))
+    _UniffiTempTagError.NameRequired = NameRequired # type: ignore
+
+TagError = _UniffiTempTagError # type: ignore
+del _UniffiTempTagError
+
+
+class _UniffiFfiConverterTypeTagError(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return TagError.Common(
+                _UniffiFfiConverterTypeMmexError.read(buf),
+            )
+        if variant == 2:
+            return TagError.NotFound(
+                _UniffiFfiConverterTypeTagId.read(buf),
+            )
+        if variant == 3:
+            return TagError.NameRequired(
+            )
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if isinstance(value, TagError.Common):
+            _UniffiFfiConverterTypeMmexError.check_lower(value._values[0])
+            return
+        if isinstance(value, TagError.NotFound):
+            _UniffiFfiConverterTypeTagId.check_lower(value._values[0])
+            return
+        if isinstance(value, TagError.NameRequired):
+            return
+
+    @staticmethod
+    def write(value, buf):
+        if isinstance(value, TagError.Common):
+            buf.write_i32(1)
+            _UniffiFfiConverterTypeMmexError.write(value._values[0], buf)
+        if isinstance(value, TagError.NotFound):
+            buf.write_i32(2)
+            _UniffiFfiConverterTypeTagId.write(value._values[0], buf)
+        if isinstance(value, TagError.NameRequired):
+            buf.write_i32(3)
+
+
+
+# TransactionError
+# We want to define each variant as a nested class that's also a subclass,
+# which is tricky in Python.  To accomplish this we're going to create each
+# class separately, then manually add the child classes to the base class's
+# __dict__.  All of this happens in dummy class to avoid polluting the module
+# namespace.
+class TransactionError(Exception):
+    pass
+
+_UniffiTempTransactionError = TransactionError
+
+class TransactionError:  # type: ignore
+    
+    class Common(_UniffiTempTransactionError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], MmexError):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'MmexError', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "TransactionError.Common({})".format(str(self))
+    _UniffiTempTransactionError.Common = Common # type: ignore
+    class NotFound(_UniffiTempTransactionError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], TransactionId):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'TransactionId', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "TransactionError.NotFound({})".format(str(self))
+    _UniffiTempTransactionError.NotFound = NotFound # type: ignore
+    class InvalidAmount(_UniffiTempTransactionError):
+        
+        def __init__(self):
+            pass
+
+        def __repr__(self):
+            return "TransactionError.InvalidAmount({})".format(str(self))
+    _UniffiTempTransactionError.InvalidAmount = InvalidAmount # type: ignore
+    class SplitError(_UniffiTempTransactionError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], str):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'str', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "TransactionError.SplitError({})".format(str(self))
+    _UniffiTempTransactionError.SplitError = SplitError # type: ignore
+
+TransactionError = _UniffiTempTransactionError # type: ignore
+del _UniffiTempTransactionError
+
+
+class _UniffiFfiConverterTypeTransactionError(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        variant = buf.read_i32()
+        if variant == 1:
+            return TransactionError.Common(
+                _UniffiFfiConverterTypeMmexError.read(buf),
+            )
+        if variant == 2:
+            return TransactionError.NotFound(
+                _UniffiFfiConverterTypeTransactionId.read(buf),
+            )
+        if variant == 3:
+            return TransactionError.InvalidAmount(
+            )
+        if variant == 4:
+            return TransactionError.SplitError(
+                _UniffiFfiConverterString.read(buf),
+            )
+        raise InternalError("Raw enum value doesn't match any cases")
+
+    @staticmethod
+    def check_lower(value):
+        if isinstance(value, TransactionError.Common):
+            _UniffiFfiConverterTypeMmexError.check_lower(value._values[0])
+            return
+        if isinstance(value, TransactionError.NotFound):
+            _UniffiFfiConverterTypeTransactionId.check_lower(value._values[0])
+            return
+        if isinstance(value, TransactionError.InvalidAmount):
+            return
+        if isinstance(value, TransactionError.SplitError):
+            _UniffiFfiConverterString.check_lower(value._values[0])
+            return
+
+    @staticmethod
+    def write(value, buf):
+        if isinstance(value, TransactionError.Common):
+            buf.write_i32(1)
+            _UniffiFfiConverterTypeMmexError.write(value._values[0], buf)
+        if isinstance(value, TransactionError.NotFound):
+            buf.write_i32(2)
+            _UniffiFfiConverterTypeTransactionId.write(value._values[0], buf)
+        if isinstance(value, TransactionError.InvalidAmount):
+            buf.write_i32(3)
+        if isinstance(value, TransactionError.SplitError):
+            buf.write_i32(4)
+            _UniffiFfiConverterString.write(value._values[0], buf)
+
 class _UniffiFfiConverterSequenceTypeAccount(_UniffiConverterRustBuffer):
     @classmethod
     def check_lower(cls, value):
@@ -4474,7 +5247,7 @@ class AccountManager(AccountManagerProtocol):
             _UniffiFfiConverterTypeAccount.lower(account),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypeAccount.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAccountError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_create,
@@ -4492,7 +5265,7 @@ class AccountManager(AccountManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAccountError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_delete,
@@ -4507,7 +5280,7 @@ class AccountManager(AccountManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeAccount.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAccountError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_all,
@@ -4522,7 +5295,7 @@ class AccountManager(AccountManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterString.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAccountError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_all_json,
@@ -4540,7 +5313,7 @@ class AccountManager(AccountManagerProtocol):
             _UniffiFfiConverterInt64.lower(account_id),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypeAccountBalance.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAccountError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_balance,
@@ -4558,7 +5331,7 @@ class AccountManager(AccountManagerProtocol):
             _UniffiFfiConverterInt64.lower(account_id),
         )
         _uniffi_lift_return = _UniffiFfiConverterString.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAccountError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_balance_json,
@@ -4576,7 +5349,7 @@ class AccountManager(AccountManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = _UniffiFfiConverterOptionalTypeAccount.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAccountError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_get_by_id,
@@ -4594,7 +5367,7 @@ class AccountManager(AccountManagerProtocol):
             _UniffiFfiConverterTypeAccount.lower(account),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAccountError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_update,
@@ -4754,7 +5527,7 @@ class AssetManager(AssetManagerProtocol):
             _UniffiFfiConverterTypeAsset.lower(asset),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypeAsset.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAssetError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_assetmanager_create,
@@ -4772,7 +5545,7 @@ class AssetManager(AssetManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAssetError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_assetmanager_delete,
@@ -4787,7 +5560,7 @@ class AssetManager(AssetManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeAsset.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAssetError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_assetmanager_get_all,
@@ -4802,7 +5575,7 @@ class AssetManager(AssetManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterString.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAssetError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_assetmanager_get_all_json,
@@ -4820,7 +5593,7 @@ class AssetManager(AssetManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = _UniffiFfiConverterOptionalTypeAsset.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAssetError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_assetmanager_get_by_id,
@@ -4838,7 +5611,7 @@ class AssetManager(AssetManagerProtocol):
             _UniffiFfiConverterTypeAsset.lower(asset),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeAssetError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_assetmanager_update,
@@ -5006,7 +5779,7 @@ class CategoryManager(CategoryManagerProtocol):
             _UniffiFfiConverterOptionalInt64.lower(parent_id),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypeCategory.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCategoryError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_create,
@@ -5024,7 +5797,7 @@ class CategoryManager(CategoryManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCategoryError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_delete,
@@ -5039,7 +5812,7 @@ class CategoryManager(CategoryManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeCategory.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCategoryError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_get_all,
@@ -5054,7 +5827,7 @@ class CategoryManager(CategoryManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterString.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCategoryError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_get_all_json,
@@ -5072,7 +5845,7 @@ class CategoryManager(CategoryManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = _UniffiFfiConverterOptionalTypeCategory.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCategoryError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_get_by_id,
@@ -5090,7 +5863,7 @@ class CategoryManager(CategoryManagerProtocol):
             _UniffiFfiConverterInt64.lower(parent_id),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeCategory.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCategoryError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_get_subcategories,
@@ -5108,7 +5881,7 @@ class CategoryManager(CategoryManagerProtocol):
             _UniffiFfiConverterTypeCategory.lower(category),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCategoryError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_update,
@@ -5273,7 +6046,7 @@ class CurrencyManager(CurrencyManagerProtocol):
             _UniffiFfiConverterTypeCurrency.lower(currency),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypeCurrency.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCurrencyError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_create,
@@ -5291,7 +6064,7 @@ class CurrencyManager(CurrencyManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCurrencyError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_delete,
@@ -5306,7 +6079,7 @@ class CurrencyManager(CurrencyManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeCurrency.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCurrencyError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_get_all,
@@ -5321,7 +6094,7 @@ class CurrencyManager(CurrencyManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterString.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCurrencyError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_get_all_json,
@@ -5339,7 +6112,7 @@ class CurrencyManager(CurrencyManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = _UniffiFfiConverterOptionalTypeCurrency.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCurrencyError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_get_by_id,
@@ -5357,7 +6130,7 @@ class CurrencyManager(CurrencyManagerProtocol):
             _UniffiFfiConverterString.lower(symbol),
         )
         _uniffi_lift_return = _UniffiFfiConverterOptionalTypeCurrency.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCurrencyError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_get_by_symbol,
@@ -5375,7 +6148,7 @@ class CurrencyManager(CurrencyManagerProtocol):
             _UniffiFfiConverterTypeCurrency.lower(currency),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeCurrencyError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_update,
@@ -5535,7 +6308,7 @@ class PayeeManager(PayeeManagerProtocol):
             _UniffiFfiConverterString.lower(name),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypePayee.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypePayeeError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_payeemanager_create,
@@ -5553,7 +6326,7 @@ class PayeeManager(PayeeManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypePayeeError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_payeemanager_delete,
@@ -5568,7 +6341,7 @@ class PayeeManager(PayeeManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypePayee.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypePayeeError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_payeemanager_get_all,
@@ -5583,7 +6356,7 @@ class PayeeManager(PayeeManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterString.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypePayeeError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_payeemanager_get_all_json,
@@ -5601,7 +6374,7 @@ class PayeeManager(PayeeManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = _UniffiFfiConverterOptionalTypePayee.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypePayeeError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_payeemanager_get_by_id,
@@ -5619,7 +6392,7 @@ class PayeeManager(PayeeManagerProtocol):
             _UniffiFfiConverterTypePayee.lower(payee),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypePayeeError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_payeemanager_update,
@@ -5779,7 +6552,7 @@ class ScheduledManager(ScheduledManagerProtocol):
             _UniffiFfiConverterTypeScheduledTransaction.lower(transaction),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypeScheduledTransaction.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeScheduledError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_scheduledmanager_create,
@@ -5797,7 +6570,7 @@ class ScheduledManager(ScheduledManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeScheduledError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_scheduledmanager_delete,
@@ -5812,7 +6585,7 @@ class ScheduledManager(ScheduledManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeScheduledTransaction.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeScheduledError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_scheduledmanager_get_all,
@@ -5827,7 +6600,7 @@ class ScheduledManager(ScheduledManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterString.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeScheduledError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_scheduledmanager_get_all_json,
@@ -5845,7 +6618,7 @@ class ScheduledManager(ScheduledManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = _UniffiFfiConverterOptionalTypeScheduledTransaction.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeScheduledError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_scheduledmanager_get_by_id,
@@ -5863,7 +6636,7 @@ class ScheduledManager(ScheduledManagerProtocol):
             _UniffiFfiConverterTypeScheduledTransaction.lower(transaction),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeScheduledError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_scheduledmanager_update,
@@ -6023,7 +6796,7 @@ class StockManager(StockManagerProtocol):
             _UniffiFfiConverterTypeStock.lower(stock),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypeStock.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeStockError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_create,
@@ -6041,7 +6814,7 @@ class StockManager(StockManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeStockError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_delete,
@@ -6056,7 +6829,7 @@ class StockManager(StockManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeStock.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeStockError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_get_all,
@@ -6071,7 +6844,7 @@ class StockManager(StockManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterString.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeStockError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_get_all_json,
@@ -6089,7 +6862,7 @@ class StockManager(StockManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = _UniffiFfiConverterOptionalTypeStock.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeStockError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_get_by_id,
@@ -6107,7 +6880,7 @@ class StockManager(StockManagerProtocol):
             _UniffiFfiConverterTypeStock.lower(stock),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeStockError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_update,
@@ -6351,7 +7124,7 @@ class TagManager(TagManagerProtocol):
             _UniffiFfiConverterString.lower(name),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypeTag.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTagError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_create,
@@ -6369,7 +7142,7 @@ class TagManager(TagManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTagError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_delete,
@@ -6384,7 +7157,7 @@ class TagManager(TagManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeTag.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTagError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_get_all,
@@ -6399,7 +7172,7 @@ class TagManager(TagManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterString.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTagError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_get_all_json,
@@ -6417,7 +7190,7 @@ class TagManager(TagManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = _UniffiFfiConverterOptionalTypeTag.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTagError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_get_by_id,
@@ -6438,7 +7211,7 @@ class TagManager(TagManagerProtocol):
             _UniffiFfiConverterString.lower(name),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTagError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_update,
@@ -6661,7 +7434,7 @@ class TransactionManager(TransactionManagerProtocol):
             _UniffiFfiConverterTypeSplitTransaction.lower(split),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypeSplitTransaction.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_add_split,
@@ -6679,7 +7452,7 @@ class TransactionManager(TransactionManagerProtocol):
             _UniffiFfiConverterTypeTransaction.lower(transaction),
         )
         _uniffi_lift_return = _UniffiFfiConverterTypeTransaction.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_create,
@@ -6697,7 +7470,7 @@ class TransactionManager(TransactionManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_delete,
@@ -6715,7 +7488,7 @@ class TransactionManager(TransactionManagerProtocol):
             _UniffiFfiConverterInt64.lower(split_id),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_delete_split,
@@ -6730,7 +7503,7 @@ class TransactionManager(TransactionManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeTransaction.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_get_all,
@@ -6745,7 +7518,7 @@ class TransactionManager(TransactionManagerProtocol):
             self._uniffi_clone_handle(),
         )
         _uniffi_lift_return = _UniffiFfiConverterString.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_get_all_json,
@@ -6763,7 +7536,7 @@ class TransactionManager(TransactionManagerProtocol):
             _UniffiFfiConverterInt64.lower(id),
         )
         _uniffi_lift_return = _UniffiFfiConverterOptionalTypeTransaction.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_get_by_id,
@@ -6781,7 +7554,7 @@ class TransactionManager(TransactionManagerProtocol):
             _UniffiFfiConverterInt64.lower(transaction_id),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeSplitTransaction.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_get_splits,
@@ -6799,7 +7572,7 @@ class TransactionManager(TransactionManagerProtocol):
             _UniffiFfiConverterInt64.lower(transaction_id),
         )
         _uniffi_lift_return = _UniffiFfiConverterString.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_get_splits_json,
@@ -6817,7 +7590,7 @@ class TransactionManager(TransactionManagerProtocol):
             _UniffiFfiConverterInt64.lower(transaction_id),
         )
         _uniffi_lift_return = _UniffiFfiConverterSequenceTypeTag.lift
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_get_tags,
@@ -6838,7 +7611,7 @@ class TransactionManager(TransactionManagerProtocol):
             _UniffiFfiConverterInt64.lower(tag_id),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_link_tag,
@@ -6859,7 +7632,7 @@ class TransactionManager(TransactionManagerProtocol):
             _UniffiFfiConverterInt64.lower(tag_id),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_unlink_tag,
@@ -6877,7 +7650,7 @@ class TransactionManager(TransactionManagerProtocol):
             _UniffiFfiConverterTypeTransaction.lower(transaction),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_update,
@@ -6895,7 +7668,7 @@ class TransactionManager(TransactionManagerProtocol):
             _UniffiFfiConverterTypeSplitTransaction.lower(split),
         )
         _uniffi_lift_return = lambda val: None
-        _uniffi_error_converter = _UniffiFfiConverterTypeMmexError
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_update_split,
@@ -7233,6 +8006,14 @@ __all__ = [
     "TransactionStatus",
     "MmexError",
     "AccountError",
+    "AssetError",
+    "CategoryError",
+    "CurrencyError",
+    "PayeeError",
+    "ScheduledError",
+    "StockError",
+    "TagError",
+    "TransactionError",
     "AccountId",
     "Money",
     "CurrencyId",
