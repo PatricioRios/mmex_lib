@@ -2,7 +2,8 @@ use chrono::NaiveDate;
 use rusqlite::Row;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
-use sea_query::{Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query_rusqlite::RusqliteBinder;
 use std::str::FromStr;
 
 use crate::domain::stocks::{Stock, StockError, StockId, StockRepository};
@@ -29,9 +30,7 @@ impl StockMapper {
             .unwrap_or_else(|_| NaiveDate::from_ymd_opt(1970, 1, 1).unwrap());
 
         Ok(Stock {
-            id: StockId {
-                v1: row.get("STOCKID")?,
-            },
+            id: StockId::new(row.get("STOCKID")?),
             held_at: row.get("HELDAT")?,
             purchase_date: MmexDate::from(purchase_date),
             name: row.get("STOCKNAME")?,
@@ -72,7 +71,7 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
                 "VALUE",
                 "COMMISSION",
             ])
-            .from_as("STOCK_V1", "s")
+            .from(Alias::new("STOCK_V1"))
             .build(SqliteQueryBuilder);
 
         Ok(self
@@ -81,7 +80,7 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
     }
 
     fn find_by_id(&self, id: StockId) -> Result<Option<Stock>, StockError> {
-        let (sql, _) = Query::select()
+        let (sql, values) = Query::select()
             .columns([
                 "STOCKID",
                 "HELDAT",
@@ -95,75 +94,99 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
                 "VALUE",
                 "COMMISSION",
             ])
-            .from_as("STOCK_V1", "s")
-            .and_where(Expr::col("STOCKID").eq(id.v1))
-            .build(SqliteQueryBuilder);
+            .from(Alias::new("STOCK_V1"))
+            .and_where(Expr::col(Alias::new("STOCKID")).eq(id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
 
         match self
             .executor
-            .query_row_ext(&sql, [id.v1], |row| StockMapper::map_row(row))
-        {
+            .query_row_ext(&sql, &values.as_params()[..], |row| {
+                StockMapper::map_row(row)
+            }) {
             Ok(stock) => Ok(Some(stock)),
-            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
+            Err(MmexError::NotFound) => Ok(None),
             Err(e) => Err(StockError::Common(e)),
         }
     }
 
     fn insert(&self, s: &Stock) -> Result<Stock, StockError> {
-        let sql = "INSERT INTO STOCK_V1 (HELDAT, PURCHASEDATE, STOCKNAME, SYMBOL, NUMSHARES, PURCHASEPRICE, NOTES, CURRENTPRICE, VALUE, COMMISSION) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        let (sql, values) = Query::insert()
+            .into_table(Alias::new("STOCK_V1"))
+            .columns([
+                Alias::new("HELDAT"),
+                Alias::new("PURCHASEDATE"),
+                Alias::new("STOCKNAME"),
+                Alias::new("SYMBOL"),
+                Alias::new("NUMSHARES"),
+                Alias::new("PURCHASEPRICE"),
+                Alias::new("NOTES"),
+                Alias::new("CURRENTPRICE"),
+                Alias::new("VALUE"),
+                Alias::new("COMMISSION"),
+            ])
+            .values_panic([
+                s.held_at.into(),
+                s.purchase_date.v1.clone().into(),
+                s.name.clone().into(),
+                s.symbol.clone().into(),
+                s.num_shares.v1.clone().into(),
+                s.purchase_price.v1.clone().into(),
+                s.notes.clone().into(),
+                s.current_price.v1.clone().into(),
+                s.value.v1.clone().into(),
+                s.commission.v1.clone().into(),
+            ])
+            .build_rusqlite(SqliteQueryBuilder);
 
-        self.executor.execute_ext(
-            sql,
-            (
-                s.held_at,
-                s.purchase_date.v1.clone(),
-                &s.name,
-                &s.symbol,
-                s.num_shares.v1.clone(),
-                s.purchase_price.v1.clone(),
-                &s.notes,
-                s.current_price.v1.clone(),
-                s.value.v1.clone(),
-                s.commission.v1.clone(),
-            ),
-        )?;
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
 
         let last_id: i64 = self
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
+
         let mut new_stock = s.clone();
-        new_stock.id = StockId { v1: last_id };
+        new_stock.id = StockId::new(last_id);
         Ok(new_stock)
     }
 
     fn update(&self, s: &Stock) -> Result<(), StockError> {
-        let sql = "UPDATE STOCK_V1 SET 
-                   HELDAT = ?, PURCHASEDATE = ?, STOCKNAME = ?, SYMBOL = ?, NUMSHARES = ?, PURCHASEPRICE = ?, NOTES = ?, CURRENTPRICE = ?, VALUE = ?, COMMISSION = ?
-                   WHERE STOCKID = ?";
+        let (sql, values) = Query::update()
+            .table(Alias::new("STOCK_V1"))
+            .values([
+                (Alias::new("HELDAT"), s.held_at.into()),
+                (
+                    Alias::new("PURCHASEDATE"),
+                    s.purchase_date.v1.clone().into(),
+                ),
+                (Alias::new("STOCKNAME"), s.name.clone().into()),
+                (Alias::new("SYMBOL"), s.symbol.clone().into()),
+                (Alias::new("NUMSHARES"), s.num_shares.v1.clone().into()),
+                (
+                    Alias::new("PURCHASEPRICE"),
+                    s.purchase_price.v1.clone().into(),
+                ),
+                (Alias::new("NOTES"), s.notes.clone().into()),
+                (
+                    Alias::new("CURRENTPRICE"),
+                    s.current_price.v1.clone().into(),
+                ),
+                (Alias::new("VALUE"), s.value.v1.clone().into()),
+                (Alias::new("COMMISSION"), s.commission.v1.clone().into()),
+            ])
+            .and_where(Expr::col(Alias::new("STOCKID")).eq(s.id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
 
-        self.executor.execute_ext(
-            sql,
-            (
-                s.held_at,
-                s.purchase_date.v1.clone(),
-                &s.name,
-                &s.symbol,
-                s.num_shares.v1.clone(),
-                s.purchase_price.v1.clone(),
-                &s.notes,
-                s.current_price.v1.clone(),
-                s.value.v1.clone(),
-                s.commission.v1.clone(),
-                s.id.v1,
-            ),
-        )?;
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }
 
     fn delete(&self, id: StockId) -> Result<(), StockError> {
-        self.executor
-            .execute_ext("DELETE FROM STOCK_V1 WHERE STOCKID = ?", [id.v1])?;
+        let (sql, values) = Query::delete()
+            .from_table(Alias::new("STOCK_V1"))
+            .and_where(Expr::col(Alias::new("STOCKID")).eq(id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
+
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }
 }

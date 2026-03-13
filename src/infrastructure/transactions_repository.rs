@@ -2,7 +2,8 @@ use chrono::NaiveDate;
 use rusqlite::Row;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
-use sea_query::{Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query_rusqlite::RusqliteBinder;
 use std::str::FromStr;
 
 use crate::domain::payees::PayeeId;
@@ -38,26 +39,18 @@ impl TransactionMapper {
         let date = date_str.and_then(|s| NaiveDate::parse_from_str(&s, "%Y-%m-%d").ok());
 
         Ok(Transaction {
-            id: TransactionId {
-                v1: row.get("TRANSID")?,
-            },
-            account_id: AccountId {
-                v1: row.get("ACCOUNTID")?,
-            },
+            id: TransactionId::new(row.get("TRANSID")?),
+            account_id: AccountId::new(row.get("ACCOUNTID")?),
             to_account_id: row
                 .get::<_, Option<i64>>("TOACCOUNTID")?
-                .map(|v1| AccountId { v1 }),
-            payee_id: PayeeId {
-                v1: row.get("PAYEEID")?,
-            },
+                .map(AccountId::new),
+            payee_id: PayeeId::new(row.get("PAYEEID")?),
             trans_code: TransactionCode::from(row.get::<_, String>("TRANSCODE")?),
             amount: Money::from(amount_val),
             status: TransactionStatus::from(row.get::<_, String>("STATUS")?),
             transaction_number: row.get("TRANSACTIONNUMBER")?,
             notes: row.get("NOTES")?,
-            category_id: row
-                .get::<_, Option<i64>>("CATEGID")?
-                .map(|v1| CategoryId { v1 }),
+            category_id: row.get::<_, Option<i64>>("CATEGID")?.map(CategoryId::new),
             date: date.map(MmexDate::from),
             to_amount: to_amount_val,
         })
@@ -91,7 +84,7 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
                 "TRANSDATE",
                 "TOTRANSAMOUNT",
             ])
-            .from_as("CHECKINGACCOUNT_V1", "t")
+            .from(Alias::new("CHECKINGACCOUNT_V1"))
             .build(SqliteQueryBuilder);
         Ok(self
             .executor
@@ -99,7 +92,7 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
     }
 
     fn find_by_id(&self, id: TransactionId) -> Result<Option<Transaction>, TransactionError> {
-        let (sql, _) = Query::select()
+        let (sql, values) = Query::select()
             .columns([
                 "TRANSID",
                 "ACCOUNTID",
@@ -114,76 +107,140 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
                 "TRANSDATE",
                 "TOTRANSAMOUNT",
             ])
-            .from_as("CHECKINGACCOUNT_V1", "t")
-            .and_where(Expr::col("TRANSID").eq(id.v1))
-            .build(SqliteQueryBuilder);
+            .from(Alias::new("CHECKINGACCOUNT_V1"))
+            .and_where(Expr::col(Alias::new("TRANSID")).eq(id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
+
         match self
             .executor
-            .query_row_ext(&sql, [id.v1], |row| TransactionMapper::map_row(row))
-        {
+            .query_row_ext(&sql, &values.as_params()[..], |row| {
+                TransactionMapper::map_row(row)
+            }) {
             Ok(tx) => Ok(Some(tx)),
-            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
+            Err(MmexError::NotFound) => Ok(None),
             Err(e) => Err(TransactionError::Common(e)),
         }
     }
 
+    fn find_for_account(
+        &self,
+        account_id: AccountId,
+    ) -> Result<Vec<Transaction>, TransactionError> {
+        let (sql, values) = Query::select()
+            .columns([
+                "TRANSID",
+                "ACCOUNTID",
+                "TOACCOUNTID",
+                "PAYEEID",
+                "TRANSCODE",
+                "TRANSAMOUNT",
+                "STATUS",
+                "TRANSACTIONNUMBER",
+                "NOTES",
+                "CATEGID",
+                "TRANSDATE",
+                "TOTRANSAMOUNT",
+            ])
+            .from(Alias::new("CHECKINGACCOUNT_V1"))
+            .and_where(
+                Expr::col(Alias::new("ACCOUNTID"))
+                    .eq(account_id.v1)
+                    .or(Expr::col(Alias::new("TOACCOUNTID")).eq(account_id.v1)),
+            )
+            .build_rusqlite(SqliteQueryBuilder);
+
+        Ok(self
+            .executor
+            .query_map_ext(&sql, &values.as_params()[..], |row| {
+                TransactionMapper::map_row(row)
+            })?)
+    }
+
     fn insert(&self, tx: &Transaction) -> Result<Transaction, TransactionError> {
         let date_str = tx.date.as_ref().map(|d| d.v1.clone());
-        let sql = "INSERT INTO CHECKINGACCOUNT_V1 (ACCOUNTID, TOACCOUNTID, PAYEEID, TRANSCODE, TRANSAMOUNT, STATUS, TRANSACTIONNUMBER, NOTES, CATEGID, TRANSDATE, TOTRANSAMOUNT) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        self.executor.execute_ext(
-            sql,
-            (
-                tx.account_id.v1,
-                tx.to_account_id.map(|id| id.v1),
-                tx.payee_id.v1,
-                tx.trans_code.to_string(),
-                tx.amount.v1.clone(),
-                tx.status.to_string(),
-                &tx.transaction_number,
-                &tx.notes,
-                tx.category_id.map(|id| id.v1),
-                date_str,
-                tx.to_amount.as_ref().map(|m| m.v1.clone()),
-            ),
-        )?;
+
+        let (sql, values) = Query::insert()
+            .into_table(Alias::new("CHECKINGACCOUNT_V1"))
+            .columns([
+                Alias::new("ACCOUNTID"),
+                Alias::new("TOACCOUNTID"),
+                Alias::new("PAYEEID"),
+                Alias::new("TRANSCODE"),
+                Alias::new("TRANSAMOUNT"),
+                Alias::new("STATUS"),
+                Alias::new("TRANSACTIONNUMBER"),
+                Alias::new("NOTES"),
+                Alias::new("CATEGID"),
+                Alias::new("TRANSDATE"),
+                Alias::new("TOTRANSAMOUNT"),
+            ])
+            .values_panic([
+                tx.account_id.v1.into(),
+                tx.to_account_id.map(|id| id.v1).into(),
+                tx.payee_id.v1.into(),
+                tx.trans_code.to_string().into(),
+                tx.amount.v1.clone().into(),
+                tx.status.to_string().into(),
+                tx.transaction_number.clone().into(),
+                tx.notes.clone().into(),
+                tx.category_id.map(|id| id.v1).into(),
+                date_str.into(),
+                tx.to_amount.as_ref().map(|m| m.v1.clone()).into(),
+            ])
+            .build_rusqlite(SqliteQueryBuilder);
+
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
 
         let last_id: i64 = self
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
+
         let mut new_tx = tx.clone();
-        new_tx.id = TransactionId { v1: last_id };
+        new_tx.id = TransactionId::new(last_id);
         Ok(new_tx)
     }
 
     fn update(&self, tx: &Transaction) -> Result<(), TransactionError> {
         let date_str = tx.date.as_ref().map(|d| d.v1.clone());
-        let sql = "UPDATE CHECKINGACCOUNT_V1 SET 
-                   ACCOUNTID = ?, TOACCOUNTID = ?, PAYEEID = ?, TRANSCODE = ?, TRANSAMOUNT = ?, STATUS = ?, TRANSACTIONNUMBER = ?, NOTES = ?, CATEGID = ?, TRANSDATE = ?, TOTRANSAMOUNT = ?
-                   WHERE TRANSID = ?";
-        self.executor.execute_ext(
-            sql,
-            (
-                tx.account_id.v1,
-                tx.to_account_id.map(|id| id.v1),
-                tx.payee_id.v1,
-                tx.trans_code.to_string(),
-                tx.amount.v1.clone(),
-                tx.status.to_string(),
-                &tx.transaction_number,
-                &tx.notes,
-                tx.category_id.map(|id| id.v1),
-                date_str,
-                tx.to_amount.as_ref().map(|m| m.v1.clone()),
-                tx.id.v1,
-            ),
-        )?;
+
+        let (sql, values) = Query::update()
+            .table(Alias::new("CHECKINGACCOUNT_V1"))
+            .values([
+                (Alias::new("ACCOUNTID"), tx.account_id.v1.into()),
+                (
+                    Alias::new("TOACCOUNTID"),
+                    tx.to_account_id.map(|id| id.v1).into(),
+                ),
+                (Alias::new("PAYEEID"), tx.payee_id.v1.into()),
+                (Alias::new("TRANSCODE"), tx.trans_code.to_string().into()),
+                (Alias::new("TRANSAMOUNT"), tx.amount.v1.clone().into()),
+                (Alias::new("STATUS"), tx.status.to_string().into()),
+                (
+                    Alias::new("TRANSACTIONNUMBER"),
+                    tx.transaction_number.clone().into(),
+                ),
+                (Alias::new("NOTES"), tx.notes.clone().into()),
+                (Alias::new("CATEGID"), tx.category_id.map(|id| id.v1).into()),
+                (Alias::new("TRANSDATE"), date_str.into()),
+                (
+                    Alias::new("TOTRANSAMOUNT"),
+                    tx.to_amount.as_ref().map(|m| m.v1.clone()).into(),
+                ),
+            ])
+            .and_where(Expr::col(Alias::new("TRANSID")).eq(tx.id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
+
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }
 
     fn delete(&self, id: TransactionId) -> Result<(), TransactionError> {
-        self.executor
-            .execute_ext("DELETE FROM CHECKINGACCOUNT_V1 WHERE TRANSID = ?", [id.v1])?;
+        let (sql, values) = Query::delete()
+            .from_table(Alias::new("CHECKINGACCOUNT_V1"))
+            .and_where(Expr::col(Alias::new("TRANSID")).eq(id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
+
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }
 }

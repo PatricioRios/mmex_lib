@@ -1,4 +1,5 @@
-use sea_query::{Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query_rusqlite::RusqliteBinder;
 
 use crate::domain::accounts::{Account, AccountError, AccountId, AccountRepository};
 use crate::domain::models::{SupportError, SupportRepository};
@@ -18,7 +19,7 @@ impl<'a, E: DbExecutor> SqlAccountRepository<'a, E> {
 
 impl<'a, E: DbExecutor> AccountRepository for SqlAccountRepository<'a, E> {
     fn find_all(&self) -> Result<Vec<Account>, AccountError> {
-        let (sql, _) = Query::select()
+        let (sql, values) = Query::select()
             .columns([
                 "ACCOUNTID",
                 "ACCOUNTNAME",
@@ -30,15 +31,17 @@ impl<'a, E: DbExecutor> AccountRepository for SqlAccountRepository<'a, E> {
                 "CURRENCYID",
                 "FAVORITEACCT",
             ])
-            .from_as("ACCOUNTLIST_V1", "a")
-            .build(SqliteQueryBuilder);
+            .from(Alias::new("ACCOUNTLIST_V1"))
+            .build_rusqlite(SqliteQueryBuilder);
         Ok(self
             .executor
-            .query_map_ext(&sql, [], |row| AccountMapper::map_row(row))?)
+            .query_map_ext(&sql, &values.as_params()[..], |row| {
+                AccountMapper::map_row(row)
+            })?)
     }
 
     fn find_by_id(&self, id: AccountId) -> Result<Option<Account>, AccountError> {
-        let (sql, _) = Query::select()
+        let (sql, values) = Query::select()
             .columns([
                 "ACCOUNTID",
                 "ACCOUNTNAME",
@@ -50,67 +53,90 @@ impl<'a, E: DbExecutor> AccountRepository for SqlAccountRepository<'a, E> {
                 "CURRENCYID",
                 "FAVORITEACCT",
             ])
-            .from_as("ACCOUNTLIST_V1", "a")
-            .and_where(Expr::col("ACCOUNTID").eq(id.v1))
-            .build(SqliteQueryBuilder);
+            .from(Alias::new("ACCOUNTLIST_V1"))
+            .and_where(Expr::col(Alias::new("ACCOUNTID")).eq(id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
+
         match self
             .executor
-            .query_row_ext(&sql, [id.v1], |row| AccountMapper::map_row(row))
-        {
+            .query_row_ext(&sql, &values.as_params()[..], |row| {
+                AccountMapper::map_row(row)
+            }) {
             Ok(account) => Ok(Some(account)),
-            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
+            Err(MmexError::NotFound) => Ok(None),
             Err(e) => Err(AccountError::Common(e)),
         }
     }
 
     fn insert(&self, a: &Account) -> Result<Account, AccountError> {
-        let sql = "INSERT INTO ACCOUNTLIST_V1 (ACCOUNTNAME, ACCOUNTTYPE, ACCOUNTNUM, STATUS, NOTES, INITIALBAL, CURRENCYID, FAVORITEACCT) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        self.executor.execute_ext(
-            sql,
-            (
-                &a.name,
-                a.account_type.to_string(),
-                &a.account_num,
-                a.status.to_string(),
-                &a.notes,
-                a.initial_balance.v1.clone(),
-                a.currency_id.v1,
-                if a.favorite { "1" } else { "0" },
-            ),
-        )?;
+        let (sql, values) = Query::insert()
+            .into_table(Alias::new("ACCOUNTLIST_V1"))
+            .columns([
+                Alias::new("ACCOUNTNAME"),
+                Alias::new("ACCOUNTTYPE"),
+                Alias::new("ACCOUNTNUM"),
+                Alias::new("STATUS"),
+                Alias::new("NOTES"),
+                Alias::new("INITIALBAL"),
+                Alias::new("CURRENCYID"),
+                Alias::new("FAVORITEACCT"),
+            ])
+            .values_panic([
+                a.name.clone().into(),
+                a.account_type.to_string().into(),
+                a.account_num.clone().into(),
+                a.status.to_string().into(),
+                a.notes.clone().into(),
+                a.initial_balance.v1.clone().into(),
+                a.currency_id.v1.into(),
+                (if a.favorite { "1" } else { "0" }).into(),
+            ])
+            .build_rusqlite(SqliteQueryBuilder);
+
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
+
         let last_id: i64 = self
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
+
         let mut new_acc = a.clone();
-        new_acc.id = AccountId { v1: last_id };
+        new_acc.id = AccountId::new(last_id);
         Ok(new_acc)
     }
 
     fn update(&self, a: &Account) -> Result<(), AccountError> {
-        let sql = "UPDATE ACCOUNTLIST_V1 SET 
-                   ACCOUNTNAME = ?, ACCOUNTTYPE = ?, ACCOUNTNUM = ?, STATUS = ?, NOTES = ?, INITIALBAL = ?, CURRENCYID = ?, FAVORITEACCT = ?
-                   WHERE ACCOUNTID = ?";
-        self.executor.execute_ext(
-            sql,
-            (
-                &a.name,
-                a.account_type.to_string(),
-                &a.account_num,
-                a.status.to_string(),
-                &a.notes,
-                a.initial_balance.v1.clone(),
-                a.currency_id.v1,
-                if a.favorite { "1" } else { "0" },
-                a.id.v1,
-            ),
-        )?;
+        let (sql, values) = Query::update()
+            .table(Alias::new("ACCOUNTLIST_V1"))
+            .values([
+                (Alias::new("ACCOUNTNAME"), a.name.clone().into()),
+                (Alias::new("ACCOUNTTYPE"), a.account_type.to_string().into()),
+                (Alias::new("ACCOUNTNUM"), a.account_num.clone().into()),
+                (Alias::new("STATUS"), a.status.to_string().into()),
+                (Alias::new("NOTES"), a.notes.clone().into()),
+                (
+                    Alias::new("INITIALBAL"),
+                    a.initial_balance.v1.clone().into(),
+                ),
+                (Alias::new("CURRENCYID"), a.currency_id.v1.into()),
+                (
+                    Alias::new("FAVORITEACCT"),
+                    (if a.favorite { "1" } else { "0" }).into(),
+                ),
+            ])
+            .and_where(Expr::col(Alias::new("ACCOUNTID")).eq(a.id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
+
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }
 
     fn delete(&self, id: AccountId) -> Result<(), AccountError> {
-        self.executor
-            .execute_ext("DELETE FROM ACCOUNTLIST_V1 WHERE ACCOUNTID = ?", [id.v1])?;
+        let (sql, values) = Query::delete()
+            .from_table(Alias::new("ACCOUNTLIST_V1"))
+            .and_where(Expr::col(Alias::new("ACCOUNTID")).eq(id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
+
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }
 }
@@ -127,19 +153,35 @@ impl<'a, E: DbExecutor> SqlSupportRepository<'a, E> {
 
 impl<'a, E: DbExecutor> SupportRepository for SqlSupportRepository<'a, E> {
     fn get_metadata(&self, name: &str) -> Result<Option<String>, SupportError> {
-        let sql = "SELECT INFOVALUE FROM INFOTABLE_V1 WHERE INFONAME = ?";
-        match self.executor.query_row_ext(sql, [name], |r| r.get(0)) {
+        let (sql, values) = Query::select()
+            .column(Alias::new("INFOVALUE"))
+            .from(Alias::new("INFOTABLE_V1"))
+            .and_where(Expr::col(Alias::new("INFONAME")).eq(name))
+            .build_rusqlite(SqliteQueryBuilder);
+
+        match self
+            .executor
+            .query_row_ext(&sql, &values.as_params()[..], |r| r.get(0))
+        {
             Ok(val) => Ok(Some(val)),
-            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
+            Err(MmexError::NotFound) => Ok(None),
             Err(e) => Err(SupportError::Common(e)),
         }
     }
 
     fn get_setting(&self, name: &str) -> Result<Option<String>, SupportError> {
-        let sql = "SELECT SETTINGVALUE FROM SETTING_V1 WHERE SETTINGNAME = ?";
-        match self.executor.query_row_ext(sql, [name], |r| r.get(0)) {
+        let (sql, values) = Query::select()
+            .column(Alias::new("SETTINGVALUE"))
+            .from(Alias::new("SETTING_V1"))
+            .and_where(Expr::col(Alias::new("SETTINGNAME")).eq(name))
+            .build_rusqlite(SqliteQueryBuilder);
+
+        match self
+            .executor
+            .query_row_ext(&sql, &values.as_params()[..], |r| r.get(0))
+        {
             Ok(val) => Ok(Some(val)),
-            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
+            Err(MmexError::NotFound) => Ok(None),
             Err(e) => Err(SupportError::Common(e)),
         }
     }

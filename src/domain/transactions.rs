@@ -113,6 +113,8 @@ pub struct SplitTransaction {
 pub trait TransactionRepository {
     fn find_all(&self) -> Result<Vec<Transaction>, TransactionError>;
     fn find_by_id(&self, id: TransactionId) -> Result<Option<Transaction>, TransactionError>;
+    fn find_for_account(&self, account_id: AccountId)
+        -> Result<Vec<Transaction>, TransactionError>;
     fn insert(&self, tx: &Transaction) -> Result<Transaction, TransactionError>;
     fn update(&self, tx: &Transaction) -> Result<(), TransactionError>;
     fn delete(&self, id: TransactionId) -> Result<(), TransactionError>;

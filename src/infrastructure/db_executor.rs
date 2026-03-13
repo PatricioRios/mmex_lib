@@ -2,7 +2,6 @@ use crate::MmexError;
 use rusqlite::{Connection, Params, Row, Transaction};
 
 /// Abstracción para ejecutar comandos SQL.
-/// No usamos dyn porque los métodos son genéricos.
 pub trait DbExecutor {
     fn query_row_ext<T, P, F>(&self, sql: &str, params: P, f: F) -> Result<T, MmexError>
     where

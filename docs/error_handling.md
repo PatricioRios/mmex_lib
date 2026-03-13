@@ -24,13 +24,15 @@ No se deben usar comparaciones de cadenas de texto para identificar errores de b
 ```rust
 // Ejemplo de mapeo semántico
 match error.code {
-    ErrorCode::DatabaseFull => MmexError::DiskFull(msg),
+    ErrorCode::DiskFull => MmexError::DiskFull(msg),
     ErrorCode::DatabaseBusy => MmexError::DatabaseBusy(msg),
+    ErrorCode::DatabaseCorrupt => MmexError::DatabaseCorrupt(msg),
     ErrorCode::ConstraintViolation => {
         if msg.contains("UNIQUE") { MmexError::UniqueConstraint(msg) }
+        else if msg.contains("FOREIGN KEY") { MmexError::ForeignKeyConstraint(msg) }
         else { MmexError::Database(msg) }
     }
-    // ...
+    _ => MmexError::Database(msg),
 }
 ```
 
@@ -44,5 +46,5 @@ match error.code {
 ## 4. Uso desde FFI (UniFFI)
 
 Los errores están marcados con `#[derive(uniffi::Error)]` para que sean proyectados como excepciones nativas en:
-- **Kotlin**: `MmexException.DatabaseFull`
-- **Swift**: `MmexError.databaseFull`
+- **Kotlin**: `MmexException.DiskFull`
+- **Swift**: `MmexError.diskFull`

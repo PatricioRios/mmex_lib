@@ -604,6 +604,12 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_by_id() != 22517:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_get_for_reference() != 25841:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_link_to_reference() != 638:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_unlink_from_reference() != 59327:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_tagmanager_update() != 4678:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_transactionmanager_add_split() != 61628:
@@ -1359,6 +1365,29 @@ _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_get_by_id.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_get_by_id.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_get_for_reference.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    ctypes.c_int64,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_get_for_reference.restype = _UniffiRustBuffer
+_UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_link_to_reference.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    ctypes.c_int64,
+    ctypes.c_int64,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_link_to_reference.restype = None
+_UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_unlink_from_reference.argtypes = (
+    ctypes.c_uint64,
+    _UniffiRustBuffer,
+    ctypes.c_int64,
+    ctypes.c_int64,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_unlink_from_reference.restype = None
 _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_update.argtypes = (
     ctypes.c_uint64,
     ctypes.c_int64,
@@ -1642,6 +1671,15 @@ _UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_get_all_json.restype = cty
 _UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_get_by_id.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_get_by_id.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_get_for_reference.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_get_for_reference.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_link_to_reference.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_link_to_reference.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_unlink_from_reference.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_unlink_from_reference.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_update.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_update.restype = ctypes.c_uint16
@@ -4137,6 +4175,86 @@ class MmexError:  # type: ignore
         def __repr__(self):
             return "MmexError.Database({})".format(str(self))
     _UniffiTempMmexError.Database = Database # type: ignore
+    class DiskFull(_UniffiTempMmexError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], str):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'str', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "MmexError.DiskFull({})".format(str(self))
+    _UniffiTempMmexError.DiskFull = DiskFull # type: ignore
+    class DatabaseBusy(_UniffiTempMmexError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], str):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'str', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "MmexError.DatabaseBusy({})".format(str(self))
+    _UniffiTempMmexError.DatabaseBusy = DatabaseBusy # type: ignore
+    class DatabaseCorrupt(_UniffiTempMmexError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], str):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'str', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "MmexError.DatabaseCorrupt({})".format(str(self))
+    _UniffiTempMmexError.DatabaseCorrupt = DatabaseCorrupt # type: ignore
+    class UniqueConstraint(_UniffiTempMmexError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], str):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'str', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "MmexError.UniqueConstraint({})".format(str(self))
+    _UniffiTempMmexError.UniqueConstraint = UniqueConstraint # type: ignore
+    class ForeignKeyConstraint(_UniffiTempMmexError):
+        
+        def __init__(self, *values):
+            if len(values) != 1:
+                raise TypeError(f"Expected 1 arguments, found {len(values)}")
+            if not isinstance(values[0], str):
+                raise TypeError(f"unexpected type for tuple element 0 - expected 'str', got '{type(values[0])}'")
+            super().__init__(", ".join(map(repr, values)))
+            self._values = values
+
+        def __getitem__(self, index):
+            return self._values[index]
+
+        def __repr__(self):
+            return "MmexError.ForeignKeyConstraint({})".format(str(self))
+    _UniffiTempMmexError.ForeignKeyConstraint = ForeignKeyConstraint # type: ignore
     class Crypto(_UniffiTempMmexError):
         
         def __init__(self, *values):
@@ -4169,6 +4287,14 @@ class MmexError:  # type: ignore
         def __repr__(self):
             return "MmexError.LegacyMapping({})".format(str(self))
     _UniffiTempMmexError.LegacyMapping = LegacyMapping # type: ignore
+    class NotFound(_UniffiTempMmexError):
+        
+        def __init__(self):
+            pass
+
+        def __repr__(self):
+            return "MmexError.NotFound({})".format(str(self))
+    _UniffiTempMmexError.NotFound = NotFound # type: ignore
     class Internal(_UniffiTempMmexError):
         
         def __init__(self, *values):
@@ -4199,14 +4325,37 @@ class _UniffiFfiConverterTypeMmexError(_UniffiConverterRustBuffer):
                 _UniffiFfiConverterString.read(buf),
             )
         if variant == 2:
-            return MmexError.Crypto(
+            return MmexError.DiskFull(
                 _UniffiFfiConverterString.read(buf),
             )
         if variant == 3:
-            return MmexError.LegacyMapping(
+            return MmexError.DatabaseBusy(
                 _UniffiFfiConverterString.read(buf),
             )
         if variant == 4:
+            return MmexError.DatabaseCorrupt(
+                _UniffiFfiConverterString.read(buf),
+            )
+        if variant == 5:
+            return MmexError.UniqueConstraint(
+                _UniffiFfiConverterString.read(buf),
+            )
+        if variant == 6:
+            return MmexError.ForeignKeyConstraint(
+                _UniffiFfiConverterString.read(buf),
+            )
+        if variant == 7:
+            return MmexError.Crypto(
+                _UniffiFfiConverterString.read(buf),
+            )
+        if variant == 8:
+            return MmexError.LegacyMapping(
+                _UniffiFfiConverterString.read(buf),
+            )
+        if variant == 9:
+            return MmexError.NotFound(
+            )
+        if variant == 10:
             return MmexError.Internal(
                 _UniffiFfiConverterString.read(buf),
             )
@@ -4217,11 +4366,28 @@ class _UniffiFfiConverterTypeMmexError(_UniffiConverterRustBuffer):
         if isinstance(value, MmexError.Database):
             _UniffiFfiConverterString.check_lower(value._values[0])
             return
+        if isinstance(value, MmexError.DiskFull):
+            _UniffiFfiConverterString.check_lower(value._values[0])
+            return
+        if isinstance(value, MmexError.DatabaseBusy):
+            _UniffiFfiConverterString.check_lower(value._values[0])
+            return
+        if isinstance(value, MmexError.DatabaseCorrupt):
+            _UniffiFfiConverterString.check_lower(value._values[0])
+            return
+        if isinstance(value, MmexError.UniqueConstraint):
+            _UniffiFfiConverterString.check_lower(value._values[0])
+            return
+        if isinstance(value, MmexError.ForeignKeyConstraint):
+            _UniffiFfiConverterString.check_lower(value._values[0])
+            return
         if isinstance(value, MmexError.Crypto):
             _UniffiFfiConverterString.check_lower(value._values[0])
             return
         if isinstance(value, MmexError.LegacyMapping):
             _UniffiFfiConverterString.check_lower(value._values[0])
+            return
+        if isinstance(value, MmexError.NotFound):
             return
         if isinstance(value, MmexError.Internal):
             _UniffiFfiConverterString.check_lower(value._values[0])
@@ -4232,14 +4398,31 @@ class _UniffiFfiConverterTypeMmexError(_UniffiConverterRustBuffer):
         if isinstance(value, MmexError.Database):
             buf.write_i32(1)
             _UniffiFfiConverterString.write(value._values[0], buf)
-        if isinstance(value, MmexError.Crypto):
+        if isinstance(value, MmexError.DiskFull):
             buf.write_i32(2)
             _UniffiFfiConverterString.write(value._values[0], buf)
-        if isinstance(value, MmexError.LegacyMapping):
+        if isinstance(value, MmexError.DatabaseBusy):
             buf.write_i32(3)
             _UniffiFfiConverterString.write(value._values[0], buf)
-        if isinstance(value, MmexError.Internal):
+        if isinstance(value, MmexError.DatabaseCorrupt):
             buf.write_i32(4)
+            _UniffiFfiConverterString.write(value._values[0], buf)
+        if isinstance(value, MmexError.UniqueConstraint):
+            buf.write_i32(5)
+            _UniffiFfiConverterString.write(value._values[0], buf)
+        if isinstance(value, MmexError.ForeignKeyConstraint):
+            buf.write_i32(6)
+            _UniffiFfiConverterString.write(value._values[0], buf)
+        if isinstance(value, MmexError.Crypto):
+            buf.write_i32(7)
+            _UniffiFfiConverterString.write(value._values[0], buf)
+        if isinstance(value, MmexError.LegacyMapping):
+            buf.write_i32(8)
+            _UniffiFfiConverterString.write(value._values[0], buf)
+        if isinstance(value, MmexError.NotFound):
+            buf.write_i32(9)
+        if isinstance(value, MmexError.Internal):
+            buf.write_i32(10)
             _UniffiFfiConverterString.write(value._values[0], buf)
 
 
@@ -7080,6 +7263,21 @@ class TagManagerProtocol(typing.Protocol):
         Busca una etiqueta específica por su identificador único.
 """
         raise NotImplementedError
+    def get_for_reference(self, ref_type: str,ref_id: int) -> typing.List[Tag]:
+        """
+        Obtiene las etiquetas vinculadas a una referencia específica (ej: transacciones).
+"""
+        raise NotImplementedError
+    def link_to_reference(self, ref_type: str,ref_id: int,tag_id: int) -> None:
+        """
+        Vincula una etiqueta a una referencia.
+"""
+        raise NotImplementedError
+    def unlink_from_reference(self, ref_type: str,ref_id: int,tag_id: int) -> None:
+        """
+        Desvincula una etiqueta de una referencia.
+"""
+        raise NotImplementedError
     def update(self, id: int,name: str) -> None:
         """
         Actualiza el nombre de una etiqueta existente.
@@ -7194,6 +7392,75 @@ class TagManager(TagManagerProtocol):
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_get_by_id,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def get_for_reference(self, ref_type: str,ref_id: int) -> typing.List[Tag]:
+        """
+        Obtiene las etiquetas vinculadas a una referencia específica (ej: transacciones).
+"""
+        
+        _UniffiFfiConverterString.check_lower(ref_type)
+
+        _UniffiFfiConverterInt64.check_lower(ref_id)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(ref_type),
+            _UniffiFfiConverterInt64.lower(ref_id),
+        )
+        _uniffi_lift_return = _UniffiFfiConverterSequenceTypeTag.lift
+        _uniffi_error_converter = _UniffiFfiConverterTypeTagError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_get_for_reference,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def link_to_reference(self, ref_type: str,ref_id: int,tag_id: int) -> None:
+        """
+        Vincula una etiqueta a una referencia.
+"""
+        
+        _UniffiFfiConverterString.check_lower(ref_type)
+
+        _UniffiFfiConverterInt64.check_lower(ref_id)
+
+        _UniffiFfiConverterInt64.check_lower(tag_id)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(ref_type),
+            _UniffiFfiConverterInt64.lower(ref_id),
+            _UniffiFfiConverterInt64.lower(tag_id),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeTagError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_link_to_reference,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def unlink_from_reference(self, ref_type: str,ref_id: int,tag_id: int) -> None:
+        """
+        Desvincula una etiqueta de una referencia.
+"""
+        
+        _UniffiFfiConverterString.check_lower(ref_type)
+
+        _UniffiFfiConverterInt64.check_lower(ref_id)
+
+        _UniffiFfiConverterInt64.check_lower(tag_id)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterString.lower(ref_type),
+            _UniffiFfiConverterInt64.lower(ref_id),
+            _UniffiFfiConverterInt64.lower(tag_id),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeTagError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_unlink_from_reference,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)

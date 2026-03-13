@@ -1,7 +1,8 @@
 use rusqlite::Row;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
-use sea_query::{Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query_rusqlite::RusqliteBinder;
 use std::str::FromStr;
 
 use crate::domain::currencies::{Currency, CurrencyError, CurrencyId, CurrencyRepository};
@@ -22,9 +23,7 @@ impl CurrencyMapper {
         };
 
         Ok(Currency {
-            id: CurrencyId {
-                v1: row.get("CURRENCYID")?,
-            },
+            id: CurrencyId::new(row.get("CURRENCYID")?),
             name: row.get("CURRENCYNAME")?,
             pfx_symbol: row.get("PFX_SYMBOL")?,
             sfx_symbol: row.get("SFX_SYMBOL")?,
@@ -67,7 +66,7 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
                 "CURRENCY_SYMBOL",
                 "CURRENCY_TYPE",
             ])
-            .from_as("CURRENCYFORMATS_V1", "c")
+            .from(Alias::new("CURRENCYFORMATS_V1"))
             .build(SqliteQueryBuilder);
         Ok(self
             .executor
@@ -75,7 +74,7 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
     }
 
     fn find_by_id(&self, id: CurrencyId) -> Result<Option<Currency>, CurrencyError> {
-        let (sql, _) = Query::select()
+        let (sql, values) = Query::select()
             .columns([
                 "CURRENCYID",
                 "CURRENCYNAME",
@@ -90,21 +89,23 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
                 "CURRENCY_SYMBOL",
                 "CURRENCY_TYPE",
             ])
-            .from_as("CURRENCYFORMATS_V1", "c")
-            .and_where(Expr::col("CURRENCYID").eq(id.v1))
-            .build(SqliteQueryBuilder);
+            .from(Alias::new("CURRENCYFORMATS_V1"))
+            .and_where(Expr::col(Alias::new("CURRENCYID")).eq(id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
+
         match self
             .executor
-            .query_row_ext(&sql, [id.v1], |row| CurrencyMapper::map_row(row))
-        {
+            .query_row_ext(&sql, &values.as_params()[..], |row| {
+                CurrencyMapper::map_row(row)
+            }) {
             Ok(curr) => Ok(Some(curr)),
-            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
+            Err(MmexError::NotFound) => Ok(None),
             Err(e) => Err(CurrencyError::Common(e)),
         }
     }
 
     fn find_by_symbol(&self, symbol: &str) -> Result<Option<Currency>, CurrencyError> {
-        let (sql, _) = Query::select()
+        let (sql, values) = Query::select()
             .columns([
                 "CURRENCYID",
                 "CURRENCYNAME",
@@ -119,75 +120,99 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
                 "CURRENCY_SYMBOL",
                 "CURRENCY_TYPE",
             ])
-            .from_as("CURRENCYFORMATS_V1", "c")
-            .and_where(Expr::col("CURRENCY_SYMBOL").eq(symbol))
-            .build(SqliteQueryBuilder);
+            .from(Alias::new("CURRENCYFORMATS_V1"))
+            .and_where(Expr::col(Alias::new("CURRENCY_SYMBOL")).eq(symbol))
+            .build_rusqlite(SqliteQueryBuilder);
+
         match self
             .executor
-            .query_row_ext(&sql, [symbol], |row| CurrencyMapper::map_row(row))
-        {
+            .query_row_ext(&sql, &values.as_params()[..], |row| {
+                CurrencyMapper::map_row(row)
+            }) {
             Ok(curr) => Ok(Some(curr)),
-            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
+            Err(MmexError::NotFound) => Ok(None),
             Err(e) => Err(CurrencyError::Common(e)),
         }
     }
 
     fn insert(&self, c: &Currency) -> Result<Currency, CurrencyError> {
-        let sql = "INSERT INTO CURRENCYFORMATS_V1 (CURRENCYNAME, PFX_SYMBOL, SFX_SYMBOL, DECIMAL_POINT, GROUP_SEPARATOR, UNIT_NAME, CENT_NAME, SCALE, BASECONVRATE, CURRENCY_SYMBOL, CURRENCY_TYPE) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        self.executor.execute_ext(
-            sql,
-            (
-                &c.name,
-                &c.pfx_symbol,
-                &c.sfx_symbol,
-                &c.decimal_point,
-                &c.group_separator,
-                &c.unit_name,
-                &c.cent_name,
-                c.scale,
-                c.base_conv_rate.v1.clone(),
-                &c.symbol,
-                &c.currency_type,
-            ),
-        )?;
+        let (sql, values) = Query::insert()
+            .into_table(Alias::new("CURRENCYFORMATS_V1"))
+            .columns([
+                Alias::new("CURRENCYNAME"),
+                Alias::new("PFX_SYMBOL"),
+                Alias::new("SFX_SYMBOL"),
+                Alias::new("DECIMAL_POINT"),
+                Alias::new("GROUP_SEPARATOR"),
+                Alias::new("UNIT_NAME"),
+                Alias::new("CENT_NAME"),
+                Alias::new("SCALE"),
+                Alias::new("BASECONVRATE"),
+                Alias::new("CURRENCY_SYMBOL"),
+                Alias::new("CURRENCY_TYPE"),
+            ])
+            .values_panic([
+                c.name.clone().into(),
+                c.pfx_symbol.clone().into(),
+                c.sfx_symbol.clone().into(),
+                c.decimal_point.clone().into(),
+                c.group_separator.clone().into(),
+                c.unit_name.clone().into(),
+                c.cent_name.clone().into(),
+                c.scale.into(),
+                c.base_conv_rate.v1.clone().into(),
+                c.symbol.clone().into(),
+                c.currency_type.clone().into(),
+            ])
+            .build_rusqlite(SqliteQueryBuilder);
+
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
+
         let last_id: i64 = self
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
+
         let mut new_curr = c.clone();
-        new_curr.id = CurrencyId { v1: last_id };
+        new_curr.id = CurrencyId::new(last_id);
         Ok(new_curr)
     }
 
     fn update(&self, c: &Currency) -> Result<(), CurrencyError> {
-        let sql = "UPDATE CURRENCYFORMATS_V1 SET 
-                   CURRENCYNAME = ?, PFX_SYMBOL = ?, SFX_SYMBOL = ?, DECIMAL_POINT = ?, GROUP_SEPARATOR = ?, UNIT_NAME = ?, CENT_NAME = ?, SCALE = ?, BASECONVRATE = ?, CURRENCY_SYMBOL = ?, CURRENCY_TYPE = ?
-                   WHERE CURRENCYID = ?";
-        self.executor.execute_ext(
-            sql,
-            (
-                &c.name,
-                &c.pfx_symbol,
-                &c.sfx_symbol,
-                &c.decimal_point,
-                &c.group_separator,
-                &c.unit_name,
-                &c.cent_name,
-                c.scale,
-                c.base_conv_rate.v1.clone(),
-                &c.symbol,
-                &c.currency_type,
-                c.id.v1,
-            ),
-        )?;
+        let (sql, values) = Query::update()
+            .table(Alias::new("CURRENCYFORMATS_V1"))
+            .values([
+                (Alias::new("CURRENCYNAME"), c.name.clone().into()),
+                (Alias::new("PFX_SYMBOL"), c.pfx_symbol.clone().into()),
+                (Alias::new("SFX_SYMBOL"), c.sfx_symbol.clone().into()),
+                (Alias::new("DECIMAL_POINT"), c.decimal_point.clone().into()),
+                (
+                    Alias::new("GROUP_SEPARATOR"),
+                    c.group_separator.clone().into(),
+                ),
+                (Alias::new("UNIT_NAME"), c.unit_name.clone().into()),
+                (Alias::new("CENT_NAME"), c.cent_name.clone().into()),
+                (Alias::new("SCALE"), c.scale.into()),
+                (
+                    Alias::new("BASECONVRATE"),
+                    c.base_conv_rate.v1.clone().into(),
+                ),
+                (Alias::new("CURRENCY_SYMBOL"), c.symbol.clone().into()),
+                (Alias::new("CURRENCY_TYPE"), c.currency_type.clone().into()),
+            ])
+            .and_where(Expr::col(Alias::new("CURRENCYID")).eq(c.id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
+
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }
 
     fn delete(&self, id: CurrencyId) -> Result<(), CurrencyError> {
-        self.executor.execute_ext(
-            "DELETE FROM CURRENCYFORMATS_V1 WHERE CURRENCYID = ?",
-            [id.v1],
-        )?;
+        let (sql, values) = Query::delete()
+            .from_table(Alias::new("CURRENCYFORMATS_V1"))
+            .and_where(Expr::col(Alias::new("CURRENCYID")).eq(id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
+
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }
 }

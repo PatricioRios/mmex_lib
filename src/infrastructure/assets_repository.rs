@@ -2,7 +2,8 @@ use chrono::NaiveDate;
 use rusqlite::Row;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
-use sea_query::{Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query_rusqlite::RusqliteBinder;
 use std::str::FromStr;
 
 use crate::domain::assets::{Asset, AssetError, AssetId, AssetRepository, AssetStatus};
@@ -27,15 +28,13 @@ impl AssetMapper {
             .unwrap_or_else(|_| NaiveDate::from_ymd_opt(1970, 1, 1).unwrap());
 
         Ok(Asset {
-            id: AssetId {
-                v1: row.get("ASSETID")?,
-            },
+            id: AssetId::new(row.get("ASSETID")?),
             name: row.get("ASSETNAME")?,
             start_date: MmexDate::from(start_date),
             status: AssetStatus::from(row.get::<_, String>("ASSETSTATUS").unwrap_or_default()),
             currency_id: row
                 .get::<_, Option<i64>>("CURRENCYID")?
-                .map(|v1| CurrencyId { v1 }),
+                .map(CurrencyId::new),
             value_change_mode: row.get("VALUECHANGEMODE")?,
             value: Money::from(value_val),
             value_change: row.get("VALUECHANGE")?,
@@ -72,7 +71,7 @@ impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
                 "VALUECHANGERATE",
                 "ASSETTYPE",
             ])
-            .from_as("ASSETS_V1", "a")
+            .from(Alias::new("ASSETS_V1"))
             .build(SqliteQueryBuilder);
 
         Ok(self
@@ -81,7 +80,7 @@ impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
     }
 
     fn find_by_id(&self, id: AssetId) -> Result<Option<Asset>, AssetError> {
-        let (sql, _) = Query::select()
+        let (sql, values) = Query::select()
             .columns([
                 "ASSETID",
                 "STARTDATE",
@@ -95,75 +94,96 @@ impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
                 "VALUECHANGERATE",
                 "ASSETTYPE",
             ])
-            .from_as("ASSETS_V1", "a")
-            .and_where(Expr::col("ASSETID").eq(id.v1))
-            .build(SqliteQueryBuilder);
+            .from(Alias::new("ASSETS_V1"))
+            .and_where(Expr::col(Alias::new("ASSETID")).eq(id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
 
         match self
             .executor
-            .query_row_ext(&sql, [id.v1], |row| AssetMapper::map_row(row))
-        {
+            .query_row_ext(&sql, &values.as_params()[..], |row| {
+                AssetMapper::map_row(row)
+            }) {
             Ok(asset) => Ok(Some(asset)),
-            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
+            Err(MmexError::NotFound) => Ok(None),
             Err(e) => Err(AssetError::Common(e)),
         }
     }
 
     fn insert(&self, a: &Asset) -> Result<Asset, AssetError> {
-        let sql = "INSERT INTO ASSETS_V1 (STARTDATE, ASSETNAME, ASSETSTATUS, CURRENCYID, VALUECHANGEMODE, VALUE, VALUECHANGE, NOTES, VALUECHANGERATE, ASSETTYPE) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        let (sql, values) = Query::insert()
+            .into_table(Alias::new("ASSETS_V1"))
+            .columns([
+                Alias::new("STARTDATE"),
+                Alias::new("ASSETNAME"),
+                Alias::new("ASSETSTATUS"),
+                Alias::new("CURRENCYID"),
+                Alias::new("VALUECHANGEMODE"),
+                Alias::new("VALUE"),
+                Alias::new("VALUECHANGE"),
+                Alias::new("NOTES"),
+                Alias::new("VALUECHANGERATE"),
+                Alias::new("ASSETTYPE"),
+            ])
+            .values_panic([
+                a.start_date.v1.clone().into(),
+                a.name.clone().into(),
+                a.status.to_string().into(),
+                a.currency_id.map(|id| id.v1).into(),
+                a.value_change_mode.clone().into(),
+                a.value.v1.clone().into(),
+                a.value_change.clone().into(),
+                a.notes.clone().into(),
+                a.value_change_rate.into(),
+                a.asset_type.clone().into(),
+            ])
+            .build_rusqlite(SqliteQueryBuilder);
 
-        self.executor.execute_ext(
-            sql,
-            (
-                a.start_date.v1.clone(),
-                &a.name,
-                a.status.to_string(),
-                a.currency_id.map(|id| id.v1),
-                &a.value_change_mode,
-                a.value.v1.clone(),
-                &a.value_change,
-                &a.notes,
-                a.value_change_rate,
-                &a.asset_type,
-            ),
-        )?;
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
 
         let last_id: i64 = self
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
+
         let mut new_asset = a.clone();
-        new_asset.id = AssetId { v1: last_id };
+        new_asset.id = AssetId::new(last_id);
         Ok(new_asset)
     }
 
     fn update(&self, a: &Asset) -> Result<(), AssetError> {
-        let sql = "UPDATE ASSETS_V1 SET 
-                   STARTDATE = ?, ASSETNAME = ?, ASSETSTATUS = ?, CURRENCYID = ?, VALUECHANGEMODE = ?, VALUE = ?, VALUECHANGE = ?, NOTES = ?, VALUECHANGERATE = ?, ASSETTYPE = ?
-                   WHERE ASSETID = ?";
+        let (sql, values) = Query::update()
+            .table(Alias::new("ASSETS_V1"))
+            .values([
+                (Alias::new("STARTDATE"), a.start_date.v1.clone().into()),
+                (Alias::new("ASSETNAME"), a.name.clone().into()),
+                (Alias::new("ASSETSTATUS"), a.status.to_string().into()),
+                (
+                    Alias::new("CURRENCYID"),
+                    a.currency_id.map(|id| id.v1).into(),
+                ),
+                (
+                    Alias::new("VALUECHANGEMODE"),
+                    a.value_change_mode.clone().into(),
+                ),
+                (Alias::new("VALUE"), a.value.v1.clone().into()),
+                (Alias::new("VALUECHANGE"), a.value_change.clone().into()),
+                (Alias::new("NOTES"), a.notes.clone().into()),
+                (Alias::new("VALUECHANGERATE"), a.value_change_rate.into()),
+                (Alias::new("ASSETTYPE"), a.asset_type.clone().into()),
+            ])
+            .and_where(Expr::col(Alias::new("ASSETID")).eq(a.id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
 
-        self.executor.execute_ext(
-            sql,
-            (
-                a.start_date.v1.clone(),
-                &a.name,
-                a.status.to_string(),
-                a.currency_id.map(|id| id.v1),
-                &a.value_change_mode,
-                a.value.v1.clone(),
-                &a.value_change,
-                &a.notes,
-                a.value_change_rate,
-                &a.asset_type,
-                a.id.v1,
-            ),
-        )?;
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }
 
     fn delete(&self, id: AssetId) -> Result<(), AssetError> {
-        self.executor
-            .execute_ext("DELETE FROM ASSETS_V1 WHERE ASSETID = ?", [id.v1])?;
+        let (sql, values) = Query::delete()
+            .from_table(Alias::new("ASSETS_V1"))
+            .and_where(Expr::col(Alias::new("ASSETID")).eq(id.v1))
+            .build_rusqlite(SqliteQueryBuilder);
+
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }
 }

@@ -2,7 +2,8 @@ use chrono::NaiveDate;
 use rusqlite::Row;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
-use sea_query::{Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query_rusqlite::RusqliteBinder;
 use std::str::FromStr;
 
 use crate::domain::payees::PayeeId;
@@ -43,23 +44,17 @@ impl ScheduledMapper {
 
         Ok(ScheduledTransaction {
             id: row.get("BDID")?,
-            account_id: AccountId {
-                v1: row.get("ACCOUNTID")?,
-            },
+            account_id: AccountId::new(row.get("ACCOUNTID")?),
             to_account_id: row
                 .get::<_, Option<i64>>("TOACCOUNTID")?
-                .map(|v1| AccountId { v1 }),
-            payee_id: PayeeId {
-                v1: row.get("PAYEEID")?,
-            },
+                .map(AccountId::new),
+            payee_id: PayeeId::new(row.get("PAYEEID")?),
             trans_code: TransactionCode::from(row.get::<_, String>("TRANSCODE")?),
             amount: Money::from(amount_val),
             status: TransactionStatus::from(row.get::<_, String>("STATUS")?),
             transaction_number: row.get("TRANSACTIONNUMBER")?,
             notes: row.get("NOTES")?,
-            category_id: row
-                .get::<_, Option<i64>>("CATEGID")?
-                .map(|v1| CategoryId { v1 }),
+            category_id: row.get::<_, Option<i64>>("CATEGID")?.map(CategoryId::new),
             trans_date: trans_date.map(MmexDate::from),
             next_occurrence_date: next_occurrence_date.map(MmexDate::from),
             repeats: row.get("REPEATS")?,
@@ -99,7 +94,7 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
                 "NEXTOCCURRENCEDATE",
                 "NUMOCCURRENCES",
             ])
-            .from_as("BILLSDEPOSITS_V1", "b")
+            .from(Alias::new("BILLSDEPOSITS_V1"))
             .build(SqliteQueryBuilder);
 
         Ok(self
@@ -108,7 +103,7 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
     }
 
     fn find_by_id(&self, id: i64) -> Result<Option<ScheduledTransaction>, ScheduledError> {
-        let (sql, _) = Query::select()
+        let (sql, values) = Query::select()
             .columns([
                 "BDID",
                 "ACCOUNTID",
@@ -126,16 +121,17 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
                 "NEXTOCCURRENCEDATE",
                 "NUMOCCURRENCES",
             ])
-            .from_as("BILLSDEPOSITS_V1", "b")
-            .and_where(Expr::col("BDID").eq(id))
-            .build(SqliteQueryBuilder);
+            .from(Alias::new("BILLSDEPOSITS_V1"))
+            .and_where(Expr::col(Alias::new("BDID")).eq(id))
+            .build_rusqlite(SqliteQueryBuilder);
 
         match self
             .executor
-            .query_row_ext(&sql, [id], |row| ScheduledMapper::map_row(row))
-        {
+            .query_row_ext(&sql, &values.as_params()[..], |row| {
+                ScheduledMapper::map_row(row)
+            }) {
             Ok(tx) => Ok(Some(tx)),
-            Err(MmexError::Database(e)) if e.contains("Query returned no rows") => Ok(None),
+            Err(MmexError::NotFound) => Ok(None),
             Err(e) => Err(ScheduledError::Common(e)),
         }
     }
@@ -144,32 +140,48 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
         let trans_date_str = s.trans_date.as_ref().map(|d| d.v1.clone());
         let next_date_str = s.next_occurrence_date.as_ref().map(|d| d.v1.clone());
 
-        let sql = "INSERT INTO BILLSDEPOSITS_V1 (ACCOUNTID, TOACCOUNTID, PAYEEID, TRANSCODE, TRANSAMOUNT, STATUS, TRANSACTIONNUMBER, NOTES, CATEGID, TRANSDATE, TOTRANSAMOUNT, REPEATS, NEXTOCCURRENCEDATE, NUMOCCURRENCES) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        let (sql, values) = Query::insert()
+            .into_table(Alias::new("BILLSDEPOSITS_V1"))
+            .columns([
+                Alias::new("ACCOUNTID"),
+                Alias::new("TOACCOUNTID"),
+                Alias::new("PAYEEID"),
+                Alias::new("TRANSCODE"),
+                Alias::new("TRANSAMOUNT"),
+                Alias::new("STATUS"),
+                Alias::new("TRANSACTIONNUMBER"),
+                Alias::new("NOTES"),
+                Alias::new("CATEGID"),
+                Alias::new("TRANSDATE"),
+                Alias::new("TOTRANSAMOUNT"),
+                Alias::new("REPEATS"),
+                Alias::new("NEXTOCCURRENCEDATE"),
+                Alias::new("NUMOCCURRENCES"),
+            ])
+            .values_panic([
+                s.account_id.v1.into(),
+                s.to_account_id.map(|id| id.v1).into(),
+                s.payee_id.v1.into(),
+                s.trans_code.to_string().into(),
+                s.amount.v1.clone().into(),
+                s.status.to_string().into(),
+                s.transaction_number.clone().into(),
+                s.notes.clone().into(),
+                s.category_id.map(|id| id.v1).into(),
+                trans_date_str.into(),
+                s.to_trans_amount.as_ref().map(|m| m.v1.clone()).into(),
+                s.repeats.into(),
+                next_date_str.into(),
+                s.num_occurrences.into(),
+            ])
+            .build_rusqlite(SqliteQueryBuilder);
 
-        self.executor.execute_ext(
-            sql,
-            (
-                s.account_id.v1,
-                s.to_account_id.map(|id| id.v1),
-                s.payee_id.v1,
-                s.trans_code.to_string(),
-                s.amount.v1.clone(),
-                s.status.to_string(),
-                &s.transaction_number,
-                &s.notes,
-                s.category_id.map(|id| id.v1),
-                trans_date_str,
-                s.to_trans_amount.as_ref().map(|m| m.v1.clone()),
-                s.repeats,
-                next_date_str,
-                s.num_occurrences,
-            ),
-        )?;
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
 
         let last_id: i64 = self
             .executor
             .query_row_ext("SELECT last_insert_rowid()", [], |r| r.get(0))?;
+
         let mut new_tx = s.clone();
         new_tx.id = last_id;
         Ok(new_tx)
@@ -179,36 +191,47 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
         let trans_date_str = s.trans_date.as_ref().map(|d| d.v1.clone());
         let next_date_str = s.next_occurrence_date.as_ref().map(|d| d.v1.clone());
 
-        let sql = "UPDATE BILLSDEPOSITS_V1 SET 
-                   ACCOUNTID = ?, TOACCOUNTID = ?, PAYEEID = ?, TRANSCODE = ?, TRANSAMOUNT = ?, STATUS = ?, TRANSACTIONNUMBER = ?, NOTES = ?, CATEGID = ?, TRANSDATE = ?, TOTRANSAMOUNT = ?, REPEATS = ?, NEXTOCCURRENCEDATE = ?, NUMOCCURRENCES = ?
-                   WHERE BDID = ?";
+        let (sql, values) = Query::update()
+            .table(Alias::new("BILLSDEPOSITS_V1"))
+            .values([
+                (Alias::new("ACCOUNTID"), s.account_id.v1.into()),
+                (
+                    Alias::new("TOACCOUNTID"),
+                    s.to_account_id.map(|id| id.v1).into(),
+                ),
+                (Alias::new("PAYEEID"), s.payee_id.v1.into()),
+                (Alias::new("TRANSCODE"), s.trans_code.to_string().into()),
+                (Alias::new("TRANSAMOUNT"), s.amount.v1.clone().into()),
+                (Alias::new("STATUS"), s.status.to_string().into()),
+                (
+                    Alias::new("TRANSACTIONNUMBER"),
+                    s.transaction_number.clone().into(),
+                ),
+                (Alias::new("NOTES"), s.notes.clone().into()),
+                (Alias::new("CATEGID"), s.category_id.map(|id| id.v1).into()),
+                (Alias::new("TRANSDATE"), trans_date_str.into()),
+                (
+                    Alias::new("TOTRANSAMOUNT"),
+                    s.to_trans_amount.as_ref().map(|m| m.v1.clone()).into(),
+                ),
+                (Alias::new("REPEATS"), s.repeats.into()),
+                (Alias::new("NEXTOCCURRENCEDATE"), next_date_str.into()),
+                (Alias::new("NUMOCCURRENCES"), s.num_occurrences.into()),
+            ])
+            .and_where(Expr::col(Alias::new("BDID")).eq(s.id))
+            .build_rusqlite(SqliteQueryBuilder);
 
-        self.executor.execute_ext(
-            sql,
-            (
-                s.account_id.v1,
-                s.to_account_id.map(|id| id.v1),
-                s.payee_id.v1,
-                s.trans_code.to_string(),
-                s.amount.v1.clone(),
-                s.status.to_string(),
-                &s.transaction_number,
-                &s.notes,
-                s.category_id.map(|id| id.v1),
-                trans_date_str,
-                s.to_trans_amount.as_ref().map(|m| m.v1.clone()),
-                s.repeats,
-                next_date_str,
-                s.num_occurrences,
-                s.id,
-            ),
-        )?;
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }
 
     fn delete(&self, id: i64) -> Result<(), ScheduledError> {
-        self.executor
-            .execute_ext("DELETE FROM BILLSDEPOSITS_V1 WHERE BDID = ?", [id])?;
+        let (sql, values) = Query::delete()
+            .from_table(Alias::new("BILLSDEPOSITS_V1"))
+            .and_where(Expr::col(Alias::new("BDID")).eq(id))
+            .build_rusqlite(SqliteQueryBuilder);
+
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }
 }
