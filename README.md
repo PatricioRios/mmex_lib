@@ -26,6 +26,15 @@ cargo build
    PYTHONPATH=examples/python/ python3 examples/python/main.py
    ```
 
+#### Example
+   ```bash
+   cargo run --bin uniffi-bindgen generate --library target/debug/libmmex_lib.so --language python --out-dir examples/python
+
+   PYTHONPATH=examples/python/ python3 examples/python/main.py
+
+   ```
+
+
 ### Kotlin
 
 1. **Dependencies**: The example requires `jna.jar` (located in `examples/kotlin/`).
@@ -39,6 +48,17 @@ cargo build
 3. **Run**:
    ```bash
    java -Djna.library.path=target/debug -cp "examples/kotlin/jna.jar:examples/kotlin/main.jar" MainKt
+   ```
+#### Example
+```bash
+   cargo run --bin uniffi-bindgen generate --library target/debug/libmmex_lib.so --language kotlin --out-dir examples/kotlin
+
+   kotlinc -cp "examples/kotlin/jna.jar" \
+     examples/kotlin/Main.kt examples/kotlin/uniffi/mmex_lib/mmex_lib.kt \
+     -include-runtime -d examples/kotlin/main.jar
+
+   java -Djna.library.path=target/debug -cp "examples/kotlin/jna.jar:examples/kotlin/main.jar" MainKt
+   
    ```
 
 ## Development

@@ -10,7 +10,7 @@ use crate::domain::transactions::{
     Transaction, TransactionCode, TransactionError, TransactionId, TransactionRepository,
     TransactionStatus,
 };
-use crate::domain::types::{AccountId, CategoryId, Money};
+use crate::domain::types::{AccountId, CategoryId, MmexDate, Money};
 use crate::infrastructure::db_executor::DbExecutor;
 use crate::MmexError;
 
@@ -58,7 +58,7 @@ impl TransactionMapper {
             category_id: row
                 .get::<_, Option<i64>>("CATEGID")?
                 .map(|v1| CategoryId { v1 }),
-            date,
+            date: date.map(MmexDate::from),
             to_amount: to_amount_val,
         })
     }
@@ -128,7 +128,7 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
     }
 
     fn insert(&self, tx: &Transaction) -> Result<Transaction, TransactionError> {
-        let date_str = tx.date.map(|d| d.to_string());
+        let date_str = tx.date.as_ref().map(|d| d.v1.clone());
         let sql = "INSERT INTO CHECKINGACCOUNT_V1 (ACCOUNTID, TOACCOUNTID, PAYEEID, TRANSCODE, TRANSAMOUNT, STATUS, TRANSACTIONNUMBER, NOTES, CATEGID, TRANSDATE, TOTRANSAMOUNT) 
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         self.executor.execute_ext(
@@ -157,7 +157,7 @@ impl<'a, E: DbExecutor> TransactionRepository for SqlTransactionRepository<'a, E
     }
 
     fn update(&self, tx: &Transaction) -> Result<(), TransactionError> {
-        let date_str = tx.date.map(|d| d.to_string());
+        let date_str = tx.date.as_ref().map(|d| d.v1.clone());
         let sql = "UPDATE CHECKINGACCOUNT_V1 SET 
                    ACCOUNTID = ?, TOACCOUNTID = ?, PAYEEID = ?, TRANSCODE = ?, TRANSAMOUNT = ?, STATUS = ?, TRANSACTIONNUMBER = ?, NOTES = ?, CATEGID = ?, TRANSDATE = ?, TOTRANSAMOUNT = ?
                    WHERE TRANSID = ?";

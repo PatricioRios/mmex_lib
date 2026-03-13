@@ -15,7 +15,7 @@ pub enum PayeeError {
     NameRequired,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct Payee {
     pub id: PayeeId,
     pub name: String,

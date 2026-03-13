@@ -1,7 +1,5 @@
-use crate::domain::currencies::CurrencyId;
-use crate::domain::types::Money;
+pub use crate::domain::types::{ AssetId, CurrencyId, MmexDate, Money};
 use crate::MmexError;
-use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
@@ -14,18 +12,7 @@ pub enum AssetError {
     NotFound(AssetId),
 }
 
-#[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct AssetId {
-    pub v1: i64,
-}
-
-impl std::fmt::Display for AssetId {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.v1)
-    }
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(uniffi::Enum, Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum AssetStatus {
     Open,
     Closed,
@@ -52,11 +39,11 @@ impl ToString for AssetStatus {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct Asset {
     pub id: AssetId,
     pub name: String,
-    pub start_date: NaiveDate,
+    pub start_date: MmexDate,
     pub status: AssetStatus,
     pub currency_id: Option<CurrencyId>,
     pub value_change_mode: Option<String>, // Percentage, Linear

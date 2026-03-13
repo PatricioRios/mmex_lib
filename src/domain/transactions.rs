@@ -1,7 +1,6 @@
 use crate::domain::payees::PayeeId;
-pub use crate::domain::types::{AccountId, CategoryId, Money, TransactionId};
+pub use crate::domain::types::{AccountId, CategoryId, MmexDate, Money, TransactionId};
 use crate::MmexError;
-use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
@@ -20,7 +19,7 @@ pub enum TransactionError {
     SplitError(String),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(uniffi::Enum, Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum TransactionCode {
     Withdrawal,
     Deposit,
@@ -50,7 +49,7 @@ impl ToString for TransactionCode {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(uniffi::Enum, Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub enum TransactionStatus {
     None,
     Reconciled,
@@ -86,7 +85,7 @@ impl ToString for TransactionStatus {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct Transaction {
     pub id: TransactionId,
     pub account_id: AccountId,
@@ -98,11 +97,11 @@ pub struct Transaction {
     pub transaction_number: Option<String>,
     pub notes: Option<String>,
     pub category_id: Option<CategoryId>,
-    pub date: Option<NaiveDate>,
+    pub date: Option<MmexDate>,
     pub to_amount: Option<Money>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct SplitTransaction {
     pub id: i64,                         // SPLITTRANSID
     pub transaction_id: TransactionId,   // TRANSID

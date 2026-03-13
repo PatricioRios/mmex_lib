@@ -10,7 +10,7 @@ use crate::domain::scheduled_transactions::{
     ScheduledError, ScheduledRepository, ScheduledTransaction,
 };
 use crate::domain::transactions::{TransactionCode, TransactionStatus};
-use crate::domain::types::{AccountId, CategoryId, Money};
+use crate::domain::types::{AccountId, CategoryId, MmexDate, Money};
 use crate::infrastructure::db_executor::DbExecutor;
 use crate::MmexError;
 
@@ -60,8 +60,8 @@ impl ScheduledMapper {
             category_id: row
                 .get::<_, Option<i64>>("CATEGID")?
                 .map(|v1| CategoryId { v1 }),
-            trans_date,
-            next_occurrence_date,
+            trans_date: trans_date.map(MmexDate::from),
+            next_occurrence_date: next_occurrence_date.map(MmexDate::from),
             repeats: row.get("REPEATS")?,
             num_occurrences: row.get("NUMOCCURRENCES")?,
             to_trans_amount: to_amount_val,
@@ -141,8 +141,8 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
     }
 
     fn insert(&self, s: &ScheduledTransaction) -> Result<ScheduledTransaction, ScheduledError> {
-        let trans_date_str = s.trans_date.map(|d| d.to_string());
-        let next_date_str = s.next_occurrence_date.map(|d| d.to_string());
+        let trans_date_str = s.trans_date.as_ref().map(|d| d.v1.clone());
+        let next_date_str = s.next_occurrence_date.as_ref().map(|d| d.v1.clone());
 
         let sql = "INSERT INTO BILLSDEPOSITS_V1 (ACCOUNTID, TOACCOUNTID, PAYEEID, TRANSCODE, TRANSAMOUNT, STATUS, TRANSACTIONNUMBER, NOTES, CATEGID, TRANSDATE, TOTRANSAMOUNT, REPEATS, NEXTOCCURRENCEDATE, NUMOCCURRENCES) 
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -176,8 +176,8 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
     }
 
     fn update(&self, s: &ScheduledTransaction) -> Result<(), ScheduledError> {
-        let trans_date_str = s.trans_date.map(|d| d.to_string());
-        let next_date_str = s.next_occurrence_date.map(|d| d.to_string());
+        let trans_date_str = s.trans_date.as_ref().map(|d| d.v1.clone());
+        let next_date_str = s.next_occurrence_date.as_ref().map(|d| d.v1.clone());
 
         let sql = "UPDATE BILLSDEPOSITS_V1 SET 
                    ACCOUNTID = ?, TOACCOUNTID = ?, PAYEEID = ?, TRANSCODE = ?, TRANSAMOUNT = ?, STATUS = ?, TRANSACTIONNUMBER = ?, NOTES = ?, CATEGID = ?, TRANSDATE = ?, TOTRANSAMOUNT = ?, REPEATS = ?, NEXTOCCURRENCEDATE = ?, NUMOCCURRENCES = ?

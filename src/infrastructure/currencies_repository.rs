@@ -5,6 +5,7 @@ use sea_query::{Expr, Query, SqliteQueryBuilder};
 use std::str::FromStr;
 
 use crate::domain::currencies::{Currency, CurrencyError, CurrencyId, CurrencyRepository};
+use crate::domain::types::Money;
 use crate::infrastructure::db_executor::DbExecutor;
 use crate::MmexError;
 
@@ -32,7 +33,7 @@ impl CurrencyMapper {
             unit_name: row.get("UNIT_NAME")?,
             cent_name: row.get("CENT_NAME")?,
             scale: row.get("SCALE")?,
-            base_conv_rate,
+            base_conv_rate: Money::from(base_conv_rate),
             symbol: row.get("CURRENCY_SYMBOL")?,
             currency_type: row.get("CURRENCY_TYPE")?,
         })
@@ -145,7 +146,7 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
                 &c.unit_name,
                 &c.cent_name,
                 c.scale,
-                c.base_conv_rate.to_string(),
+                c.base_conv_rate.v1.clone(),
                 &c.symbol,
                 &c.currency_type,
             ),
@@ -173,7 +174,7 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
                 &c.unit_name,
                 &c.cent_name,
                 c.scale,
-                c.base_conv_rate.to_string(),
+                c.base_conv_rate.v1.clone(),
                 &c.symbol,
                 &c.currency_type,
                 c.id.v1,

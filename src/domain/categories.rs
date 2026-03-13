@@ -15,7 +15,7 @@ pub enum CategoryError {
     NameRequired,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct Category {
     pub id: CategoryId,
     pub name: String,

@@ -1,6 +1,5 @@
-pub use crate::domain::types::CurrencyId;
+pub use crate::domain::types::{CurrencyId, Money};
 use crate::MmexError;
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
@@ -16,7 +15,7 @@ pub enum CurrencyError {
     NameRequired,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct Currency {
     pub id: CurrencyId,
     pub name: String,
@@ -27,7 +26,7 @@ pub struct Currency {
     pub unit_name: Option<String>,
     pub cent_name: Option<String>,
     pub scale: i32,
-    pub base_conv_rate: Decimal,
+    pub base_conv_rate: Money,
     pub symbol: String,        // CURRENCY_SYMBOL (e.g., USD, EUR)
     pub currency_type: String, // Fiat, Crypto
 }

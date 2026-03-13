@@ -6,7 +6,7 @@ use sea_query::{Expr, Query, SqliteQueryBuilder};
 use std::str::FromStr;
 
 use crate::domain::assets::{Asset, AssetError, AssetId, AssetRepository, AssetStatus};
-use crate::domain::types::{CurrencyId, Money};
+use crate::domain::types::{CurrencyId, MmexDate, Money};
 use crate::infrastructure::db_executor::DbExecutor;
 use crate::MmexError;
 
@@ -31,7 +31,7 @@ impl AssetMapper {
                 v1: row.get("ASSETID")?,
             },
             name: row.get("ASSETNAME")?,
-            start_date,
+            start_date: MmexDate::from(start_date),
             status: AssetStatus::from(row.get::<_, String>("ASSETSTATUS").unwrap_or_default()),
             currency_id: row
                 .get::<_, Option<i64>>("CURRENCYID")?
@@ -116,7 +116,7 @@ impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
         self.executor.execute_ext(
             sql,
             (
-                a.start_date.to_string(),
+                a.start_date.v1.clone(),
                 &a.name,
                 a.status.to_string(),
                 a.currency_id.map(|id| id.v1),
@@ -145,7 +145,7 @@ impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
         self.executor.execute_ext(
             sql,
             (
-                a.start_date.to_string(),
+                a.start_date.v1.clone(),
                 &a.name,
                 a.status.to_string(),
                 a.currency_id.map(|id| id.v1),

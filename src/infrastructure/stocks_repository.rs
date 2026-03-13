@@ -6,7 +6,7 @@ use sea_query::{Expr, Query, SqliteQueryBuilder};
 use std::str::FromStr;
 
 use crate::domain::stocks::{Stock, StockError, StockId, StockRepository};
-use crate::domain::types::Money;
+use crate::domain::types::{MmexDate, Money};
 use crate::infrastructure::db_executor::DbExecutor;
 use crate::MmexError;
 
@@ -33,10 +33,10 @@ impl StockMapper {
                 v1: row.get("STOCKID")?,
             },
             held_at: row.get("HELDAT")?,
-            purchase_date,
+            purchase_date: MmexDate::from(purchase_date),
             name: row.get("STOCKNAME")?,
             symbol: row.get("SYMBOL")?,
-            num_shares: Self::parse_decimal(row, "NUMSHARES"),
+            num_shares: Money::from(Self::parse_decimal(row, "NUMSHARES")),
             purchase_price: Money::from(Self::parse_decimal(row, "PURCHASEPRICE")),
             notes: row.get("NOTES")?,
             current_price: Money::from(Self::parse_decimal(row, "CURRENTPRICE")),
@@ -117,10 +117,10 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
             sql,
             (
                 s.held_at,
-                s.purchase_date.to_string(),
+                s.purchase_date.v1.clone(),
                 &s.name,
                 &s.symbol,
-                s.num_shares.to_string(),
+                s.num_shares.v1.clone(),
                 s.purchase_price.v1.clone(),
                 &s.notes,
                 s.current_price.v1.clone(),
@@ -146,10 +146,10 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
             sql,
             (
                 s.held_at,
-                s.purchase_date.to_string(),
+                s.purchase_date.v1.clone(),
                 &s.name,
                 &s.symbol,
-                s.num_shares.to_string(),
+                s.num_shares.v1.clone(),
                 s.purchase_price.v1.clone(),
                 &s.notes,
                 s.current_price.v1.clone(),

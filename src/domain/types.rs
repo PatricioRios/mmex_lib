@@ -68,7 +68,49 @@ impl fmt::Display for CurrencyId {
     }
 }
 
+#[derive(uniffi::Record, Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct MmexDate {
+    pub v1: String, // ISO 8601 YYYY-MM-DD
+}
+
+impl From<chrono::NaiveDate> for MmexDate {
+    fn from(d: chrono::NaiveDate) -> Self {
+        Self { v1: d.to_string() }
+    }
+}
+
+impl MmexDate {
+    pub fn to_naive_date(&self) -> chrono::NaiveDate {
+        use std::str::FromStr;
+        chrono::NaiveDate::from_str(&self.v1)
+            .unwrap_or_else(|_| chrono::NaiveDate::from_ymd_opt(1970, 1, 1).unwrap())
+    }
+}
+
+#[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct StockId {
+    pub v1: i64,
+}
+
+impl fmt::Display for StockId {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.v1)
+    }
+}
+
+#[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct AssetId {
+    pub v1: i64,
+}
+
+impl fmt::Display for AssetId {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.v1)
+    }
+}
+
 #[derive(uniffi::Record, Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+
 pub struct Money {
     pub v1: String,
 }

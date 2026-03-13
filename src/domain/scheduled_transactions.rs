@@ -1,9 +1,8 @@
 use crate::domain::categories::CategoryId;
 use crate::domain::payees::PayeeId;
 use crate::domain::transactions::{TransactionCode, TransactionStatus};
-use crate::domain::types::{AccountId, Money};
+use crate::domain::types::{AccountId, MmexDate, Money};
 use crate::MmexError;
-use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
@@ -16,7 +15,7 @@ pub enum ScheduledError {
     NotFound(i64),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct ScheduledTransaction {
     pub id: i64, // BDID
     pub account_id: AccountId,
@@ -28,8 +27,8 @@ pub struct ScheduledTransaction {
     pub transaction_number: Option<String>,
     pub notes: Option<String>,
     pub category_id: Option<CategoryId>,
-    pub trans_date: Option<NaiveDate>,
-    pub next_occurrence_date: Option<NaiveDate>,
+    pub trans_date: Option<MmexDate>,
+    pub next_occurrence_date: Option<MmexDate>,
     pub repeats: i32,
     pub num_occurrences: i32,
     pub to_trans_amount: Option<Money>,

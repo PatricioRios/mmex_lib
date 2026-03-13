@@ -1,7 +1,5 @@
-use crate::domain::types::Money;
+pub use crate::domain::types::{MmexDate, Money, StockId};
 use crate::MmexError;
-use chrono::NaiveDate;
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
@@ -14,25 +12,14 @@ pub enum StockError {
     NotFound(StockId),
 }
 
-#[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct StockId {
-    pub v1: i64,
-}
-
-impl std::fmt::Display for StockId {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.v1)
-    }
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct Stock {
     pub id: StockId,
     pub held_at: i64, // Referencia a cuenta
-    pub purchase_date: NaiveDate,
+    pub purchase_date: MmexDate,
     pub name: String,
     pub symbol: Option<String>,
-    pub num_shares: Decimal,
+    pub num_shares: Money,
     pub purchase_price: Money,
     pub notes: Option<String>,
     pub current_price: Money,
