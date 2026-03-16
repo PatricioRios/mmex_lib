@@ -7,6 +7,7 @@ description = "Library for interacting with Money Manager EX data and logic"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
+name = "mmex_lib"
 
 [dependencies]
 # Base de datos y SQL
@@ -30,3 +31,7 @@ path = "uniffi-bindgen.rs"
 
 [build-dependencies]
 uniffi = { version = "0.31.0", features = [ "build" ] }
+
+[package.metadata.maturin]
+python-source = "python"
+module-name = "mmex_lib.mmex_lib"

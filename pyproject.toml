@@ -1,6 +1,15 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
 [project]
-name = "mmex-lib"
+name = "mmex_lib"
 version = "0.1.0"
-description = "Add your description here"
-requires-python = ">=3.13"
+description = "Python bindings for mmex_lib using UniFFI"
+authors = [{ name = "Patricio Rios" }]
+requires-python = ">=3.7"
 dependencies = []
+
+[tool.maturin]
+python-source = "python"
+module-name = "mmex_lib.mmex_lib"

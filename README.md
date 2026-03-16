@@ -2,69 +2,89 @@
 
 Rust library for interacting with Money Manager EX data and logic, with UniFFI support for multi-language bindings.
 
-## Prerequisites
+## 🛠 Prerequisites
 
 - **Rust**: `cargo` installed.
-- **Python**: `python3` installed.
-- **Kotlin/Java**: `kotlinc` (Kotlin compiler) and `java` (JRE) installed.
+- **Python 3.8+**: `python3` installed.
+- **Kotlin/Java**: `kotlinc` and `java` (JRE) installed.
 
-## Build the Library
+## 🚀 Quick Start (Python)
 
-First, compile the Rust project to generate the shared library:
-
+### Option A: Automatic Setup (Recommended)
 ```bash
-cargo build
+make setup
+```
+This will create a virtual environment, install dependencies, and build the library.
+
+### Option B: Manual Setup
+
+1. **Create a virtual environment**:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   pip install maturin rich
+   ```
+
+3. **Install the library**:
+   ```bash
+   maturin develop
+   ```
+
+4. **Usage**:
+   ```python
+   import mmex_lib
+   engine = mmex_lib.MmexEngine("my_finance.mmb", None)
+   ```
+
+## 🏗 Development
+
+We use a `Makefile` to simplify common development tasks.
+
+### Installation & Build
+```bash
+make setup      # Complete setup (venv + deps + lib)
+make develop    # Recompile after Rust changes
+make build      # Build release wheel
 ```
 
-## Running Examples
-
-### Python
-
-1. **Setup**: The example requires the shared library to be linked or present in the folder.
-2. **Run** (run before "cargo run --bin uniffi-bindgen generate --library target/debug/libmmex_lib.so --language python --out-dir examples/python":
-   ```bash
-   PYTHONPATH=examples/python/ python3 examples/python/main.py
-   ```
-
-#### Example
-   ```bash
-   cargo run --bin uniffi-bindgen generate --library target/debug/libmmex_lib.so --language python --out-dir examples/python
-
-   PYTHONPATH=examples/python/ python3 examples/python/main.py
-
-   ```
-
-
-### Kotlin
-
-1. **Dependencies**: The example requires `jna.jar` (located in `examples/kotlin/`).
-2. **Compile**:
-   ```bash
-   # Use your kotlinc executable
-   kotlinc -cp "examples/kotlin/jna.jar" \
-     examples/kotlin/Main.kt examples/kotlin/uniffi/mmex_lib/mmex_lib.kt \
-     -include-runtime -d examples/kotlin/main.jar
-   ```
-3. **Run**:
-   ```bash
-   java -Djna.library.path=target/debug -cp "examples/kotlin/jna.jar:examples/kotlin/main.jar" MainKt
-   ```
-#### Example
+### Running Tests
 ```bash
-   cargo run --bin uniffi-bindgen generate --library target/debug/libmmex_lib.so --language kotlin --out-dir examples/kotlin
+make test-rust    # Rust unit and integration tests
+make test-python  # Python examples as integration tests
+make test         # Run all tests
+```
 
-   kotlinc -cp "examples/kotlin/jna.jar" \
-     examples/kotlin/Main.kt examples/kotlin/uniffi/mmex_lib/mmex_lib.kt \
-     -include-runtime -d examples/kotlin/main.jar
-
-   java -Djna.library.path=target/debug -cp "examples/kotlin/jna.jar:examples/kotlin/main.jar" MainKt
-   
-   ```
-
-## Development
-
-To generate bindings for other languages, use the included `uniffi-bindgen` binary:
-
+### Manual Binding Generation
+To generate bindings for other languages (Kotlin, Swift, etc.):
 ```bash
 cargo run --bin uniffi-bindgen generate --library target/debug/libmmex_lib.so --language <LANGUAGE> --out-dir <OUT_DIR>
 ```
+
+## 📁 Project Structure
+
+- `src/`: Core logic in Rust (Domain, Infrastructure, Services).
+- `python/mmex_lib/`: Python package wrapper.
+- `examples/`: Usage examples in different languages.
+- `docs/`: Technical documentation and plans.
+
+## ⚠️ Troubleshooting
+
+### "externally-managed-environment" error
+This happens when trying to install packages globally on modern Linux distributions. **Always use a virtual environment**:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### patchelf warning
+Maturin may show a warning about `patchelf`. This doesn't affect local development. For wheel distribution:
+```bash
+sudo apt install patchelf
+```
+
+## 📄 License
+Check the LICENSE file for details.
