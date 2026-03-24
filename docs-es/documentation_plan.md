@@ -42,14 +42,15 @@ La librería se encuentra actualmente en fase **Beta**. Esto significa:
 ## 🛠️ Plan de Acción (Cronograma de Ejecución)
 
 ### Paso 1: Cimientos (Inmediato)
-1.  [ ] Crear `docs-es/documentation_plan.md` (Completado ✅).
-2.  [ ] Actualizar `Cargo.toml` y `pyproject.toml` a `0.1.0-beta.1`.
-3.  [ ] Crear el `README.md` renovado en español que sirva de portal.
+1.  [x] Crear `docs-es/documentation_plan.md` (Completado ✅).
+2.  [x] Actualizar `Cargo.toml` y `pyproject.toml` a `0.1.0-beta.1` (Completado ✅).
+3.  [x] Crear el `README.md` renovado en español que sirva de portal (Completado ✅).
 
 ### Paso 2: Guías Críticas
-1.  [ ] Redactar `docs-es/guides/getting_started_python.md` (Prioridad alta para usuarios).
-2.  [ ] Actualizar y traducir `docs-es/guides/error_handling.md`.
-3.  [ ] Documentar el mapeo de base de datos (`docs-es/architecture/database_mapping.md`).
+1.  [x] Redactar `docs-es/guides/getting_started_python.md` (Completado ✅).
+2.  [x] Actualizar y traducir `docs-es/guides/error_handling.md` (Completado ✅).
+3.  [x] Documentar el mapeo de base de datos (`docs-es/architecture/database_mapping.md`) (Completado ✅).
+4.  [x] Redactar la arquitectura general (`docs-es/architecture/overview.md`) (Completado ✅).
 
 ### Paso 3: Documentación del Código (RustDoc)
 1.  [ ] Audit de comentarios `///` en `src/domain/`.
@@ -57,8 +58,8 @@ La librería se encuentra actualmente en fase **Beta**. Esto significa:
 3.  [ ] Añadir ejemplos de código probables (doctests) en la capa `api`.
 
 ### Paso 4: Roadmap y Cierre
-1.  [ ] Crear `docs-es/roadmap/status.md` con la matriz de estabilidad.
-2.  [ ] Revisar y actualizar los ejemplos en `examples/`.
+1.  [x] Crear `docs-es/roadmap/status.md` con la matriz de estabilidad (Completado ✅).
+2.  [x] Revisar y actualizar los ejemplos en `examples/` (Completado ✅).
 
 ---
 

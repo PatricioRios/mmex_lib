@@ -2,6 +2,17 @@
 
 Rust library for interacting with Money Manager EX data and logic, with UniFFI support for multi-language bindings.
 
+> ⚠️ **PROJECT STATUS: BETA**
+> This library is in beta phase. API changes may occur. Use with caution.
+
+---
+
+### 🌐 Documentación en Español (Spanish)
+Toda la documentación detallada y guías en español están disponibles en:
+👉 **[docs-es/README.md](docs-es/README.md)**
+
+---
+
 ## 🛠 Prerequisites
 
 - **Rust**: `cargo` installed.
