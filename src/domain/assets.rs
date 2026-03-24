@@ -54,11 +54,26 @@ pub struct Asset {
     pub asset_type: Option<String>, // Property, Automobile, etc.
 }
 
+#[derive(uniffi::Record, Debug, Clone, Default)]
+pub struct AssetUpdate {
+    pub name: Option<String>,
+    pub start_date: Option<MmexDate>,
+    pub status: Option<AssetStatus>,
+    pub currency_id: Option<CurrencyId>,
+    pub value_change_mode: Option<String>,
+    pub value: Option<Money>,
+    pub value_change: Option<String>,
+    pub notes: Option<String>,
+    pub value_change_rate: Option<f64>,
+    pub asset_type: Option<String>,
+}
+
 pub trait AssetRepository {
     fn find_all(&self) -> Result<Vec<Asset>, AssetError>;
     fn find_by_id(&self, id: AssetId) -> Result<Option<Asset>, AssetError>;
     fn insert(&self, asset: &Asset) -> Result<Asset, AssetError>;
     fn update(&self, asset: &Asset) -> Result<(), AssetError>;
+    fn update_partial(&self, id: AssetId, update: AssetUpdate) -> Result<(), AssetError>;
     fn delete(&self, id: AssetId) -> Result<(), AssetError>;
 }
 

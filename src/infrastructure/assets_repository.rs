@@ -2,7 +2,7 @@ use chrono::NaiveDate;
 use rusqlite::Row;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
-use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SimpleExpr, SqliteQueryBuilder};
 use sea_query_rusqlite::RusqliteBinder;
 use std::str::FromStr;
 
@@ -173,6 +173,71 @@ impl<'a, E: DbExecutor> AssetRepository for SqlAssetRepository<'a, E> {
             .and_where(Expr::col(Alias::new("ASSETID")).eq(a.id.v1))
             .build_rusqlite(SqliteQueryBuilder);
 
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
+        Ok(())
+    }
+
+    fn update_partial(
+        &self,
+        id: AssetId,
+        update: crate::domain::assets::AssetUpdate,
+    ) -> Result<(), AssetError> {
+        let mut query = Query::update();
+        query.table(Alias::new("ASSETS_V1"));
+
+        let mut has_values = false;
+
+        if let Some(name) = update.name {
+            query.value(Alias::new("ASSETNAME"), SimpleExpr::from(name));
+            has_values = true;
+        }
+        if let Some(sd) = update.start_date {
+            query.value(Alias::new("STARTDATE"), SimpleExpr::from(sd.v1));
+            has_values = true;
+        }
+        if let Some(status) = update.status {
+            query.value(
+                Alias::new("ASSETSTATUS"),
+                SimpleExpr::from(status.to_string()),
+            );
+            has_values = true;
+        }
+        if let Some(curr_id) = update.currency_id {
+            query.value(Alias::new("CURRENCYID"), SimpleExpr::from(curr_id.v1));
+            has_values = true;
+        }
+        if let Some(vcm) = update.value_change_mode {
+            query.value(Alias::new("VALUECHANGEMODE"), SimpleExpr::from(vcm));
+            has_values = true;
+        }
+        if let Some(val) = update.value {
+            query.value(Alias::new("VALUE"), SimpleExpr::from(val.v1));
+            has_values = true;
+        }
+        if let Some(vc) = update.value_change {
+            query.value(Alias::new("VALUECHANGE"), SimpleExpr::from(vc));
+            has_values = true;
+        }
+        if let Some(notes) = update.notes {
+            query.value(Alias::new("NOTES"), SimpleExpr::from(notes));
+            has_values = true;
+        }
+        if let Some(vcr) = update.value_change_rate {
+            query.value(Alias::new("VALUECHANGERATE"), SimpleExpr::from(vcr));
+            has_values = true;
+        }
+        if let Some(at) = update.asset_type {
+            query.value(Alias::new("ASSETTYPE"), SimpleExpr::from(at));
+            has_values = true;
+        }
+
+        if !has_values {
+            return Ok(());
+        }
+
+        query.and_where(Expr::col(Alias::new("ASSETID")).eq(id.v1));
+
+        let (sql, values) = query.build_rusqlite(SqliteQueryBuilder);
         self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }

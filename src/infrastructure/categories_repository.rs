@@ -1,5 +1,5 @@
 use rusqlite::Row;
-use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SimpleExpr, SqliteQueryBuilder};
 use sea_query_rusqlite::RusqliteBinder;
 
 use crate::domain::categories::{Category, CategoryError, CategoryId, CategoryRepository};
@@ -120,6 +120,43 @@ impl<'a, E: DbExecutor> CategoryRepository for SqlCategoryRepository<'a, E> {
             .and_where(Expr::col(Alias::new("CATEGID")).eq(c.id.v1))
             .build_rusqlite(SqliteQueryBuilder);
 
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
+        Ok(())
+    }
+
+    fn update_partial(
+        &self,
+        id: CategoryId,
+        update: crate::domain::categories::CategoryUpdate,
+    ) -> Result<(), CategoryError> {
+        let mut query = Query::update();
+        query.table(Alias::new("CATEGORY_V1"));
+
+        let mut has_values = false;
+
+        if let Some(name) = update.name {
+            query.value(Alias::new("CATEGNAME"), SimpleExpr::from(name));
+            has_values = true;
+        }
+        if let Some(active) = update.active {
+            query.value(
+                Alias::new("ACTIVE"),
+                SimpleExpr::from(if active { 1 } else { 0 }),
+            );
+            has_values = true;
+        }
+        if let Some(parent_id) = update.parent_id {
+            query.value(Alias::new("PARENTID"), SimpleExpr::from(parent_id.v1));
+            has_values = true;
+        }
+
+        if !has_values {
+            return Ok(());
+        }
+
+        query.and_where(Expr::col(Alias::new("CATEGID")).eq(id.v1));
+
+        let (sql, values) = query.build_rusqlite(SqliteQueryBuilder);
         self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }

@@ -49,6 +49,15 @@ impl<'a> CategoryService<'a> {
         repo.update(category)
     }
 
+    pub fn update_category_partial(
+        &self,
+        id: CategoryId,
+        update: crate::domain::categories::CategoryUpdate,
+    ) -> Result<(), CategoryError> {
+        let repo = SqlCategoryRepository::new(self.conn);
+        repo.update_partial(id, update)
+    }
+
     pub fn delete_category(&self, id: CategoryId) -> Result<(), CategoryError> {
         let repo = SqlCategoryRepository::new(self.conn);
         repo.delete(id)

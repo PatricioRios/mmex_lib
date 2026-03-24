@@ -1,7 +1,7 @@
 use rusqlite::Row;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
-use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SimpleExpr, SqliteQueryBuilder};
 use sea_query_rusqlite::RusqliteBinder;
 use std::str::FromStr;
 
@@ -202,6 +202,72 @@ impl<'a, E: DbExecutor> CurrencyRepository for SqlCurrencyRepository<'a, E> {
             .and_where(Expr::col(Alias::new("CURRENCYID")).eq(c.id.v1))
             .build_rusqlite(SqliteQueryBuilder);
 
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
+        Ok(())
+    }
+
+    fn update_partial(
+        &self,
+        id: CurrencyId,
+        update: crate::domain::currencies::CurrencyUpdate,
+    ) -> Result<(), CurrencyError> {
+        let mut query = Query::update();
+        query.table(Alias::new("CURRENCYFORMATS_V1"));
+
+        let mut has_values = false;
+
+        if let Some(name) = update.name {
+            query.value(Alias::new("CURRENCYNAME"), SimpleExpr::from(name));
+            has_values = true;
+        }
+        if let Some(pfx) = update.pfx_symbol {
+            query.value(Alias::new("PFX_SYMBOL"), SimpleExpr::from(pfx));
+            has_values = true;
+        }
+        if let Some(sfx) = update.sfx_symbol {
+            query.value(Alias::new("SFX_SYMBOL"), SimpleExpr::from(sfx));
+            has_values = true;
+        }
+        if let Some(dp) = update.decimal_point {
+            query.value(Alias::new("DECIMAL_POINT"), SimpleExpr::from(dp));
+            has_values = true;
+        }
+        if let Some(gs) = update.group_separator {
+            query.value(Alias::new("GROUP_SEPARATOR"), SimpleExpr::from(gs));
+            has_values = true;
+        }
+        if let Some(un) = update.unit_name {
+            query.value(Alias::new("UNIT_NAME"), SimpleExpr::from(un));
+            has_values = true;
+        }
+        if let Some(cn) = update.cent_name {
+            query.value(Alias::new("CENT_NAME"), SimpleExpr::from(cn));
+            has_values = true;
+        }
+        if let Some(scale) = update.scale {
+            query.value(Alias::new("SCALE"), SimpleExpr::from(scale));
+            has_values = true;
+        }
+        if let Some(rate) = update.base_conv_rate {
+            query.value(Alias::new("BASECONVRATE"), SimpleExpr::from(rate.v1));
+            has_values = true;
+        }
+        if let Some(symbol) = update.symbol {
+            query.value(Alias::new("CURRENCY_SYMBOL"), SimpleExpr::from(symbol));
+            has_values = true;
+        }
+        if let Some(ct) = update.currency_type {
+            query.value(Alias::new("CURRENCY_TYPE"), SimpleExpr::from(ct));
+            has_values = true;
+        }
+
+        if !has_values {
+            return Ok(());
+        }
+
+        query.and_where(Expr::col(Alias::new("CURRENCYID")).eq(id.v1));
+
+        let (sql, values) = query.build_rusqlite(SqliteQueryBuilder);
         self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }

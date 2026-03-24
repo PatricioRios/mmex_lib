@@ -27,11 +27,26 @@ pub struct Stock {
     pub commission: Money,
 }
 
+#[derive(uniffi::Record, Debug, Clone, Default)]
+pub struct StockUpdate {
+    pub held_at: Option<i64>,
+    pub purchase_date: Option<MmexDate>,
+    pub name: Option<String>,
+    pub symbol: Option<String>,
+    pub num_shares: Option<Money>,
+    pub purchase_price: Option<Money>,
+    pub notes: Option<String>,
+    pub current_price: Option<Money>,
+    pub value: Option<Money>,
+    pub commission: Option<Money>,
+}
+
 pub trait StockRepository {
     fn find_all(&self) -> Result<Vec<Stock>, StockError>;
     fn find_by_id(&self, id: StockId) -> Result<Option<Stock>, StockError>;
     fn insert(&self, stock: &Stock) -> Result<Stock, StockError>;
     fn update(&self, stock: &Stock) -> Result<(), StockError>;
+    fn update_partial(&self, id: StockId, update: StockUpdate) -> Result<(), StockError>;
     fn delete(&self, id: StockId) -> Result<(), StockError>;
 }
 

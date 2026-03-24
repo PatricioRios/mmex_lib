@@ -27,11 +27,23 @@ pub struct Payee {
     pub pattern: Option<String>,
 }
 
+#[derive(uniffi::Record, Debug, Clone, Default)]
+pub struct PayeeUpdate {
+    pub name: Option<String>,
+    pub category_id: Option<i64>,
+    pub number: Option<String>,
+    pub website: Option<String>,
+    pub notes: Option<String>,
+    pub active: Option<bool>,
+    pub pattern: Option<String>,
+}
+
 pub trait PayeeRepository {
     fn find_all(&self) -> Result<Vec<Payee>, PayeeError>;
     fn find_by_id(&self, id: PayeeId) -> Result<Option<Payee>, PayeeError>;
     fn insert(&self, payee: &Payee) -> Result<Payee, PayeeError>;
     fn update(&self, payee: &Payee) -> Result<(), PayeeError>;
+    fn update_partial(&self, id: PayeeId, update: PayeeUpdate) -> Result<(), PayeeError>;
     fn delete(&self, id: PayeeId) -> Result<(), PayeeError>;
 }
 

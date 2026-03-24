@@ -494,6 +494,8 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_accountmanager_update() != 4980:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_accountmanager_update_partial() != 42304:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_assetmanager_create() != 58176:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_assetmanager_delete() != 42196:
@@ -505,6 +507,8 @@ def _uniffi_check_api_checksums(lib):
     if lib.uniffi_mmex_lib_checksum_method_assetmanager_get_by_id() != 33449:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_assetmanager_update() != 38475:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_assetmanager_update_partial() != 22892:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_categorymanager_create() != 32119:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -520,6 +524,8 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_categorymanager_update() != 337:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_categorymanager_update_partial() != 42279:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_currencymanager_create() != 53132:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_currencymanager_delete() != 39782:
@@ -533,6 +539,8 @@ def _uniffi_check_api_checksums(lib):
     if lib.uniffi_mmex_lib_checksum_method_currencymanager_get_by_symbol() != 61005:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_currencymanager_update() != 11102:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_currencymanager_update_partial() != 24:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_constructor_mmexengine_new() != 61734:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -568,6 +576,8 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_payeemanager_update() != 48827:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_payeemanager_update_partial() != 54519:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_create() != 62124:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_delete() != 61130:
@@ -580,6 +590,8 @@ def _uniffi_check_api_checksums(lib):
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_update() != 57030:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_scheduledmanager_update_partial() != 56237:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_stockmanager_create() != 54365:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_stockmanager_delete() != 3245:
@@ -591,6 +603,8 @@ def _uniffi_check_api_checksums(lib):
     if lib.uniffi_mmex_lib_checksum_method_stockmanager_get_by_id() != 29260:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_stockmanager_update() != 44200:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_stockmanager_update_partial() != 41033:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_supportmanager_get_db_version() != 32866:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -611,6 +625,8 @@ def _uniffi_check_api_checksums(lib):
     if lib.uniffi_mmex_lib_checksum_method_tagmanager_unlink_from_reference() != 59327:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_tagmanager_update() != 4678:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_tagmanager_update_partial() != 37260:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_transactionmanager_add_split() != 61628:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -637,6 +653,8 @@ def _uniffi_check_api_checksums(lib):
     if lib.uniffi_mmex_lib_checksum_method_transactionmanager_unlink_tag() != 54789:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_transactionmanager_update() != 16005:
+        raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    if lib.uniffi_mmex_lib_checksum_method_transactionmanager_update_partial() != 55750:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     if lib.uniffi_mmex_lib_checksum_method_transactionmanager_update_split() != 40040:
         raise InternalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
@@ -1059,6 +1077,13 @@ _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_update.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_update.restype = None
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_update_partial.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_int64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_update_partial.restype = None
 _UniffiLib.uniffi_mmex_lib_fn_method_assetmanager_create.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1093,6 +1118,13 @@ _UniffiLib.uniffi_mmex_lib_fn_method_assetmanager_update.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_method_assetmanager_update.restype = None
+_UniffiLib.uniffi_mmex_lib_fn_method_assetmanager_update_partial.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_int64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_assetmanager_update_partial.restype = None
 _UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_create.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1134,6 +1166,13 @@ _UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_update.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_update.restype = None
+_UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_update_partial.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_int64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_update_partial.restype = None
 _UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_create.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1174,6 +1213,13 @@ _UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_update.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_update.restype = None
+_UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_update_partial.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_int64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_update_partial.restype = None
 _UniffiLib.uniffi_mmex_lib_fn_constructor_mmexengine_new.argtypes = (
     _UniffiRustBuffer,
     _UniffiRustBuffer,
@@ -1264,6 +1310,13 @@ _UniffiLib.uniffi_mmex_lib_fn_method_payeemanager_update.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_method_payeemanager_update.restype = None
+_UniffiLib.uniffi_mmex_lib_fn_method_payeemanager_update_partial.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_int64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_payeemanager_update_partial.restype = None
 _UniffiLib.uniffi_mmex_lib_fn_method_scheduledmanager_create.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1298,6 +1351,13 @@ _UniffiLib.uniffi_mmex_lib_fn_method_scheduledmanager_update.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_method_scheduledmanager_update.restype = None
+_UniffiLib.uniffi_mmex_lib_fn_method_scheduledmanager_update_partial.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_int64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_scheduledmanager_update_partial.restype = None
 _UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_create.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1332,6 +1392,13 @@ _UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_update.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_update.restype = None
+_UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_update_partial.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_int64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_update_partial.restype = None
 _UniffiLib.uniffi_mmex_lib_fn_method_supportmanager_get_db_version.argtypes = (
     ctypes.c_uint64,
     ctypes.POINTER(_UniffiRustCallStatus),
@@ -1395,6 +1462,13 @@ _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_update.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_update.restype = None
+_UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_update_partial.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_int64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_update_partial.restype = None
 _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_add_split.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1473,6 +1547,13 @@ _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_update.argtypes = (
     ctypes.POINTER(_UniffiRustCallStatus),
 )
 _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_update.restype = None
+_UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_update_partial.argtypes = (
+    ctypes.c_uint64,
+    ctypes.c_int64,
+    _UniffiRustBuffer,
+    ctypes.POINTER(_UniffiRustCallStatus),
+)
+_UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_update_partial.restype = None
 _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_update_split.argtypes = (
     ctypes.c_uint64,
     _UniffiRustBuffer,
@@ -1506,6 +1587,9 @@ _UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_get_by_id.restype = ct
 _UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_update.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_update.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_update_partial.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_accountmanager_update_partial.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_method_assetmanager_create.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_assetmanager_create.restype = ctypes.c_uint16
@@ -1524,6 +1608,9 @@ _UniffiLib.uniffi_mmex_lib_checksum_method_assetmanager_get_by_id.restype = ctyp
 _UniffiLib.uniffi_mmex_lib_checksum_method_assetmanager_update.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_assetmanager_update.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_assetmanager_update_partial.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_assetmanager_update_partial.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_method_categorymanager_create.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_categorymanager_create.restype = ctypes.c_uint16
@@ -1545,6 +1632,9 @@ _UniffiLib.uniffi_mmex_lib_checksum_method_categorymanager_get_subcategories.res
 _UniffiLib.uniffi_mmex_lib_checksum_method_categorymanager_update.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_categorymanager_update.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_categorymanager_update_partial.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_categorymanager_update_partial.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_method_currencymanager_create.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_currencymanager_create.restype = ctypes.c_uint16
@@ -1566,6 +1656,9 @@ _UniffiLib.uniffi_mmex_lib_checksum_method_currencymanager_get_by_symbol.restype
 _UniffiLib.uniffi_mmex_lib_checksum_method_currencymanager_update.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_currencymanager_update.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_currencymanager_update_partial.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_currencymanager_update_partial.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_constructor_mmexengine_new.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_constructor_mmexengine_new.restype = ctypes.c_uint16
@@ -1617,6 +1710,9 @@ _UniffiLib.uniffi_mmex_lib_checksum_method_payeemanager_get_by_id.restype = ctyp
 _UniffiLib.uniffi_mmex_lib_checksum_method_payeemanager_update.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_payeemanager_update.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_payeemanager_update_partial.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_payeemanager_update_partial.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_method_scheduledmanager_create.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_scheduledmanager_create.restype = ctypes.c_uint16
@@ -1635,6 +1731,9 @@ _UniffiLib.uniffi_mmex_lib_checksum_method_scheduledmanager_get_by_id.restype = 
 _UniffiLib.uniffi_mmex_lib_checksum_method_scheduledmanager_update.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_scheduledmanager_update.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_scheduledmanager_update_partial.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_scheduledmanager_update_partial.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_method_stockmanager_create.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_stockmanager_create.restype = ctypes.c_uint16
@@ -1653,6 +1752,9 @@ _UniffiLib.uniffi_mmex_lib_checksum_method_stockmanager_get_by_id.restype = ctyp
 _UniffiLib.uniffi_mmex_lib_checksum_method_stockmanager_update.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_stockmanager_update.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_stockmanager_update_partial.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_stockmanager_update_partial.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_method_supportmanager_get_db_version.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_supportmanager_get_db_version.restype = ctypes.c_uint16
@@ -1683,6 +1785,9 @@ _UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_unlink_from_reference.rest
 _UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_update.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_update.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_update_partial.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_tagmanager_update_partial.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_method_transactionmanager_add_split.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_transactionmanager_add_split.restype = ctypes.c_uint16
@@ -1722,6 +1827,9 @@ _UniffiLib.uniffi_mmex_lib_checksum_method_transactionmanager_unlink_tag.restype
 _UniffiLib.uniffi_mmex_lib_checksum_method_transactionmanager_update.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_transactionmanager_update.restype = ctypes.c_uint16
+_UniffiLib.uniffi_mmex_lib_checksum_method_transactionmanager_update_partial.argtypes = (
+)
+_UniffiLib.uniffi_mmex_lib_checksum_method_transactionmanager_update_partial.restype = ctypes.c_uint16
 _UniffiLib.uniffi_mmex_lib_checksum_method_transactionmanager_update_split.argtypes = (
 )
 _UniffiLib.uniffi_mmex_lib_checksum_method_transactionmanager_update_split.restype = ctypes.c_uint16
@@ -2519,6 +2627,203 @@ class _UniffiFfiConverterTypeAccountBalance(_UniffiConverterRustBuffer):
         _UniffiFfiConverterTypeMoney.write(value.total_withdrawals, buf)
         _UniffiFfiConverterTypeMoney.write(value.current_balance, buf)
 
+class _UniffiFfiConverterOptionalTypeAccountType(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypeAccountType.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypeAccountType.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypeAccountType.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+class _UniffiFfiConverterOptionalTypeAccountStatus(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypeAccountStatus.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypeAccountStatus.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypeAccountStatus.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+class _UniffiFfiConverterOptionalTypeMoney(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypeMoney.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypeMoney.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypeMoney.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+class _UniffiFfiConverterOptionalTypeCurrencyId(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypeCurrencyId.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypeCurrencyId.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypeCurrencyId.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+class _UniffiFfiConverterOptionalBoolean(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterBoolean.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterBoolean.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterBoolean.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+@dataclass
+class AccountUpdate:
+    def __init__(self, *, name:typing.Optional[str], account_type:typing.Optional[AccountType], account_num:typing.Optional[str], status:typing.Optional[AccountStatus], notes:typing.Optional[str], initial_balance:typing.Optional[Money], currency_id:typing.Optional[CurrencyId], favorite:typing.Optional[bool]):
+        self.name = name
+        self.account_type = account_type
+        self.account_num = account_num
+        self.status = status
+        self.notes = notes
+        self.initial_balance = initial_balance
+        self.currency_id = currency_id
+        self.favorite = favorite
+        
+        
+
+    
+    def __str__(self):
+        return "AccountUpdate(name={}, account_type={}, account_num={}, status={}, notes={}, initial_balance={}, currency_id={}, favorite={})".format(self.name, self.account_type, self.account_num, self.status, self.notes, self.initial_balance, self.currency_id, self.favorite)
+    def __eq__(self, other):
+        if self.name != other.name:
+            return False
+        if self.account_type != other.account_type:
+            return False
+        if self.account_num != other.account_num:
+            return False
+        if self.status != other.status:
+            return False
+        if self.notes != other.notes:
+            return False
+        if self.initial_balance != other.initial_balance:
+            return False
+        if self.currency_id != other.currency_id:
+            return False
+        if self.favorite != other.favorite:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeAccountUpdate(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return AccountUpdate(
+            name=_UniffiFfiConverterOptionalString.read(buf),
+            account_type=_UniffiFfiConverterOptionalTypeAccountType.read(buf),
+            account_num=_UniffiFfiConverterOptionalString.read(buf),
+            status=_UniffiFfiConverterOptionalTypeAccountStatus.read(buf),
+            notes=_UniffiFfiConverterOptionalString.read(buf),
+            initial_balance=_UniffiFfiConverterOptionalTypeMoney.read(buf),
+            currency_id=_UniffiFfiConverterOptionalTypeCurrencyId.read(buf),
+            favorite=_UniffiFfiConverterOptionalBoolean.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterOptionalString.check_lower(value.name)
+        _UniffiFfiConverterOptionalTypeAccountType.check_lower(value.account_type)
+        _UniffiFfiConverterOptionalString.check_lower(value.account_num)
+        _UniffiFfiConverterOptionalTypeAccountStatus.check_lower(value.status)
+        _UniffiFfiConverterOptionalString.check_lower(value.notes)
+        _UniffiFfiConverterOptionalTypeMoney.check_lower(value.initial_balance)
+        _UniffiFfiConverterOptionalTypeCurrencyId.check_lower(value.currency_id)
+        _UniffiFfiConverterOptionalBoolean.check_lower(value.favorite)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterOptionalString.write(value.name, buf)
+        _UniffiFfiConverterOptionalTypeAccountType.write(value.account_type, buf)
+        _UniffiFfiConverterOptionalString.write(value.account_num, buf)
+        _UniffiFfiConverterOptionalTypeAccountStatus.write(value.status, buf)
+        _UniffiFfiConverterOptionalString.write(value.notes, buf)
+        _UniffiFfiConverterOptionalTypeMoney.write(value.initial_balance, buf)
+        _UniffiFfiConverterOptionalTypeCurrencyId.write(value.currency_id, buf)
+        _UniffiFfiConverterOptionalBoolean.write(value.favorite, buf)
+
 @dataclass
 class AssetId:
     def __init__(self, *, v1:int):
@@ -2719,31 +3024,6 @@ class _UniffiFfiConverterTypeAssetStatus(_UniffiConverterRustBuffer):
 
 
 
-class _UniffiFfiConverterOptionalTypeCurrencyId(_UniffiConverterRustBuffer):
-    @classmethod
-    def check_lower(cls, value):
-        if value is not None:
-            _UniffiFfiConverterTypeCurrencyId.check_lower(value)
-
-    @classmethod
-    def write(cls, value, buf):
-        if value is None:
-            buf.write_u8(0)
-            return
-
-        buf.write_u8(1)
-        _UniffiFfiConverterTypeCurrencyId.write(value, buf)
-
-    @classmethod
-    def read(cls, buf):
-        flag = buf.read_u8()
-        if flag == 0:
-            return None
-        elif flag == 1:
-            return _UniffiFfiConverterTypeCurrencyId.read(buf)
-        else:
-            raise InternalError("Unexpected flag byte for optional type")
-
 class _UniffiFfiConverterFloat64(_UniffiConverterPrimitiveFloat):
     @staticmethod
     def read(buf):
@@ -2841,6 +3121,165 @@ class _UniffiFfiConverterTypeAsset(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalString.write(value.value_change, buf)
         _UniffiFfiConverterOptionalString.write(value.notes, buf)
         _UniffiFfiConverterFloat64.write(value.value_change_rate, buf)
+        _UniffiFfiConverterOptionalString.write(value.asset_type, buf)
+
+class _UniffiFfiConverterOptionalTypeMmexDate(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypeMmexDate.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypeMmexDate.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypeMmexDate.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+class _UniffiFfiConverterOptionalTypeAssetStatus(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypeAssetStatus.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypeAssetStatus.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypeAssetStatus.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+class _UniffiFfiConverterOptionalFloat64(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterFloat64.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterFloat64.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterFloat64.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+@dataclass
+class AssetUpdate:
+    def __init__(self, *, name:typing.Optional[str], start_date:typing.Optional[MmexDate], status:typing.Optional[AssetStatus], currency_id:typing.Optional[CurrencyId], value_change_mode:typing.Optional[str], value:typing.Optional[Money], value_change:typing.Optional[str], notes:typing.Optional[str], value_change_rate:typing.Optional[float], asset_type:typing.Optional[str]):
+        self.name = name
+        self.start_date = start_date
+        self.status = status
+        self.currency_id = currency_id
+        self.value_change_mode = value_change_mode
+        self.value = value
+        self.value_change = value_change
+        self.notes = notes
+        self.value_change_rate = value_change_rate
+        self.asset_type = asset_type
+        
+        
+
+    
+    def __str__(self):
+        return "AssetUpdate(name={}, start_date={}, status={}, currency_id={}, value_change_mode={}, value={}, value_change={}, notes={}, value_change_rate={}, asset_type={})".format(self.name, self.start_date, self.status, self.currency_id, self.value_change_mode, self.value, self.value_change, self.notes, self.value_change_rate, self.asset_type)
+    def __eq__(self, other):
+        if self.name != other.name:
+            return False
+        if self.start_date != other.start_date:
+            return False
+        if self.status != other.status:
+            return False
+        if self.currency_id != other.currency_id:
+            return False
+        if self.value_change_mode != other.value_change_mode:
+            return False
+        if self.value != other.value:
+            return False
+        if self.value_change != other.value_change:
+            return False
+        if self.notes != other.notes:
+            return False
+        if self.value_change_rate != other.value_change_rate:
+            return False
+        if self.asset_type != other.asset_type:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeAssetUpdate(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return AssetUpdate(
+            name=_UniffiFfiConverterOptionalString.read(buf),
+            start_date=_UniffiFfiConverterOptionalTypeMmexDate.read(buf),
+            status=_UniffiFfiConverterOptionalTypeAssetStatus.read(buf),
+            currency_id=_UniffiFfiConverterOptionalTypeCurrencyId.read(buf),
+            value_change_mode=_UniffiFfiConverterOptionalString.read(buf),
+            value=_UniffiFfiConverterOptionalTypeMoney.read(buf),
+            value_change=_UniffiFfiConverterOptionalString.read(buf),
+            notes=_UniffiFfiConverterOptionalString.read(buf),
+            value_change_rate=_UniffiFfiConverterOptionalFloat64.read(buf),
+            asset_type=_UniffiFfiConverterOptionalString.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterOptionalString.check_lower(value.name)
+        _UniffiFfiConverterOptionalTypeMmexDate.check_lower(value.start_date)
+        _UniffiFfiConverterOptionalTypeAssetStatus.check_lower(value.status)
+        _UniffiFfiConverterOptionalTypeCurrencyId.check_lower(value.currency_id)
+        _UniffiFfiConverterOptionalString.check_lower(value.value_change_mode)
+        _UniffiFfiConverterOptionalTypeMoney.check_lower(value.value)
+        _UniffiFfiConverterOptionalString.check_lower(value.value_change)
+        _UniffiFfiConverterOptionalString.check_lower(value.notes)
+        _UniffiFfiConverterOptionalFloat64.check_lower(value.value_change_rate)
+        _UniffiFfiConverterOptionalString.check_lower(value.asset_type)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterOptionalString.write(value.name, buf)
+        _UniffiFfiConverterOptionalTypeMmexDate.write(value.start_date, buf)
+        _UniffiFfiConverterOptionalTypeAssetStatus.write(value.status, buf)
+        _UniffiFfiConverterOptionalTypeCurrencyId.write(value.currency_id, buf)
+        _UniffiFfiConverterOptionalString.write(value.value_change_mode, buf)
+        _UniffiFfiConverterOptionalTypeMoney.write(value.value, buf)
+        _UniffiFfiConverterOptionalString.write(value.value_change, buf)
+        _UniffiFfiConverterOptionalString.write(value.notes, buf)
+        _UniffiFfiConverterOptionalFloat64.write(value.value_change_rate, buf)
         _UniffiFfiConverterOptionalString.write(value.asset_type, buf)
 
 @dataclass
@@ -2944,6 +3383,48 @@ class _UniffiFfiConverterTypeCategory(_UniffiConverterRustBuffer):
         _UniffiFfiConverterTypeCategoryId.write(value.id, buf)
         _UniffiFfiConverterString.write(value.name, buf)
         _UniffiFfiConverterBoolean.write(value.active, buf)
+        _UniffiFfiConverterOptionalTypeCategoryId.write(value.parent_id, buf)
+
+@dataclass
+class CategoryUpdate:
+    def __init__(self, *, name:typing.Optional[str], active:typing.Optional[bool], parent_id:typing.Optional[CategoryId]):
+        self.name = name
+        self.active = active
+        self.parent_id = parent_id
+        
+        
+
+    
+    def __str__(self):
+        return "CategoryUpdate(name={}, active={}, parent_id={})".format(self.name, self.active, self.parent_id)
+    def __eq__(self, other):
+        if self.name != other.name:
+            return False
+        if self.active != other.active:
+            return False
+        if self.parent_id != other.parent_id:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeCategoryUpdate(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return CategoryUpdate(
+            name=_UniffiFfiConverterOptionalString.read(buf),
+            active=_UniffiFfiConverterOptionalBoolean.read(buf),
+            parent_id=_UniffiFfiConverterOptionalTypeCategoryId.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterOptionalString.check_lower(value.name)
+        _UniffiFfiConverterOptionalBoolean.check_lower(value.active)
+        _UniffiFfiConverterOptionalTypeCategoryId.check_lower(value.parent_id)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterOptionalString.write(value.name, buf)
+        _UniffiFfiConverterOptionalBoolean.write(value.active, buf)
         _UniffiFfiConverterOptionalTypeCategoryId.write(value.parent_id, buf)
 
 class _UniffiFfiConverterInt32(_UniffiConverterPrimitiveInt):
@@ -3054,6 +3535,121 @@ class _UniffiFfiConverterTypeCurrency(_UniffiConverterRustBuffer):
         _UniffiFfiConverterTypeMoney.write(value.base_conv_rate, buf)
         _UniffiFfiConverterString.write(value.symbol, buf)
         _UniffiFfiConverterString.write(value.currency_type, buf)
+
+class _UniffiFfiConverterOptionalInt32(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterInt32.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterInt32.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterInt32.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+@dataclass
+class CurrencyUpdate:
+    def __init__(self, *, name:typing.Optional[str], pfx_symbol:typing.Optional[str], sfx_symbol:typing.Optional[str], decimal_point:typing.Optional[str], group_separator:typing.Optional[str], unit_name:typing.Optional[str], cent_name:typing.Optional[str], scale:typing.Optional[int], base_conv_rate:typing.Optional[Money], symbol:typing.Optional[str], currency_type:typing.Optional[str]):
+        self.name = name
+        self.pfx_symbol = pfx_symbol
+        self.sfx_symbol = sfx_symbol
+        self.decimal_point = decimal_point
+        self.group_separator = group_separator
+        self.unit_name = unit_name
+        self.cent_name = cent_name
+        self.scale = scale
+        self.base_conv_rate = base_conv_rate
+        self.symbol = symbol
+        self.currency_type = currency_type
+        
+        
+
+    
+    def __str__(self):
+        return "CurrencyUpdate(name={}, pfx_symbol={}, sfx_symbol={}, decimal_point={}, group_separator={}, unit_name={}, cent_name={}, scale={}, base_conv_rate={}, symbol={}, currency_type={})".format(self.name, self.pfx_symbol, self.sfx_symbol, self.decimal_point, self.group_separator, self.unit_name, self.cent_name, self.scale, self.base_conv_rate, self.symbol, self.currency_type)
+    def __eq__(self, other):
+        if self.name != other.name:
+            return False
+        if self.pfx_symbol != other.pfx_symbol:
+            return False
+        if self.sfx_symbol != other.sfx_symbol:
+            return False
+        if self.decimal_point != other.decimal_point:
+            return False
+        if self.group_separator != other.group_separator:
+            return False
+        if self.unit_name != other.unit_name:
+            return False
+        if self.cent_name != other.cent_name:
+            return False
+        if self.scale != other.scale:
+            return False
+        if self.base_conv_rate != other.base_conv_rate:
+            return False
+        if self.symbol != other.symbol:
+            return False
+        if self.currency_type != other.currency_type:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeCurrencyUpdate(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return CurrencyUpdate(
+            name=_UniffiFfiConverterOptionalString.read(buf),
+            pfx_symbol=_UniffiFfiConverterOptionalString.read(buf),
+            sfx_symbol=_UniffiFfiConverterOptionalString.read(buf),
+            decimal_point=_UniffiFfiConverterOptionalString.read(buf),
+            group_separator=_UniffiFfiConverterOptionalString.read(buf),
+            unit_name=_UniffiFfiConverterOptionalString.read(buf),
+            cent_name=_UniffiFfiConverterOptionalString.read(buf),
+            scale=_UniffiFfiConverterOptionalInt32.read(buf),
+            base_conv_rate=_UniffiFfiConverterOptionalTypeMoney.read(buf),
+            symbol=_UniffiFfiConverterOptionalString.read(buf),
+            currency_type=_UniffiFfiConverterOptionalString.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterOptionalString.check_lower(value.name)
+        _UniffiFfiConverterOptionalString.check_lower(value.pfx_symbol)
+        _UniffiFfiConverterOptionalString.check_lower(value.sfx_symbol)
+        _UniffiFfiConverterOptionalString.check_lower(value.decimal_point)
+        _UniffiFfiConverterOptionalString.check_lower(value.group_separator)
+        _UniffiFfiConverterOptionalString.check_lower(value.unit_name)
+        _UniffiFfiConverterOptionalString.check_lower(value.cent_name)
+        _UniffiFfiConverterOptionalInt32.check_lower(value.scale)
+        _UniffiFfiConverterOptionalTypeMoney.check_lower(value.base_conv_rate)
+        _UniffiFfiConverterOptionalString.check_lower(value.symbol)
+        _UniffiFfiConverterOptionalString.check_lower(value.currency_type)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterOptionalString.write(value.name, buf)
+        _UniffiFfiConverterOptionalString.write(value.pfx_symbol, buf)
+        _UniffiFfiConverterOptionalString.write(value.sfx_symbol, buf)
+        _UniffiFfiConverterOptionalString.write(value.decimal_point, buf)
+        _UniffiFfiConverterOptionalString.write(value.group_separator, buf)
+        _UniffiFfiConverterOptionalString.write(value.unit_name, buf)
+        _UniffiFfiConverterOptionalString.write(value.cent_name, buf)
+        _UniffiFfiConverterOptionalInt32.write(value.scale, buf)
+        _UniffiFfiConverterOptionalTypeMoney.write(value.base_conv_rate, buf)
+        _UniffiFfiConverterOptionalString.write(value.symbol, buf)
+        _UniffiFfiConverterOptionalString.write(value.currency_type, buf)
 
 @dataclass
 class PayeeId:
@@ -3180,6 +3776,72 @@ class _UniffiFfiConverterTypePayee(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalString.write(value.website, buf)
         _UniffiFfiConverterOptionalString.write(value.notes, buf)
         _UniffiFfiConverterBoolean.write(value.active, buf)
+        _UniffiFfiConverterOptionalString.write(value.pattern, buf)
+
+@dataclass
+class PayeeUpdate:
+    def __init__(self, *, name:typing.Optional[str], category_id:typing.Optional[int], number:typing.Optional[str], website:typing.Optional[str], notes:typing.Optional[str], active:typing.Optional[bool], pattern:typing.Optional[str]):
+        self.name = name
+        self.category_id = category_id
+        self.number = number
+        self.website = website
+        self.notes = notes
+        self.active = active
+        self.pattern = pattern
+        
+        
+
+    
+    def __str__(self):
+        return "PayeeUpdate(name={}, category_id={}, number={}, website={}, notes={}, active={}, pattern={})".format(self.name, self.category_id, self.number, self.website, self.notes, self.active, self.pattern)
+    def __eq__(self, other):
+        if self.name != other.name:
+            return False
+        if self.category_id != other.category_id:
+            return False
+        if self.number != other.number:
+            return False
+        if self.website != other.website:
+            return False
+        if self.notes != other.notes:
+            return False
+        if self.active != other.active:
+            return False
+        if self.pattern != other.pattern:
+            return False
+        return True
+
+class _UniffiFfiConverterTypePayeeUpdate(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return PayeeUpdate(
+            name=_UniffiFfiConverterOptionalString.read(buf),
+            category_id=_UniffiFfiConverterOptionalInt64.read(buf),
+            number=_UniffiFfiConverterOptionalString.read(buf),
+            website=_UniffiFfiConverterOptionalString.read(buf),
+            notes=_UniffiFfiConverterOptionalString.read(buf),
+            active=_UniffiFfiConverterOptionalBoolean.read(buf),
+            pattern=_UniffiFfiConverterOptionalString.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterOptionalString.check_lower(value.name)
+        _UniffiFfiConverterOptionalInt64.check_lower(value.category_id)
+        _UniffiFfiConverterOptionalString.check_lower(value.number)
+        _UniffiFfiConverterOptionalString.check_lower(value.website)
+        _UniffiFfiConverterOptionalString.check_lower(value.notes)
+        _UniffiFfiConverterOptionalBoolean.check_lower(value.active)
+        _UniffiFfiConverterOptionalString.check_lower(value.pattern)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterOptionalString.write(value.name, buf)
+        _UniffiFfiConverterOptionalInt64.write(value.category_id, buf)
+        _UniffiFfiConverterOptionalString.write(value.number, buf)
+        _UniffiFfiConverterOptionalString.write(value.website, buf)
+        _UniffiFfiConverterOptionalString.write(value.notes, buf)
+        _UniffiFfiConverterOptionalBoolean.write(value.active, buf)
         _UniffiFfiConverterOptionalString.write(value.pattern, buf)
 
 class _UniffiFfiConverterOptionalTypeAccountId(_UniffiConverterRustBuffer):
@@ -3611,56 +4273,6 @@ class _UniffiFfiConverterTypeTransactionStatus(_UniffiConverterRustBuffer):
 
 
 
-class _UniffiFfiConverterOptionalTypeMmexDate(_UniffiConverterRustBuffer):
-    @classmethod
-    def check_lower(cls, value):
-        if value is not None:
-            _UniffiFfiConverterTypeMmexDate.check_lower(value)
-
-    @classmethod
-    def write(cls, value, buf):
-        if value is None:
-            buf.write_u8(0)
-            return
-
-        buf.write_u8(1)
-        _UniffiFfiConverterTypeMmexDate.write(value, buf)
-
-    @classmethod
-    def read(cls, buf):
-        flag = buf.read_u8()
-        if flag == 0:
-            return None
-        elif flag == 1:
-            return _UniffiFfiConverterTypeMmexDate.read(buf)
-        else:
-            raise InternalError("Unexpected flag byte for optional type")
-
-class _UniffiFfiConverterOptionalTypeMoney(_UniffiConverterRustBuffer):
-    @classmethod
-    def check_lower(cls, value):
-        if value is not None:
-            _UniffiFfiConverterTypeMoney.check_lower(value)
-
-    @classmethod
-    def write(cls, value, buf):
-        if value is None:
-            buf.write_u8(0)
-            return
-
-        buf.write_u8(1)
-        _UniffiFfiConverterTypeMoney.write(value, buf)
-
-    @classmethod
-    def read(cls, buf):
-        flag = buf.read_u8()
-        if flag == 0:
-            return None
-        elif flag == 1:
-            return _UniffiFfiConverterTypeMoney.read(buf)
-        else:
-            raise InternalError("Unexpected flag byte for optional type")
-
 @dataclass
 class ScheduledTransaction:
     def __init__(self, *, id:int, account_id:AccountId, to_account_id:typing.Optional[AccountId], payee_id:PayeeId, trans_code:TransactionCode, amount:Money, status:TransactionStatus, transaction_number:typing.Optional[str], notes:typing.Optional[str], category_id:typing.Optional[CategoryId], trans_date:typing.Optional[MmexDate], next_occurrence_date:typing.Optional[MmexDate], repeats:int, num_occurrences:int, to_trans_amount:typing.Optional[Money]):
@@ -3773,6 +4385,189 @@ class _UniffiFfiConverterTypeScheduledTransaction(_UniffiConverterRustBuffer):
         _UniffiFfiConverterOptionalTypeMmexDate.write(value.next_occurrence_date, buf)
         _UniffiFfiConverterInt32.write(value.repeats, buf)
         _UniffiFfiConverterInt32.write(value.num_occurrences, buf)
+        _UniffiFfiConverterOptionalTypeMoney.write(value.to_trans_amount, buf)
+
+class _UniffiFfiConverterOptionalTypePayeeId(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypePayeeId.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypePayeeId.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypePayeeId.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+class _UniffiFfiConverterOptionalTypeTransactionCode(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypeTransactionCode.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypeTransactionCode.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypeTransactionCode.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+class _UniffiFfiConverterOptionalTypeTransactionStatus(_UniffiConverterRustBuffer):
+    @classmethod
+    def check_lower(cls, value):
+        if value is not None:
+            _UniffiFfiConverterTypeTransactionStatus.check_lower(value)
+
+    @classmethod
+    def write(cls, value, buf):
+        if value is None:
+            buf.write_u8(0)
+            return
+
+        buf.write_u8(1)
+        _UniffiFfiConverterTypeTransactionStatus.write(value, buf)
+
+    @classmethod
+    def read(cls, buf):
+        flag = buf.read_u8()
+        if flag == 0:
+            return None
+        elif flag == 1:
+            return _UniffiFfiConverterTypeTransactionStatus.read(buf)
+        else:
+            raise InternalError("Unexpected flag byte for optional type")
+
+@dataclass
+class ScheduledUpdate:
+    def __init__(self, *, account_id:typing.Optional[AccountId], to_account_id:typing.Optional[AccountId], payee_id:typing.Optional[PayeeId], trans_code:typing.Optional[TransactionCode], amount:typing.Optional[Money], status:typing.Optional[TransactionStatus], transaction_number:typing.Optional[str], notes:typing.Optional[str], category_id:typing.Optional[CategoryId], trans_date:typing.Optional[MmexDate], next_occurrence_date:typing.Optional[MmexDate], repeats:typing.Optional[int], num_occurrences:typing.Optional[int], to_trans_amount:typing.Optional[Money]):
+        self.account_id = account_id
+        self.to_account_id = to_account_id
+        self.payee_id = payee_id
+        self.trans_code = trans_code
+        self.amount = amount
+        self.status = status
+        self.transaction_number = transaction_number
+        self.notes = notes
+        self.category_id = category_id
+        self.trans_date = trans_date
+        self.next_occurrence_date = next_occurrence_date
+        self.repeats = repeats
+        self.num_occurrences = num_occurrences
+        self.to_trans_amount = to_trans_amount
+        
+        
+
+    
+    def __str__(self):
+        return "ScheduledUpdate(account_id={}, to_account_id={}, payee_id={}, trans_code={}, amount={}, status={}, transaction_number={}, notes={}, category_id={}, trans_date={}, next_occurrence_date={}, repeats={}, num_occurrences={}, to_trans_amount={})".format(self.account_id, self.to_account_id, self.payee_id, self.trans_code, self.amount, self.status, self.transaction_number, self.notes, self.category_id, self.trans_date, self.next_occurrence_date, self.repeats, self.num_occurrences, self.to_trans_amount)
+    def __eq__(self, other):
+        if self.account_id != other.account_id:
+            return False
+        if self.to_account_id != other.to_account_id:
+            return False
+        if self.payee_id != other.payee_id:
+            return False
+        if self.trans_code != other.trans_code:
+            return False
+        if self.amount != other.amount:
+            return False
+        if self.status != other.status:
+            return False
+        if self.transaction_number != other.transaction_number:
+            return False
+        if self.notes != other.notes:
+            return False
+        if self.category_id != other.category_id:
+            return False
+        if self.trans_date != other.trans_date:
+            return False
+        if self.next_occurrence_date != other.next_occurrence_date:
+            return False
+        if self.repeats != other.repeats:
+            return False
+        if self.num_occurrences != other.num_occurrences:
+            return False
+        if self.to_trans_amount != other.to_trans_amount:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeScheduledUpdate(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return ScheduledUpdate(
+            account_id=_UniffiFfiConverterOptionalTypeAccountId.read(buf),
+            to_account_id=_UniffiFfiConverterOptionalTypeAccountId.read(buf),
+            payee_id=_UniffiFfiConverterOptionalTypePayeeId.read(buf),
+            trans_code=_UniffiFfiConverterOptionalTypeTransactionCode.read(buf),
+            amount=_UniffiFfiConverterOptionalTypeMoney.read(buf),
+            status=_UniffiFfiConverterOptionalTypeTransactionStatus.read(buf),
+            transaction_number=_UniffiFfiConverterOptionalString.read(buf),
+            notes=_UniffiFfiConverterOptionalString.read(buf),
+            category_id=_UniffiFfiConverterOptionalTypeCategoryId.read(buf),
+            trans_date=_UniffiFfiConverterOptionalTypeMmexDate.read(buf),
+            next_occurrence_date=_UniffiFfiConverterOptionalTypeMmexDate.read(buf),
+            repeats=_UniffiFfiConverterOptionalInt32.read(buf),
+            num_occurrences=_UniffiFfiConverterOptionalInt32.read(buf),
+            to_trans_amount=_UniffiFfiConverterOptionalTypeMoney.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterOptionalTypeAccountId.check_lower(value.account_id)
+        _UniffiFfiConverterOptionalTypeAccountId.check_lower(value.to_account_id)
+        _UniffiFfiConverterOptionalTypePayeeId.check_lower(value.payee_id)
+        _UniffiFfiConverterOptionalTypeTransactionCode.check_lower(value.trans_code)
+        _UniffiFfiConverterOptionalTypeMoney.check_lower(value.amount)
+        _UniffiFfiConverterOptionalTypeTransactionStatus.check_lower(value.status)
+        _UniffiFfiConverterOptionalString.check_lower(value.transaction_number)
+        _UniffiFfiConverterOptionalString.check_lower(value.notes)
+        _UniffiFfiConverterOptionalTypeCategoryId.check_lower(value.category_id)
+        _UniffiFfiConverterOptionalTypeMmexDate.check_lower(value.trans_date)
+        _UniffiFfiConverterOptionalTypeMmexDate.check_lower(value.next_occurrence_date)
+        _UniffiFfiConverterOptionalInt32.check_lower(value.repeats)
+        _UniffiFfiConverterOptionalInt32.check_lower(value.num_occurrences)
+        _UniffiFfiConverterOptionalTypeMoney.check_lower(value.to_trans_amount)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterOptionalTypeAccountId.write(value.account_id, buf)
+        _UniffiFfiConverterOptionalTypeAccountId.write(value.to_account_id, buf)
+        _UniffiFfiConverterOptionalTypePayeeId.write(value.payee_id, buf)
+        _UniffiFfiConverterOptionalTypeTransactionCode.write(value.trans_code, buf)
+        _UniffiFfiConverterOptionalTypeMoney.write(value.amount, buf)
+        _UniffiFfiConverterOptionalTypeTransactionStatus.write(value.status, buf)
+        _UniffiFfiConverterOptionalString.write(value.transaction_number, buf)
+        _UniffiFfiConverterOptionalString.write(value.notes, buf)
+        _UniffiFfiConverterOptionalTypeCategoryId.write(value.category_id, buf)
+        _UniffiFfiConverterOptionalTypeMmexDate.write(value.trans_date, buf)
+        _UniffiFfiConverterOptionalTypeMmexDate.write(value.next_occurrence_date, buf)
+        _UniffiFfiConverterOptionalInt32.write(value.repeats, buf)
+        _UniffiFfiConverterOptionalInt32.write(value.num_occurrences, buf)
         _UniffiFfiConverterOptionalTypeMoney.write(value.to_trans_amount, buf)
 
 @dataclass
@@ -3980,6 +4775,90 @@ class _UniffiFfiConverterTypeStock(_UniffiConverterRustBuffer):
         _UniffiFfiConverterTypeMoney.write(value.commission, buf)
 
 @dataclass
+class StockUpdate:
+    def __init__(self, *, held_at:typing.Optional[int], purchase_date:typing.Optional[MmexDate], name:typing.Optional[str], symbol:typing.Optional[str], num_shares:typing.Optional[Money], purchase_price:typing.Optional[Money], notes:typing.Optional[str], current_price:typing.Optional[Money], value:typing.Optional[Money], commission:typing.Optional[Money]):
+        self.held_at = held_at
+        self.purchase_date = purchase_date
+        self.name = name
+        self.symbol = symbol
+        self.num_shares = num_shares
+        self.purchase_price = purchase_price
+        self.notes = notes
+        self.current_price = current_price
+        self.value = value
+        self.commission = commission
+        
+        
+
+    
+    def __str__(self):
+        return "StockUpdate(held_at={}, purchase_date={}, name={}, symbol={}, num_shares={}, purchase_price={}, notes={}, current_price={}, value={}, commission={})".format(self.held_at, self.purchase_date, self.name, self.symbol, self.num_shares, self.purchase_price, self.notes, self.current_price, self.value, self.commission)
+    def __eq__(self, other):
+        if self.held_at != other.held_at:
+            return False
+        if self.purchase_date != other.purchase_date:
+            return False
+        if self.name != other.name:
+            return False
+        if self.symbol != other.symbol:
+            return False
+        if self.num_shares != other.num_shares:
+            return False
+        if self.purchase_price != other.purchase_price:
+            return False
+        if self.notes != other.notes:
+            return False
+        if self.current_price != other.current_price:
+            return False
+        if self.value != other.value:
+            return False
+        if self.commission != other.commission:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeStockUpdate(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return StockUpdate(
+            held_at=_UniffiFfiConverterOptionalInt64.read(buf),
+            purchase_date=_UniffiFfiConverterOptionalTypeMmexDate.read(buf),
+            name=_UniffiFfiConverterOptionalString.read(buf),
+            symbol=_UniffiFfiConverterOptionalString.read(buf),
+            num_shares=_UniffiFfiConverterOptionalTypeMoney.read(buf),
+            purchase_price=_UniffiFfiConverterOptionalTypeMoney.read(buf),
+            notes=_UniffiFfiConverterOptionalString.read(buf),
+            current_price=_UniffiFfiConverterOptionalTypeMoney.read(buf),
+            value=_UniffiFfiConverterOptionalTypeMoney.read(buf),
+            commission=_UniffiFfiConverterOptionalTypeMoney.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterOptionalInt64.check_lower(value.held_at)
+        _UniffiFfiConverterOptionalTypeMmexDate.check_lower(value.purchase_date)
+        _UniffiFfiConverterOptionalString.check_lower(value.name)
+        _UniffiFfiConverterOptionalString.check_lower(value.symbol)
+        _UniffiFfiConverterOptionalTypeMoney.check_lower(value.num_shares)
+        _UniffiFfiConverterOptionalTypeMoney.check_lower(value.purchase_price)
+        _UniffiFfiConverterOptionalString.check_lower(value.notes)
+        _UniffiFfiConverterOptionalTypeMoney.check_lower(value.current_price)
+        _UniffiFfiConverterOptionalTypeMoney.check_lower(value.value)
+        _UniffiFfiConverterOptionalTypeMoney.check_lower(value.commission)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterOptionalInt64.write(value.held_at, buf)
+        _UniffiFfiConverterOptionalTypeMmexDate.write(value.purchase_date, buf)
+        _UniffiFfiConverterOptionalString.write(value.name, buf)
+        _UniffiFfiConverterOptionalString.write(value.symbol, buf)
+        _UniffiFfiConverterOptionalTypeMoney.write(value.num_shares, buf)
+        _UniffiFfiConverterOptionalTypeMoney.write(value.purchase_price, buf)
+        _UniffiFfiConverterOptionalString.write(value.notes, buf)
+        _UniffiFfiConverterOptionalTypeMoney.write(value.current_price, buf)
+        _UniffiFfiConverterOptionalTypeMoney.write(value.value, buf)
+        _UniffiFfiConverterOptionalTypeMoney.write(value.commission, buf)
+
+@dataclass
 class TagId:
     def __init__(self, *, v1:int):
         self.v1 = v1
@@ -4047,6 +4926,36 @@ class _UniffiFfiConverterTypeTag(_UniffiConverterRustBuffer):
     def write(value, buf):
         _UniffiFfiConverterTypeTagId.write(value.id, buf)
         _UniffiFfiConverterString.write(value.name, buf)
+
+@dataclass
+class TagUpdate:
+    def __init__(self, *, name:typing.Optional[str]):
+        self.name = name
+        
+        
+
+    
+    def __str__(self):
+        return "TagUpdate(name={})".format(self.name)
+    def __eq__(self, other):
+        if self.name != other.name:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeTagUpdate(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return TagUpdate(
+            name=_UniffiFfiConverterOptionalString.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterOptionalString.check_lower(value.name)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterOptionalString.write(value.name, buf)
 
 @dataclass
 class Transaction:
@@ -4138,6 +5047,96 @@ class _UniffiFfiConverterTypeTransaction(_UniffiConverterRustBuffer):
         _UniffiFfiConverterTypeTransactionCode.write(value.trans_code, buf)
         _UniffiFfiConverterTypeMoney.write(value.amount, buf)
         _UniffiFfiConverterTypeTransactionStatus.write(value.status, buf)
+        _UniffiFfiConverterOptionalString.write(value.transaction_number, buf)
+        _UniffiFfiConverterOptionalString.write(value.notes, buf)
+        _UniffiFfiConverterOptionalTypeCategoryId.write(value.category_id, buf)
+        _UniffiFfiConverterOptionalTypeMmexDate.write(value.date, buf)
+        _UniffiFfiConverterOptionalTypeMoney.write(value.to_amount, buf)
+
+@dataclass
+class TransactionUpdate:
+    def __init__(self, *, account_id:typing.Optional[AccountId], to_account_id:typing.Optional[AccountId], payee_id:typing.Optional[PayeeId], trans_code:typing.Optional[TransactionCode], amount:typing.Optional[Money], status:typing.Optional[TransactionStatus], transaction_number:typing.Optional[str], notes:typing.Optional[str], category_id:typing.Optional[CategoryId], date:typing.Optional[MmexDate], to_amount:typing.Optional[Money]):
+        self.account_id = account_id
+        self.to_account_id = to_account_id
+        self.payee_id = payee_id
+        self.trans_code = trans_code
+        self.amount = amount
+        self.status = status
+        self.transaction_number = transaction_number
+        self.notes = notes
+        self.category_id = category_id
+        self.date = date
+        self.to_amount = to_amount
+        
+        
+
+    
+    def __str__(self):
+        return "TransactionUpdate(account_id={}, to_account_id={}, payee_id={}, trans_code={}, amount={}, status={}, transaction_number={}, notes={}, category_id={}, date={}, to_amount={})".format(self.account_id, self.to_account_id, self.payee_id, self.trans_code, self.amount, self.status, self.transaction_number, self.notes, self.category_id, self.date, self.to_amount)
+    def __eq__(self, other):
+        if self.account_id != other.account_id:
+            return False
+        if self.to_account_id != other.to_account_id:
+            return False
+        if self.payee_id != other.payee_id:
+            return False
+        if self.trans_code != other.trans_code:
+            return False
+        if self.amount != other.amount:
+            return False
+        if self.status != other.status:
+            return False
+        if self.transaction_number != other.transaction_number:
+            return False
+        if self.notes != other.notes:
+            return False
+        if self.category_id != other.category_id:
+            return False
+        if self.date != other.date:
+            return False
+        if self.to_amount != other.to_amount:
+            return False
+        return True
+
+class _UniffiFfiConverterTypeTransactionUpdate(_UniffiConverterRustBuffer):
+    @staticmethod
+    def read(buf):
+        return TransactionUpdate(
+            account_id=_UniffiFfiConverterOptionalTypeAccountId.read(buf),
+            to_account_id=_UniffiFfiConverterOptionalTypeAccountId.read(buf),
+            payee_id=_UniffiFfiConverterOptionalTypePayeeId.read(buf),
+            trans_code=_UniffiFfiConverterOptionalTypeTransactionCode.read(buf),
+            amount=_UniffiFfiConverterOptionalTypeMoney.read(buf),
+            status=_UniffiFfiConverterOptionalTypeTransactionStatus.read(buf),
+            transaction_number=_UniffiFfiConverterOptionalString.read(buf),
+            notes=_UniffiFfiConverterOptionalString.read(buf),
+            category_id=_UniffiFfiConverterOptionalTypeCategoryId.read(buf),
+            date=_UniffiFfiConverterOptionalTypeMmexDate.read(buf),
+            to_amount=_UniffiFfiConverterOptionalTypeMoney.read(buf),
+        )
+
+    @staticmethod
+    def check_lower(value):
+        _UniffiFfiConverterOptionalTypeAccountId.check_lower(value.account_id)
+        _UniffiFfiConverterOptionalTypeAccountId.check_lower(value.to_account_id)
+        _UniffiFfiConverterOptionalTypePayeeId.check_lower(value.payee_id)
+        _UniffiFfiConverterOptionalTypeTransactionCode.check_lower(value.trans_code)
+        _UniffiFfiConverterOptionalTypeMoney.check_lower(value.amount)
+        _UniffiFfiConverterOptionalTypeTransactionStatus.check_lower(value.status)
+        _UniffiFfiConverterOptionalString.check_lower(value.transaction_number)
+        _UniffiFfiConverterOptionalString.check_lower(value.notes)
+        _UniffiFfiConverterOptionalTypeCategoryId.check_lower(value.category_id)
+        _UniffiFfiConverterOptionalTypeMmexDate.check_lower(value.date)
+        _UniffiFfiConverterOptionalTypeMoney.check_lower(value.to_amount)
+
+    @staticmethod
+    def write(value, buf):
+        _UniffiFfiConverterOptionalTypeAccountId.write(value.account_id, buf)
+        _UniffiFfiConverterOptionalTypeAccountId.write(value.to_account_id, buf)
+        _UniffiFfiConverterOptionalTypePayeeId.write(value.payee_id, buf)
+        _UniffiFfiConverterOptionalTypeTransactionCode.write(value.trans_code, buf)
+        _UniffiFfiConverterOptionalTypeMoney.write(value.amount, buf)
+        _UniffiFfiConverterOptionalTypeTransactionStatus.write(value.status, buf)
         _UniffiFfiConverterOptionalString.write(value.transaction_number, buf)
         _UniffiFfiConverterOptionalString.write(value.notes, buf)
         _UniffiFfiConverterOptionalTypeCategoryId.write(value.category_id, buf)
@@ -5391,6 +6390,11 @@ class AccountManagerProtocol(typing.Protocol):
         Actualiza la información de una cuenta existente.
 """
         raise NotImplementedError
+    def update_partial(self, id: int,update: AccountUpdate) -> None:
+        """
+        Actualiza parcialmente una cuenta.
+"""
+        raise NotImplementedError
 
 class AccountManager(AccountManagerProtocol):
     """
@@ -5557,6 +6561,27 @@ class AccountManager(AccountManagerProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def update_partial(self, id: int,update: AccountUpdate) -> None:
+        """
+        Actualiza parcialmente una cuenta.
+"""
+        
+        _UniffiFfiConverterInt64.check_lower(id)
+
+        _UniffiFfiConverterTypeAccountUpdate.check_lower(update)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterInt64.lower(id),
+            _UniffiFfiConverterTypeAccountUpdate.lower(update),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeAccountError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_accountmanager_update_partial,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
 
 
 
@@ -5669,6 +6694,11 @@ class AssetManagerProtocol(typing.Protocol):
     def update(self, asset: Asset) -> None:
         """
         Actualiza la información de un activo existente.
+"""
+        raise NotImplementedError
+    def update_partial(self, id: int,update: AssetUpdate) -> None:
+        """
+        Actualiza parcialmente la información de un activo.
 """
         raise NotImplementedError
 
@@ -5801,6 +6831,27 @@ class AssetManager(AssetManagerProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def update_partial(self, id: int,update: AssetUpdate) -> None:
+        """
+        Actualiza parcialmente la información de un activo.
+"""
+        
+        _UniffiFfiConverterInt64.check_lower(id)
+
+        _UniffiFfiConverterTypeAssetUpdate.check_lower(update)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterInt64.lower(id),
+            _UniffiFfiConverterTypeAssetUpdate.lower(update),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeAssetError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_assetmanager_update_partial,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
 
 
 
@@ -5918,6 +6969,11 @@ class CategoryManagerProtocol(typing.Protocol):
     def update(self, category: Category) -> None:
         """
         Actualiza la información de una categoría existente.
+"""
+        raise NotImplementedError
+    def update_partial(self, id: int,update: CategoryUpdate) -> None:
+        """
+        Actualiza parcialmente la información de una categoría.
 """
         raise NotImplementedError
 
@@ -6071,6 +7127,27 @@ class CategoryManager(CategoryManagerProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def update_partial(self, id: int,update: CategoryUpdate) -> None:
+        """
+        Actualiza parcialmente la información de una categoría.
+"""
+        
+        _UniffiFfiConverterInt64.check_lower(id)
+
+        _UniffiFfiConverterTypeCategoryUpdate.check_lower(update)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterInt64.lower(id),
+            _UniffiFfiConverterTypeCategoryUpdate.lower(update),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeCategoryError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_categorymanager_update_partial,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
 
 
 
@@ -6188,6 +7265,11 @@ class CurrencyManagerProtocol(typing.Protocol):
     def update(self, currency: Currency) -> None:
         """
         Actualiza la información de una moneda existente.
+"""
+        raise NotImplementedError
+    def update_partial(self, id: int,update: CurrencyUpdate) -> None:
+        """
+        Actualiza parcialmente la información de una moneda.
 """
         raise NotImplementedError
 
@@ -6338,6 +7420,27 @@ class CurrencyManager(CurrencyManagerProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def update_partial(self, id: int,update: CurrencyUpdate) -> None:
+        """
+        Actualiza parcialmente la información de una moneda.
+"""
+        
+        _UniffiFfiConverterInt64.check_lower(id)
+
+        _UniffiFfiConverterTypeCurrencyUpdate.check_lower(update)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterInt64.lower(id),
+            _UniffiFfiConverterTypeCurrencyUpdate.lower(update),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeCurrencyError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_currencymanager_update_partial,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
 
 
 
@@ -6450,6 +7553,11 @@ class PayeeManagerProtocol(typing.Protocol):
     def update(self, payee: Payee) -> None:
         """
         Actualiza la información de un beneficiario existente.
+"""
+        raise NotImplementedError
+    def update_partial(self, id: int,update: PayeeUpdate) -> None:
+        """
+        Actualiza parcialmente un beneficiario.
 """
         raise NotImplementedError
 
@@ -6582,6 +7690,27 @@ class PayeeManager(PayeeManagerProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def update_partial(self, id: int,update: PayeeUpdate) -> None:
+        """
+        Actualiza parcialmente un beneficiario.
+"""
+        
+        _UniffiFfiConverterInt64.check_lower(id)
+
+        _UniffiFfiConverterTypePayeeUpdate.check_lower(update)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterInt64.lower(id),
+            _UniffiFfiConverterTypePayeeUpdate.lower(update),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypePayeeError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_payeemanager_update_partial,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
 
 
 
@@ -6694,6 +7823,11 @@ class ScheduledManagerProtocol(typing.Protocol):
     def update(self, transaction: ScheduledTransaction) -> None:
         """
         Actualiza una transacción programada existente.
+"""
+        raise NotImplementedError
+    def update_partial(self, id: int,update: ScheduledUpdate) -> None:
+        """
+        Actualiza parcialmente una transacción programada.
 """
         raise NotImplementedError
 
@@ -6826,6 +7960,27 @@ class ScheduledManager(ScheduledManagerProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def update_partial(self, id: int,update: ScheduledUpdate) -> None:
+        """
+        Actualiza parcialmente una transacción programada.
+"""
+        
+        _UniffiFfiConverterInt64.check_lower(id)
+
+        _UniffiFfiConverterTypeScheduledUpdate.check_lower(update)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterInt64.lower(id),
+            _UniffiFfiConverterTypeScheduledUpdate.lower(update),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeScheduledError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_scheduledmanager_update_partial,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
 
 
 
@@ -6938,6 +8093,11 @@ class StockManagerProtocol(typing.Protocol):
     def update(self, stock: Stock) -> None:
         """
         Actualiza la información de un valor existente.
+"""
+        raise NotImplementedError
+    def update_partial(self, id: int,update: StockUpdate) -> None:
+        """
+        Actualiza parcialmente la información de un valor.
 """
         raise NotImplementedError
 
@@ -7067,6 +8227,27 @@ class StockManager(StockManagerProtocol):
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_update,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def update_partial(self, id: int,update: StockUpdate) -> None:
+        """
+        Actualiza parcialmente la información de un valor.
+"""
+        
+        _UniffiFfiConverterInt64.check_lower(id)
+
+        _UniffiFfiConverterTypeStockUpdate.check_lower(update)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterInt64.lower(id),
+            _UniffiFfiConverterTypeStockUpdate.lower(update),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeStockError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_stockmanager_update_partial,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
@@ -7283,6 +8464,11 @@ class TagManagerProtocol(typing.Protocol):
         Actualiza el nombre de una etiqueta existente.
 """
         raise NotImplementedError
+    def update_partial(self, id: int,update: TagUpdate) -> None:
+        """
+        Actualiza parcialmente una etiqueta.
+"""
+        raise NotImplementedError
 
 class TagManager(TagManagerProtocol):
     """
@@ -7485,6 +8671,27 @@ class TagManager(TagManagerProtocol):
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
+    def update_partial(self, id: int,update: TagUpdate) -> None:
+        """
+        Actualiza parcialmente una etiqueta.
+"""
+        
+        _UniffiFfiConverterInt64.check_lower(id)
+
+        _UniffiFfiConverterTypeTagUpdate.check_lower(update)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterInt64.lower(id),
+            _UniffiFfiConverterTypeTagUpdate.lower(update),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeTagError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_tagmanager_update_partial,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
 
 
 
@@ -7655,6 +8862,11 @@ class TransactionManagerProtocol(typing.Protocol):
     def update(self, transaction: Transaction) -> None:
         """
         Actualiza la información de una transacción existente.
+"""
+        raise NotImplementedError
+    def update_partial(self, id: int,update: TransactionUpdate) -> None:
+        """
+        Actualiza parcialmente la información de una transacción.
 """
         raise NotImplementedError
     def update_split(self, split: SplitTransaction) -> None:
@@ -7921,6 +9133,27 @@ class TransactionManager(TransactionManagerProtocol):
         _uniffi_ffi_result = _uniffi_rust_call_with_error(
             _uniffi_error_converter,
             _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_update,
+            *_uniffi_lowered_args,
+        )
+        return _uniffi_lift_return(_uniffi_ffi_result)
+    def update_partial(self, id: int,update: TransactionUpdate) -> None:
+        """
+        Actualiza parcialmente la información de una transacción.
+"""
+        
+        _UniffiFfiConverterInt64.check_lower(id)
+
+        _UniffiFfiConverterTypeTransactionUpdate.check_lower(update)
+        _uniffi_lowered_args = (
+            self._uniffi_clone_handle(),
+            _UniffiFfiConverterInt64.lower(id),
+            _UniffiFfiConverterTypeTransactionUpdate.lower(update),
+        )
+        _uniffi_lift_return = lambda val: None
+        _uniffi_error_converter = _UniffiFfiConverterTypeTransactionError
+        _uniffi_ffi_result = _uniffi_rust_call_with_error(
+            _uniffi_error_converter,
+            _UniffiLib.uniffi_mmex_lib_fn_method_transactionmanager_update_partial,
             *_uniffi_lowered_args,
         )
         return _uniffi_lift_return(_uniffi_ffi_result)
@@ -8286,22 +9519,31 @@ __all__ = [
     "CurrencyId",
     "Account",
     "AccountBalance",
+    "AccountUpdate",
     "AssetId",
     "MmexDate",
     "Asset",
+    "AssetUpdate",
     "CategoryId",
     "Category",
+    "CategoryUpdate",
     "Currency",
+    "CurrencyUpdate",
     "PayeeId",
     "Payee",
+    "PayeeUpdate",
     "ScheduledTransaction",
+    "ScheduledUpdate",
     "TransactionId",
     "SplitTransaction",
     "StockId",
     "Stock",
+    "StockUpdate",
     "TagId",
     "Tag",
+    "TagUpdate",
     "Transaction",
+    "TransactionUpdate",
     "AccountManager",
     "AccountManagerProtocol",
     "AssetManager",

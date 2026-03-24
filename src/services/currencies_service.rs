@@ -39,6 +39,15 @@ impl<'a> CurrencyService<'a> {
         repo.update(currency)
     }
 
+    pub fn update_currency_partial(
+        &self,
+        id: CurrencyId,
+        update: crate::domain::currencies::CurrencyUpdate,
+    ) -> Result<(), CurrencyError> {
+        let repo = SqlCurrencyRepository::new(self.conn);
+        repo.update_partial(id, update)
+    }
+
     pub fn delete_currency(&self, id: CurrencyId) -> Result<(), CurrencyError> {
         let repo = SqlCurrencyRepository::new(self.conn);
         repo.delete(id)

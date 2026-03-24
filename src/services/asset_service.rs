@@ -31,6 +31,15 @@ impl<'a> AssetService<'a> {
         repo.update(asset)
     }
 
+    pub fn update_asset_partial(
+        &self,
+        id: AssetId,
+        update: crate::domain::assets::AssetUpdate,
+    ) -> Result<(), AssetError> {
+        let repo = SqlAssetRepository::new(self.conn);
+        repo.update_partial(id, update)
+    }
+
     pub fn delete_asset(&self, id: AssetId) -> Result<(), AssetError> {
         let repo = SqlAssetRepository::new(self.conn);
         repo.delete(id)

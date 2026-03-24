@@ -1,5 +1,5 @@
 use crate::api::MmexContext;
-use crate::domain::stocks::{Stock, StockError, StockId};
+use crate::domain::stocks::{Stock, StockError, StockId, StockUpdate};
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
@@ -45,6 +45,17 @@ impl StockManager {
             .lock()
             .map_err(|e| StockError::Common(MmexError::Internal(e.to_string())))?;
         ctx.stocks().update_stock(&stock)?;
+        Ok(())
+    }
+
+    /// Actualiza parcialmente la información de un valor.
+    pub fn update_partial(&self, id: i64, update: StockUpdate) -> Result<(), StockError> {
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| StockError::Common(MmexError::Internal(e.to_string())))?;
+        ctx.stocks()
+            .update_stock_partial(StockId { v1: id }, update)?;
         Ok(())
     }
 

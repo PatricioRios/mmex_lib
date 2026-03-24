@@ -75,11 +75,11 @@ impl From<String> for TransactionStatus {
 impl ToString for TransactionStatus {
     fn to_string(&self) -> String {
         match self {
-            Self::None => "None".to_string(),
-            Self::Reconciled => "Reconciled".to_string(),
-            Self::Void => "Void".to_string(),
-            Self::FollowUp => "Follow up".to_string(),
-            Self::Duplicate => "Duplicate".to_string(),
+            Self::None => "".to_string(),
+            Self::Reconciled => "R".to_string(),
+            Self::Void => "V".to_string(),
+            Self::FollowUp => "F".to_string(),
+            Self::Duplicate => "D".to_string(),
             Self::Unknown(s) => s.clone(),
         }
     }
@@ -101,13 +101,19 @@ pub struct Transaction {
     pub to_amount: Option<Money>,
 }
 
-#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
-pub struct SplitTransaction {
-    pub id: i64,                         // SPLITTRANSID
-    pub transaction_id: TransactionId,   // TRANSID
-    pub category_id: Option<CategoryId>, // CATEGID
-    pub amount: Money,                   // SPLITTRANSAMOUNT
+#[derive(uniffi::Record, Debug, Clone, Default)]
+pub struct TransactionUpdate {
+    pub account_id: Option<AccountId>,
+    pub to_account_id: Option<AccountId>,
+    pub payee_id: Option<PayeeId>,
+    pub trans_code: Option<TransactionCode>,
+    pub amount: Option<Money>,
+    pub status: Option<TransactionStatus>,
+    pub transaction_number: Option<String>,
     pub notes: Option<String>,
+    pub category_id: Option<CategoryId>,
+    pub date: Option<MmexDate>,
+    pub to_amount: Option<Money>,
 }
 
 pub trait TransactionRepository {
@@ -117,7 +123,21 @@ pub trait TransactionRepository {
         -> Result<Vec<Transaction>, TransactionError>;
     fn insert(&self, tx: &Transaction) -> Result<Transaction, TransactionError>;
     fn update(&self, tx: &Transaction) -> Result<(), TransactionError>;
+    fn update_partial(
+        &self,
+        id: TransactionId,
+        update: TransactionUpdate,
+    ) -> Result<(), TransactionError>;
     fn delete(&self, id: TransactionId) -> Result<(), TransactionError>;
+}
+
+#[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
+pub struct SplitTransaction {
+    pub id: i64,                         // SPLITTRANSID
+    pub transaction_id: TransactionId,   // TRANSID
+    pub category_id: Option<CategoryId>, // CATEGID
+    pub amount: Money,                   // SPLITTRANSAMOUNT
+    pub notes: Option<String>,
 }
 
 pub trait SplitRepository {

@@ -1,5 +1,5 @@
 use crate::api::MmexContext;
-use crate::domain::payees::{Payee, PayeeError, PayeeId};
+use crate::domain::payees::{Payee, PayeeError, PayeeId, PayeeUpdate};
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
@@ -45,6 +45,17 @@ impl PayeeManager {
             .lock()
             .map_err(|e| PayeeError::Common(MmexError::Internal(e.to_string())))?;
         ctx.payees().update_payee(&payee)?;
+        Ok(())
+    }
+
+    /// Actualiza parcialmente un beneficiario.
+    pub fn update_partial(&self, id: i64, update: PayeeUpdate) -> Result<(), PayeeError> {
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| PayeeError::Common(MmexError::Internal(e.to_string())))?;
+        ctx.payees()
+            .update_payee_partial(PayeeId { v1: id }, update)?;
         Ok(())
     }
 

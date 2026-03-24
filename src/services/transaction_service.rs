@@ -40,6 +40,15 @@ impl<'a> TransactionService<'a> {
         repo.update(tx)
     }
 
+    pub fn update_transaction_partial(
+        &self,
+        id: TransactionId,
+        update: crate::domain::transactions::TransactionUpdate,
+    ) -> Result<(), TransactionError> {
+        let repo = SqlTransactionRepository::new(self.conn);
+        repo.update_partial(id, update)
+    }
+
     pub fn delete_transaction(&self, id: TransactionId) -> Result<(), TransactionError> {
         // 1. Eliminar vínculos de tags
         let tag_repo = SqlTagRepository::new(self.conn);

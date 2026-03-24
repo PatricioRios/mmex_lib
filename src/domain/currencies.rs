@@ -31,12 +31,28 @@ pub struct Currency {
     pub currency_type: String, // Fiat, Crypto
 }
 
+#[derive(uniffi::Record, Debug, Clone, Default)]
+pub struct CurrencyUpdate {
+    pub name: Option<String>,
+    pub pfx_symbol: Option<String>,
+    pub sfx_symbol: Option<String>,
+    pub decimal_point: Option<String>,
+    pub group_separator: Option<String>,
+    pub unit_name: Option<String>,
+    pub cent_name: Option<String>,
+    pub scale: Option<i32>,
+    pub base_conv_rate: Option<Money>,
+    pub symbol: Option<String>,
+    pub currency_type: Option<String>,
+}
+
 pub trait CurrencyRepository {
     fn find_all(&self) -> Result<Vec<Currency>, CurrencyError>;
     fn find_by_id(&self, id: CurrencyId) -> Result<Option<Currency>, CurrencyError>;
     fn find_by_symbol(&self, symbol: &str) -> Result<Option<Currency>, CurrencyError>;
     fn insert(&self, currency: &Currency) -> Result<Currency, CurrencyError>;
     fn update(&self, currency: &Currency) -> Result<(), CurrencyError>;
+    fn update_partial(&self, id: CurrencyId, update: CurrencyUpdate) -> Result<(), CurrencyError>;
     fn delete(&self, id: CurrencyId) -> Result<(), CurrencyError>;
 }
 

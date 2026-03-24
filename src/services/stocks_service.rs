@@ -31,6 +31,15 @@ impl<'a> StockService<'a> {
         repo.update(stock)
     }
 
+    pub fn update_stock_partial(
+        &self,
+        id: StockId,
+        update: crate::domain::stocks::StockUpdate,
+    ) -> Result<(), StockError> {
+        let repo = SqlStockRepository::new(self.conn);
+        repo.update_partial(id, update)
+    }
+
     pub fn delete_stock(&self, id: StockId) -> Result<(), StockError> {
         let repo = SqlStockRepository::new(self.conn);
         repo.delete(id)

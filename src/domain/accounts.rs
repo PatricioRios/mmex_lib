@@ -110,6 +110,27 @@ pub struct Account {
     pub favorite: bool,
 }
 
+#[derive(uniffi::Record, Debug, Clone, Default)]
+pub struct AccountUpdate {
+    pub name: Option<String>,
+    pub account_type: Option<AccountType>,
+    pub account_num: Option<String>,
+    pub status: Option<AccountStatus>,
+    pub notes: Option<String>,
+    pub initial_balance: Option<Money>,
+    pub currency_id: Option<CurrencyId>,
+    pub favorite: Option<bool>,
+}
+
+pub trait AccountRepository {
+    fn find_all(&self) -> Result<Vec<Account>, AccountError>;
+    fn find_by_id(&self, id: AccountId) -> Result<Option<Account>, AccountError>;
+    fn insert(&self, account: &Account) -> Result<Account, AccountError>;
+    fn update(&self, account: &Account) -> Result<(), AccountError>;
+    fn update_partial(&self, id: AccountId, update: AccountUpdate) -> Result<(), AccountError>;
+    fn delete(&self, id: AccountId) -> Result<(), AccountError>;
+}
+
 /// Resume el estado financiero actual de una cuenta.
 #[derive(uniffi::Record, Debug, Clone, Serialize, Deserialize)]
 pub struct AccountBalance {
@@ -123,14 +144,6 @@ pub struct AccountBalance {
     pub total_withdrawals: Money,
     /// Saldo neto actual calculado.
     pub current_balance: Money,
-}
-
-pub trait AccountRepository {
-    fn find_all(&self) -> Result<Vec<Account>, AccountError>;
-    fn find_by_id(&self, id: AccountId) -> Result<Option<Account>, AccountError>;
-    fn insert(&self, account: &Account) -> Result<Account, AccountError>;
-    fn update(&self, account: &Account) -> Result<(), AccountError>;
-    fn delete(&self, id: AccountId) -> Result<(), AccountError>;
 }
 
 impl From<AccountError> for MmexError {

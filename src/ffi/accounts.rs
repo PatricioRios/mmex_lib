@@ -1,5 +1,5 @@
 use crate::api::MmexContext;
-use crate::domain::accounts::{Account, AccountBalance, AccountError};
+use crate::domain::accounts::{Account, AccountBalance, AccountError, AccountUpdate};
 use crate::domain::types::AccountId;
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
@@ -46,6 +46,17 @@ impl AccountManager {
             .lock()
             .map_err(|e| AccountError::Common(MmexError::Internal(e.to_string())))?;
         ctx.accounts().update_account(&account)?;
+        Ok(())
+    }
+
+    /// Actualiza parcialmente una cuenta.
+    pub fn update_partial(&self, id: i64, update: AccountUpdate) -> Result<(), AccountError> {
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| AccountError::Common(MmexError::Internal(e.to_string())))?;
+        ctx.accounts()
+            .update_account_partial(AccountId { v1: id }, update)?;
         Ok(())
     }
 

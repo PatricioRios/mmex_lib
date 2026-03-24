@@ -1,5 +1,5 @@
 use crate::api::MmexContext;
-use crate::domain::categories::{Category, CategoryError, CategoryId};
+use crate::domain::categories::{Category, CategoryError, CategoryId, CategoryUpdate};
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
@@ -58,6 +58,17 @@ impl CategoryManager {
             .lock()
             .map_err(|e| CategoryError::Common(MmexError::Internal(e.to_string())))?;
         ctx.categories().update_category(&category)?;
+        Ok(())
+    }
+
+    /// Actualiza parcialmente la información de una categoría.
+    pub fn update_partial(&self, id: i64, update: CategoryUpdate) -> Result<(), CategoryError> {
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| CategoryError::Common(MmexError::Internal(e.to_string())))?;
+        ctx.categories()
+            .update_category_partial(CategoryId { v1: id }, update)?;
         Ok(())
     }
 

@@ -39,6 +39,15 @@ impl<'a> ScheduledService<'a> {
         repo.update(tx)
     }
 
+    pub fn update_scheduled_partial(
+        &self,
+        id: i64,
+        update: crate::domain::scheduled_transactions::ScheduledUpdate,
+    ) -> Result<(), ScheduledError> {
+        let repo = SqlScheduledRepository::new(self.conn);
+        repo.update_partial(id, update)
+    }
+
     pub fn delete_scheduled(&self, id: i64) -> Result<(), ScheduledError> {
         let repo = SqlScheduledRepository::new(self.conn);
         repo.delete(id)

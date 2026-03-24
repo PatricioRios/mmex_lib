@@ -2,7 +2,7 @@ use chrono::NaiveDate;
 use rusqlite::Row;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
-use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SimpleExpr, SqliteQueryBuilder};
 use sea_query_rusqlite::RusqliteBinder;
 use std::str::FromStr;
 
@@ -176,6 +176,68 @@ impl<'a, E: DbExecutor> StockRepository for SqlStockRepository<'a, E> {
             .and_where(Expr::col(Alias::new("STOCKID")).eq(s.id.v1))
             .build_rusqlite(SqliteQueryBuilder);
 
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
+        Ok(())
+    }
+
+    fn update_partial(
+        &self,
+        id: StockId,
+        update: crate::domain::stocks::StockUpdate,
+    ) -> Result<(), StockError> {
+        let mut query = Query::update();
+        query.table(Alias::new("STOCK_V1"));
+
+        let mut has_values = false;
+
+        if let Some(held_at) = update.held_at {
+            query.value(Alias::new("HELDAT"), SimpleExpr::from(held_at));
+            has_values = true;
+        }
+        if let Some(pd) = update.purchase_date {
+            query.value(Alias::new("PURCHASEDATE"), SimpleExpr::from(pd.v1));
+            has_values = true;
+        }
+        if let Some(name) = update.name {
+            query.value(Alias::new("STOCKNAME"), SimpleExpr::from(name));
+            has_values = true;
+        }
+        if let Some(symbol) = update.symbol {
+            query.value(Alias::new("SYMBOL"), SimpleExpr::from(symbol));
+            has_values = true;
+        }
+        if let Some(ns) = update.num_shares {
+            query.value(Alias::new("NUMSHARES"), SimpleExpr::from(ns.v1));
+            has_values = true;
+        }
+        if let Some(pp) = update.purchase_price {
+            query.value(Alias::new("PURCHASEPRICE"), SimpleExpr::from(pp.v1));
+            has_values = true;
+        }
+        if let Some(notes) = update.notes {
+            query.value(Alias::new("NOTES"), SimpleExpr::from(notes));
+            has_values = true;
+        }
+        if let Some(cp) = update.current_price {
+            query.value(Alias::new("CURRENTPRICE"), SimpleExpr::from(cp.v1));
+            has_values = true;
+        }
+        if let Some(val) = update.value {
+            query.value(Alias::new("VALUE"), SimpleExpr::from(val.v1));
+            has_values = true;
+        }
+        if let Some(comm) = update.commission {
+            query.value(Alias::new("COMMISSION"), SimpleExpr::from(comm.v1));
+            has_values = true;
+        }
+
+        if !has_values {
+            return Ok(());
+        }
+
+        query.and_where(Expr::col(Alias::new("STOCKID")).eq(id.v1));
+
+        let (sql, values) = query.build_rusqlite(SqliteQueryBuilder);
         self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }

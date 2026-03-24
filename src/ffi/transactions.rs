@@ -1,6 +1,8 @@
 use crate::api::MmexContext;
 use crate::domain::tags::{Tag, TagId};
-use crate::domain::transactions::{SplitTransaction, Transaction, TransactionError, TransactionId};
+use crate::domain::transactions::{
+    SplitTransaction, Transaction, TransactionError, TransactionId, TransactionUpdate,
+};
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
@@ -48,6 +50,21 @@ impl TransactionManager {
             .lock()
             .map_err(|e| TransactionError::Common(MmexError::Internal(e.to_string())))?;
         ctx.transactions().update_transaction(&transaction)?;
+        Ok(())
+    }
+
+    /// Actualiza parcialmente la información de una transacción.
+    pub fn update_partial(
+        &self,
+        id: i64,
+        update: TransactionUpdate,
+    ) -> Result<(), TransactionError> {
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| TransactionError::Common(MmexError::Internal(e.to_string())))?;
+        ctx.transactions()
+            .update_transaction_partial(TransactionId { v1: id }, update)?;
         Ok(())
     }
 

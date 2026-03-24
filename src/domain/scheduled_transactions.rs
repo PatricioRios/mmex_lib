@@ -34,11 +34,30 @@ pub struct ScheduledTransaction {
     pub to_trans_amount: Option<Money>,
 }
 
+#[derive(uniffi::Record, Debug, Clone, Default)]
+pub struct ScheduledUpdate {
+    pub account_id: Option<AccountId>,
+    pub to_account_id: Option<AccountId>,
+    pub payee_id: Option<PayeeId>,
+    pub trans_code: Option<TransactionCode>,
+    pub amount: Option<Money>,
+    pub status: Option<TransactionStatus>,
+    pub transaction_number: Option<String>,
+    pub notes: Option<String>,
+    pub category_id: Option<CategoryId>,
+    pub trans_date: Option<MmexDate>,
+    pub next_occurrence_date: Option<MmexDate>,
+    pub repeats: Option<i32>,
+    pub num_occurrences: Option<i32>,
+    pub to_trans_amount: Option<Money>,
+}
+
 pub trait ScheduledRepository {
     fn find_all(&self) -> Result<Vec<ScheduledTransaction>, ScheduledError>;
     fn find_by_id(&self, id: i64) -> Result<Option<ScheduledTransaction>, ScheduledError>;
     fn insert(&self, tx: &ScheduledTransaction) -> Result<ScheduledTransaction, ScheduledError>;
     fn update(&self, tx: &ScheduledTransaction) -> Result<(), ScheduledError>;
+    fn update_partial(&self, id: i64, update: ScheduledUpdate) -> Result<(), ScheduledError>;
     fn delete(&self, id: i64) -> Result<(), ScheduledError>;
 }
 

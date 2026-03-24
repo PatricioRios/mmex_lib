@@ -1,5 +1,5 @@
 use crate::api::MmexContext;
-use crate::domain::tags::{Tag, TagError};
+use crate::domain::tags::{Tag, TagError, TagUpdate};
 use crate::domain::types::TagId;
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
@@ -50,6 +50,16 @@ impl TagManager {
             name,
         };
         ctx.tags().update_tag(&tag)?;
+        Ok(())
+    }
+
+    /// Actualiza parcialmente una etiqueta.
+    pub fn update_partial(&self, id: i64, update: TagUpdate) -> Result<(), TagError> {
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| TagError::Common(MmexError::Internal(e.to_string())))?;
+        ctx.tags().update_tag_partial(TagId::new(id), update)?;
         Ok(())
     }
 

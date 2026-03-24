@@ -24,11 +24,17 @@ pub struct Tag {
     pub name: String,
 }
 
+#[derive(uniffi::Record, Debug, Clone, Default)]
+pub struct TagUpdate {
+    pub name: Option<String>,
+}
+
 pub trait TagRepository {
     fn find_all(&self) -> Result<Vec<Tag>, TagError>;
     fn find_by_id(&self, id: TagId) -> Result<Option<Tag>, TagError>;
     fn insert(&self, name: &str) -> Result<Tag, TagError>;
     fn update(&self, tag: &Tag) -> Result<(), TagError>;
+    fn update_partial(&self, id: TagId, update: TagUpdate) -> Result<(), TagError>;
     fn delete(&self, id: TagId) -> Result<(), TagError>;
 
     // Gestión de vínculos (TAGLINK_V1)

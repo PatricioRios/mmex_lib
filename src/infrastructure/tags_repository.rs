@@ -1,5 +1,5 @@
 use rusqlite::Row;
-use sea_query::{Alias, Expr, JoinType, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, JoinType, Query, SimpleExpr, SqliteQueryBuilder};
 use sea_query_rusqlite::RusqliteBinder;
 
 use crate::domain::tags::{Tag, TagError, TagId, TagRepository};
@@ -83,6 +83,31 @@ impl<'a, E: DbExecutor> TagRepository for SqlTagRepository<'a, E> {
             .and_where(Expr::col(Alias::new("TAGID")).eq(tag.id.v1))
             .build_rusqlite(SqliteQueryBuilder);
 
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
+        Ok(())
+    }
+
+    fn update_partial(
+        &self,
+        id: TagId,
+        update: crate::domain::tags::TagUpdate,
+    ) -> Result<(), TagError> {
+        let mut query = Query::update();
+        query.table(Alias::new("TAG_V1"));
+
+        let mut has_values = false;
+        if let Some(name) = update.name {
+            query.value(Alias::new("TAGNAME"), SimpleExpr::from(name));
+            has_values = true;
+        }
+
+        if !has_values {
+            return Ok(());
+        }
+
+        query.and_where(Expr::col(Alias::new("TAGID")).eq(id.v1));
+
+        let (sql, values) = query.build_rusqlite(SqliteQueryBuilder);
         self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }

@@ -1,5 +1,5 @@
 use crate::api::MmexContext;
-use crate::domain::assets::{Asset, AssetError, AssetId};
+use crate::domain::assets::{Asset, AssetError, AssetId, AssetUpdate};
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
@@ -45,6 +45,17 @@ impl AssetManager {
             .lock()
             .map_err(|e| AssetError::Common(MmexError::Internal(e.to_string())))?;
         ctx.assets().update_asset(&asset)?;
+        Ok(())
+    }
+
+    /// Actualiza parcialmente la información de un activo.
+    pub fn update_partial(&self, id: i64, update: AssetUpdate) -> Result<(), AssetError> {
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| AssetError::Common(MmexError::Internal(e.to_string())))?;
+        ctx.assets()
+            .update_asset_partial(AssetId { v1: id }, update)?;
         Ok(())
     }
 

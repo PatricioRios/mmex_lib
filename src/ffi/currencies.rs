@@ -1,5 +1,5 @@
 use crate::api::MmexContext;
-use crate::domain::currencies::{Currency, CurrencyError, CurrencyId};
+use crate::domain::currencies::{Currency, CurrencyError, CurrencyId, CurrencyUpdate};
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
@@ -54,6 +54,17 @@ impl CurrencyManager {
             .lock()
             .map_err(|e| CurrencyError::Common(MmexError::Internal(e.to_string())))?;
         ctx.currencies().update_currency(&currency)?;
+        Ok(())
+    }
+
+    /// Actualiza parcialmente la información de una moneda.
+    pub fn update_partial(&self, id: i64, update: CurrencyUpdate) -> Result<(), CurrencyError> {
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| CurrencyError::Common(MmexError::Internal(e.to_string())))?;
+        ctx.currencies()
+            .update_currency_partial(CurrencyId { v1: id }, update)?;
         Ok(())
     }
 

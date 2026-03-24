@@ -88,6 +88,15 @@ impl<'a> AccountService<'a> {
         repo.update(account)
     }
 
+    pub fn update_account_partial(
+        &self,
+        id: AccountId,
+        update: crate::domain::accounts::AccountUpdate,
+    ) -> Result<(), AccountError> {
+        let repo = SqlAccountRepository::new(self.conn);
+        repo.update_partial(id, update)
+    }
+
     pub fn delete_account(&self, id: AccountId) -> Result<(), AccountError> {
         let repo = SqlAccountRepository::new(self.conn);
         repo.delete(id)

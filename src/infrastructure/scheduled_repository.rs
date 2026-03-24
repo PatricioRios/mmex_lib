@@ -2,7 +2,7 @@ use chrono::NaiveDate;
 use rusqlite::Row;
 use rust_decimal::prelude::FromPrimitive;
 use rust_decimal::Decimal;
-use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SimpleExpr, SqliteQueryBuilder};
 use sea_query_rusqlite::RusqliteBinder;
 use std::str::FromStr;
 
@@ -221,6 +221,84 @@ impl<'a, E: DbExecutor> ScheduledRepository for SqlScheduledRepository<'a, E> {
             .and_where(Expr::col(Alias::new("BDID")).eq(s.id))
             .build_rusqlite(SqliteQueryBuilder);
 
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
+        Ok(())
+    }
+
+    fn update_partial(
+        &self,
+        id: i64,
+        update: crate::domain::scheduled_transactions::ScheduledUpdate,
+    ) -> Result<(), ScheduledError> {
+        let mut query = Query::update();
+        query.table(Alias::new("BILLSDEPOSITS_V1"));
+
+        let mut has_values = false;
+
+        if let Some(acc_id) = update.account_id {
+            query.value(Alias::new("ACCOUNTID"), SimpleExpr::from(acc_id.v1));
+            has_values = true;
+        }
+        if let Some(to_acc_id) = update.to_account_id {
+            query.value(Alias::new("TOACCOUNTID"), SimpleExpr::from(to_acc_id.v1));
+            has_values = true;
+        }
+        if let Some(payee_id) = update.payee_id {
+            query.value(Alias::new("PAYEEID"), SimpleExpr::from(payee_id.v1));
+            has_values = true;
+        }
+        if let Some(tc) = update.trans_code {
+            query.value(Alias::new("TRANSCODE"), SimpleExpr::from(tc.to_string()));
+            has_values = true;
+        }
+        if let Some(amt) = update.amount {
+            query.value(Alias::new("TRANSAMOUNT"), SimpleExpr::from(amt.v1));
+            has_values = true;
+        }
+        if let Some(status) = update.status {
+            query.value(Alias::new("STATUS"), SimpleExpr::from(status.to_string()));
+            has_values = true;
+        }
+        if let Some(num) = update.transaction_number {
+            query.value(Alias::new("TRANSACTIONNUMBER"), SimpleExpr::from(num));
+            has_values = true;
+        }
+        if let Some(notes) = update.notes {
+            query.value(Alias::new("NOTES"), SimpleExpr::from(notes));
+            has_values = true;
+        }
+        if let Some(cat_id) = update.category_id {
+            query.value(Alias::new("CATEGID"), SimpleExpr::from(cat_id.v1));
+            has_values = true;
+        }
+        if let Some(td) = update.trans_date {
+            query.value(Alias::new("TRANSDATE"), SimpleExpr::from(td.v1));
+            has_values = true;
+        }
+        if let Some(nod) = update.next_occurrence_date {
+            query.value(Alias::new("NEXTOCCURRENCEDATE"), SimpleExpr::from(nod.v1));
+            has_values = true;
+        }
+        if let Some(repeats) = update.repeats {
+            query.value(Alias::new("REPEATS"), SimpleExpr::from(repeats));
+            has_values = true;
+        }
+        if let Some(num_occ) = update.num_occurrences {
+            query.value(Alias::new("NUMOCCURRENCES"), SimpleExpr::from(num_occ));
+            has_values = true;
+        }
+        if let Some(to_amt) = update.to_trans_amount {
+            query.value(Alias::new("TOTRANSAMOUNT"), SimpleExpr::from(to_amt.v1));
+            has_values = true;
+        }
+
+        if !has_values {
+            return Ok(());
+        }
+
+        query.and_where(Expr::col(Alias::new("BDID")).eq(id));
+
+        let (sql, values) = query.build_rusqlite(SqliteQueryBuilder);
         self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }

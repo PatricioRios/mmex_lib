@@ -37,6 +37,15 @@ impl<'a> TagService<'a> {
         repo.update(tag)
     }
 
+    pub fn update_tag_partial(
+        &self,
+        id: TagId,
+        update: crate::domain::tags::TagUpdate,
+    ) -> Result<(), TagError> {
+        let repo = SqlTagRepository::new(self.conn);
+        repo.update_partial(id, update)
+    }
+
     pub fn delete_tag(&self, id: TagId) -> Result<(), TagError> {
         let repo = SqlTagRepository::new(self.conn);
         repo.delete(id)

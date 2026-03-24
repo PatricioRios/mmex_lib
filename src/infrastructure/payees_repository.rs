@@ -1,5 +1,5 @@
 use rusqlite::Row;
-use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SimpleExpr, SqliteQueryBuilder};
 use sea_query_rusqlite::RusqliteBinder;
 
 use crate::domain::payees::{Payee, PayeeError, PayeeId, PayeeRepository};
@@ -130,6 +130,59 @@ impl<'a, E: DbExecutor> PayeeRepository for SqlPayeeRepository<'a, E> {
             .and_where(Expr::col(Alias::new("PAYEEID")).eq(p.id.v1))
             .build_rusqlite(SqliteQueryBuilder);
 
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
+        Ok(())
+    }
+
+    fn update_partial(
+        &self,
+        id: PayeeId,
+        update: crate::domain::payees::PayeeUpdate,
+    ) -> Result<(), PayeeError> {
+        let mut query = Query::update();
+        query.table(Alias::new("PAYEE_V1"));
+
+        let mut has_values = false;
+
+        if let Some(name) = update.name {
+            query.value(Alias::new("PAYEENAME"), SimpleExpr::from(name));
+            has_values = true;
+        }
+        if let Some(cat_id) = update.category_id {
+            query.value(Alias::new("CATEGID"), SimpleExpr::from(cat_id));
+            has_values = true;
+        }
+        if let Some(number) = update.number {
+            query.value(Alias::new("NUMBER"), SimpleExpr::from(number));
+            has_values = true;
+        }
+        if let Some(website) = update.website {
+            query.value(Alias::new("WEBSITE"), SimpleExpr::from(website));
+            has_values = true;
+        }
+        if let Some(notes) = update.notes {
+            query.value(Alias::new("NOTES"), SimpleExpr::from(notes));
+            has_values = true;
+        }
+        if let Some(active) = update.active {
+            query.value(
+                Alias::new("ACTIVE"),
+                SimpleExpr::from(if active { 1 } else { 0 }),
+            );
+            has_values = true;
+        }
+        if let Some(pattern) = update.pattern {
+            query.value(Alias::new("PATTERN"), SimpleExpr::from(pattern));
+            has_values = true;
+        }
+
+        if !has_values {
+            return Ok(());
+        }
+
+        query.and_where(Expr::col(Alias::new("PAYEEID")).eq(id.v1));
+
+        let (sql, values) = query.build_rusqlite(SqliteQueryBuilder);
         self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }

@@ -1,4 +1,4 @@
-use sea_query::{Alias, Expr, Query, SqliteQueryBuilder};
+use sea_query::{Alias, Expr, Query, SimpleExpr, SqliteQueryBuilder};
 use sea_query_rusqlite::RusqliteBinder;
 
 use crate::domain::accounts::{Account, AccountError, AccountId, AccountRepository};
@@ -126,6 +126,63 @@ impl<'a, E: DbExecutor> AccountRepository for SqlAccountRepository<'a, E> {
             .and_where(Expr::col(Alias::new("ACCOUNTID")).eq(a.id.v1))
             .build_rusqlite(SqliteQueryBuilder);
 
+        self.executor.execute_ext(&sql, &values.as_params()[..])?;
+        Ok(())
+    }
+
+    fn update_partial(
+        &self,
+        id: AccountId,
+        update: crate::domain::accounts::AccountUpdate,
+    ) -> Result<(), AccountError> {
+        let mut query = Query::update();
+        query.table(Alias::new("ACCOUNTLIST_V1"));
+
+        let mut has_values = false;
+
+        if let Some(name) = update.name {
+            query.value(Alias::new("ACCOUNTNAME"), SimpleExpr::from(name));
+            has_values = true;
+        }
+        if let Some(at) = update.account_type {
+            query.value(Alias::new("ACCOUNTTYPE"), SimpleExpr::from(at.to_string()));
+            has_values = true;
+        }
+        if let Some(num) = update.account_num {
+            query.value(Alias::new("ACCOUNTNUM"), SimpleExpr::from(num));
+            has_values = true;
+        }
+        if let Some(status) = update.status {
+            query.value(Alias::new("STATUS"), SimpleExpr::from(status.to_string()));
+            has_values = true;
+        }
+        if let Some(notes) = update.notes {
+            query.value(Alias::new("NOTES"), SimpleExpr::from(notes));
+            has_values = true;
+        }
+        if let Some(bal) = update.initial_balance {
+            query.value(Alias::new("INITIALBAL"), SimpleExpr::from(bal.v1));
+            has_values = true;
+        }
+        if let Some(curr_id) = update.currency_id {
+            query.value(Alias::new("CURRENCYID"), SimpleExpr::from(curr_id.v1));
+            has_values = true;
+        }
+        if let Some(favorite) = update.favorite {
+            query.value(
+                Alias::new("FAVORITEACCT"),
+                SimpleExpr::from(if favorite { "1" } else { "0" }),
+            );
+            has_values = true;
+        }
+
+        if !has_values {
+            return Ok(());
+        }
+
+        query.and_where(Expr::col(Alias::new("ACCOUNTID")).eq(id.v1));
+
+        let (sql, values) = query.build_rusqlite(SqliteQueryBuilder);
         self.executor.execute_ext(&sql, &values.as_params()[..])?;
         Ok(())
     }

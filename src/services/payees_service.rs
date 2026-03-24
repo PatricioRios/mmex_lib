@@ -47,6 +47,15 @@ impl<'a> PayeeService<'a> {
         repo.update(payee)
     }
 
+    pub fn update_payee_partial(
+        &self,
+        id: PayeeId,
+        update: crate::domain::payees::PayeeUpdate,
+    ) -> Result<(), PayeeError> {
+        let repo = SqlPayeeRepository::new(self.conn);
+        repo.update_partial(id, update)
+    }
+
     pub fn delete_payee(&self, id: PayeeId) -> Result<(), PayeeError> {
         let repo = SqlPayeeRepository::new(self.conn);
         repo.delete(id)

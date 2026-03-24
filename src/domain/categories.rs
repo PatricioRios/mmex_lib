@@ -23,12 +23,20 @@ pub struct Category {
     pub parent_id: Option<CategoryId>, // None si es raíz (-1 en DB)
 }
 
+#[derive(uniffi::Record, Debug, Clone, Default)]
+pub struct CategoryUpdate {
+    pub name: Option<String>,
+    pub active: Option<bool>,
+    pub parent_id: Option<CategoryId>,
+}
+
 pub trait CategoryRepository {
     fn find_all(&self) -> Result<Vec<Category>, CategoryError>;
     fn find_by_id(&self, id: CategoryId) -> Result<Option<Category>, CategoryError>;
     fn find_subcategories(&self, parent_id: CategoryId) -> Result<Vec<Category>, CategoryError>;
     fn insert(&self, category: &Category) -> Result<Category, CategoryError>;
     fn update(&self, category: &Category) -> Result<(), CategoryError>;
+    fn update_partial(&self, id: CategoryId, update: CategoryUpdate) -> Result<(), CategoryError>;
     fn delete(&self, id: CategoryId) -> Result<(), CategoryError>;
 }
 

@@ -1,5 +1,7 @@
 use crate::api::MmexContext;
-use crate::domain::scheduled_transactions::{ScheduledError, ScheduledTransaction};
+use crate::domain::scheduled_transactions::{
+    ScheduledError, ScheduledTransaction, ScheduledUpdate,
+};
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
@@ -48,6 +50,16 @@ impl ScheduledManager {
             .lock()
             .map_err(|e| ScheduledError::Common(MmexError::Internal(e.to_string())))?;
         ctx.scheduled().update_scheduled(&transaction)?;
+        Ok(())
+    }
+
+    /// Actualiza parcialmente una transacción programada.
+    pub fn update_partial(&self, id: i64, update: ScheduledUpdate) -> Result<(), ScheduledError> {
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| ScheduledError::Common(MmexError::Internal(e.to_string())))?;
+        ctx.scheduled().update_scheduled_partial(id, update)?;
         Ok(())
     }
 
