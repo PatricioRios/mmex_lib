@@ -15,11 +15,11 @@ Actualmente en la versión `0.1.0-beta.x`, lo que implica:
 
 | Módulo | Estabilidad | Características Implementadas | Próximos Pasos |
 | :--- | :--- | :--- | :--- |
-| **Cuentas (Accounts)** | ✅ Estable | CRUD completo, cálculo de balances. | Soporte para balances históricos. |
-| **Transacciones (Transactions)** | ✅ Estable | Ingresos, Gastos, Transferencias simples. | Soporte avanzado para Splits. |
-| **Categorías (Categories)** | ✅ Estable | Jerarquías, CRUD, asociaciones. | Validación de estructuras cíclicas. |
-| **Beneficiarios (Payees)** | ✅ Estable | CRUD, alias, vinculación. | Mapeo inteligente de beneficiarios. |
-| **Monedas (Currencies)** | ⚠️ Beta | Tipos base, tasas manuales. | Descarga automática de tasas (Networking). |
+| **Cuentas (Accounts)** | ⚠️ Beta | CRUD completo, cálculo de balances. | Implementar Unit Tests y balances históricos. |
+| **Transacciones (Transactions)** | ⚠️ Beta | Ingresos, Gastos, Transferencias simples. | Implementar Unit Tests y Splits avanzados. |
+| **Categorías (Categories)** | ⚠️ Beta | Jerarquías, CRUD, asociaciones. | Implementar Unit Tests y validación de ciclos. |
+| **Beneficiarios (Payees)** | ⚠️ Beta | CRUD, alias, vinculación. | Implementar Unit Tests y mapeo inteligente. |
+| **Monedas (Currencies)** | ⚠️ Beta | Tipos base, tasas manuales. | Implementar Unit Tests y descarga automática. |
 | **Transacciones Programadas** | ⚠️ Beta | Listado, creación básica. | Motor de generación automática. |
 | **Etiquetas (Tags)** | ⚠️ Beta | CRUD, asociación a splits. | Filtrado avanzado por múltiples tags. |
 | **Activos (Assets)** | 🧪 Alpha | Modelado básico, listado. | Cálculo automático de apreciación/depreciación. |

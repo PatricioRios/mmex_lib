@@ -12,6 +12,8 @@ use crate::ffi::transactions::TransactionManager;
 use crate::MmexError;
 use std::sync::{Arc, Mutex};
 
+/// Motor principal de mmex_lib expuesto para otros lenguajes (Python, Kotlin, Swift).
+/// Proporciona acceso a todos los gestores de la base de datos de Money Manager EX.
 #[derive(uniffi::Object)]
 pub struct MmexEngine {
     pub(crate) context: Arc<Mutex<MmexContext>>,

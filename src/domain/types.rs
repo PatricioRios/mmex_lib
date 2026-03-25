@@ -2,8 +2,10 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::fmt;
 
+/// Identificador único para una cuenta.
 #[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct AccountId {
+    /// Valor bruto del ID en la base de datos legacy.
     pub v1: i64,
 }
 
@@ -19,8 +21,10 @@ impl fmt::Display for AccountId {
     }
 }
 
+/// Identificador único para una transacción.
 #[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct TransactionId {
+    /// Valor bruto del ID en la base de datos legacy.
     pub v1: i64,
 }
 
@@ -36,8 +40,10 @@ impl fmt::Display for TransactionId {
     }
 }
 
+/// Identificador único para una etiqueta (Tag).
 #[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct TagId {
+    /// Valor bruto del ID en la base de datos legacy.
     pub v1: i64,
 }
 
@@ -53,8 +59,10 @@ impl fmt::Display for TagId {
     }
 }
 
+/// Identificador único para un beneficiario (Payee).
 #[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct PayeeId {
+    /// Valor bruto del ID en la base de datos legacy.
     pub v1: i64,
 }
 
@@ -70,8 +78,10 @@ impl fmt::Display for PayeeId {
     }
 }
 
+/// Identificador único para una categoría.
 #[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct CategoryId {
+    /// Valor bruto del ID en la base de datos legacy.
     pub v1: i64,
 }
 
@@ -87,8 +97,10 @@ impl fmt::Display for CategoryId {
     }
 }
 
+/// Identificador único para una moneda (Currency).
 #[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct CurrencyId {
+    /// Valor bruto del ID en la base de datos legacy.
     pub v1: i64,
 }
 
@@ -104,8 +116,10 @@ impl fmt::Display for CurrencyId {
     }
 }
 
+/// Representa una fecha en el formato compatible con MMEX (YYYY-MM-DD).
 #[derive(uniffi::Record, Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct MmexDate {
+    /// Fecha almacenada como cadena de texto ISO 8601.
     pub v1: String, // ISO 8601 YYYY-MM-DD
 }
 
@@ -116,6 +130,7 @@ impl From<chrono::NaiveDate> for MmexDate {
 }
 
 impl MmexDate {
+    /// Convierte la fecha de MMEX a un tipo `NaiveDate` de Rust.
     pub fn to_naive_date(&self) -> chrono::NaiveDate {
         use std::str::FromStr;
         chrono::NaiveDate::from_str(&self.v1)
@@ -123,8 +138,10 @@ impl MmexDate {
     }
 }
 
+/// Identificador único para una acción (Stock).
 #[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct StockId {
+    /// Valor bruto del ID en la base de datos legacy.
     pub v1: i64,
 }
 
@@ -140,8 +157,10 @@ impl fmt::Display for StockId {
     }
 }
 
+/// Identificador único para un activo (Asset).
 #[derive(uniffi::Record, Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct AssetId {
+    /// Valor bruto del ID en la base de datos legacy.
     pub v1: i64,
 }
 
@@ -157,9 +176,11 @@ impl fmt::Display for AssetId {
     }
 }
 
+/// Representa un valor monetario con precisión decimal.
+/// Se almacena como String para garantizar la compatibilidad entre plataformas vía FFI.
 #[derive(uniffi::Record, Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-
 pub struct Money {
+    /// Representación en cadena del valor decimal.
     pub v1: String,
 }
 
@@ -170,11 +191,13 @@ impl From<Decimal> for Money {
 }
 
 impl Money {
+    /// Convierte el valor a `rust_decimal::Decimal` para realizar cálculos.
     pub fn to_decimal(&self) -> Decimal {
         use std::str::FromStr;
         Decimal::from_str(&self.v1).unwrap_or(Decimal::ZERO)
     }
 
+    /// Convierte el valor a `f64` (puede haber pérdida de precisión).
     pub fn to_f64(&self) -> f64 {
         use rust_decimal::prelude::ToPrimitive;
         self.to_decimal().to_f64().unwrap_or(0.0)

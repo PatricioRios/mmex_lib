@@ -9,15 +9,20 @@ use crate::MmexError;
 use rusqlite::Connection;
 use rust_decimal::Decimal;
 
+/// Servicio encargado de orquestar la lógica de negocio para las cuentas financieras.
 pub struct AccountService<'a> {
     conn: &'a Connection,
 }
 
 impl<'a> AccountService<'a> {
+    /// Crea una nueva instancia del servicio con una conexión activa.
     pub fn new(conn: &'a Connection) -> Self {
         Self { conn }
     }
 
+    /// Calcula el balance financiero detallado de una cuenta específica.
+    /// Suma todos los depósitos y resta los retiros asociados a la cuenta,
+    /// incluyendo transferencias entrantes y salientes.
     pub fn get_account_balance(&self, id: AccountId) -> Result<AccountBalance, AccountError> {
         let account_repo = SqlAccountRepository::new(self.conn);
         let account = account_repo
@@ -65,16 +70,19 @@ impl<'a> AccountService<'a> {
         })
     }
 
+    /// Obtiene la lista completa de todas las cuentas registradas.
     pub fn get_all_accounts(&self) -> Result<Vec<Account>, AccountError> {
         let repo = SqlAccountRepository::new(self.conn);
         repo.find_all()
     }
 
+    /// Busca una cuenta por su identificador único.
     pub fn get_account_by_id(&self, id: AccountId) -> Result<Option<Account>, AccountError> {
         let repo = SqlAccountRepository::new(self.conn);
         repo.find_by_id(id)
     }
 
+    /// Registra una nueva cuenta validando que el nombre sea obligatorio.
     pub fn create_account(&self, account: &Account) -> Result<Account, AccountError> {
         if account.name.trim().is_empty() {
             return Err(AccountError::NameRequired);
@@ -83,11 +91,13 @@ impl<'a> AccountService<'a> {
         repo.insert(account)
     }
 
+    /// Modifica una cuenta existente de forma completa.
     pub fn update_account(&self, account: &Account) -> Result<(), AccountError> {
         let repo = SqlAccountRepository::new(self.conn);
         repo.update(account)
     }
 
+    /// Modifica una cuenta de forma parcial (solo campos especificados).
     pub fn update_account_partial(
         &self,
         id: AccountId,
@@ -97,6 +107,7 @@ impl<'a> AccountService<'a> {
         repo.update_partial(id, update)
     }
 
+    /// Elimina una cuenta del sistema de forma permanente.
     pub fn delete_account(&self, id: AccountId) -> Result<(), AccountError> {
         let repo = SqlAccountRepository::new(self.conn);
         repo.delete(id)

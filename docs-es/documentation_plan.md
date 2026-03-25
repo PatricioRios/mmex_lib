@@ -53,13 +53,15 @@ La librería se encuentra actualmente en fase **Beta**. Esto significa:
 4.  [x] Redactar la arquitectura general (`docs-es/architecture/overview.md`) (Completado ✅).
 
 ### Paso 3: Documentación del Código (RustDoc)
-1.  [ ] Audit de comentarios `///` en `src/domain/`.
-2.  [ ] Audit de comentarios `///` en `src/services/`.
-3.  [ ] Añadir ejemplos de código probables (doctests) en la capa `api`.
+1.  [x] Audit de comentarios `///` en `src/domain/` (Completado ✅).
+2.  [x] Audit de comentarios `///` en `src/services/` (Completado ✅).
+3.  [x] Añadir ejemplos de código probables (doctests) en la capa `api` (Completado ✅).
 
 ### Paso 4: Roadmap y Cierre
 1.  [x] Crear `docs-es/roadmap/status.md` con la matriz de estabilidad (Completado ✅).
 2.  [x] Revisar y actualizar los ejemplos en `examples/` (Completado ✅).
+3.  [x] Crear `docs-es/CONTRIBUTING.md` (Completado ✅).
+4.  [x] Crear `docs-es/roadmap/future_features.md` (Completado ✅).
 
 ---
 

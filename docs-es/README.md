@@ -49,9 +49,9 @@ let cuentas = ctx.accounts().get_all_accounts().unwrap();
 
 | Módulo | Estado | Descripción |
 | :--- | :--- | :--- |
-| **Cuentas** | ✅ Estable | CRUD de cuentas y cálculo de balances. |
-| **Transacciones** | ✅ Estable | Gestión de ingresos, gastos y transferencias. |
-| **Categorías** | ✅ Estable | Gestión de categorías jerárquicas. |
+| **Cuentas** | ⚠️ Beta | CRUD de cuentas y cálculo de balances. (Faltan Tests) |
+| **Transacciones** | ⚠️ Beta | Gestión de ingresos, gastos y transferencias. (Faltan Tests) |
+| **Categorías** | ⚠️ Beta | Gestión de categorías jerárquicas. (Faltan Tests) |
 | **Monedas** | ⚠️ Beta | Gestión de monedas y tasas de cambio. |
 | **Activos (Assets)** | 🧪 Alpha | Tracking de activos fijos. |
 | **Acciones (Stocks)** | 🧪 Alpha | Gestión de portafolio de acciones. |
@@ -71,9 +71,13 @@ make test         # Ejecutar todos los tests (Rust + Python)
 Toda la documentación detallada se encuentra en la carpeta `docs-es/`:
 
 - [Plan de Documentación](documentation_plan.md)
-- [Guía de Manejo de Errores](guides/error_handling.md) (Próximamente)
-- [Arquitectura del Proyecto](architecture/overview.md) (Próximamente)
-- [Guía de Inicio para Python](guides/getting_started_python.md) (Próximamente)
+- [Guía de Contribución](CONTRIBUTING.md)
+- [Guía de Manejo de Errores](guides/error_handling.md)
+- [Arquitectura del Proyecto](architecture/overview.md)
+- [Mapeo de Base de Datos Legacy](architecture/database_mapping.md)
+- [Guía de Inicio para Python](guides/getting_started_python.md)
+- [Estado del Proyecto y Roadmap](roadmap/status.md)
+- [Funcionalidades Futuras](roadmap/future_features.md)
 
 ---
 

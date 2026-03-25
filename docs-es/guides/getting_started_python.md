@@ -7,6 +7,10 @@ Esta guía te ayudará a integrar `mmex_lib` en tus proyectos de Python para int
 1. **Python 3.8+** instalado.
 2. **Entorno Virtual**: Se recomienda encarecidamente usar entornos virtuales para evitar conflictos con el sistema.
 
+### Herramientas Utilizadas:
+- **Maturin**: El estándar para construir y publicar paquetes Python escritos en Rust.
+- **UniFFI**: Generador de interfaces que permite llamar a Rust desde Python manteniendo la seguridad de tipos.
+
 ## 🚀 Configuración del Proyecto
 
 ### Paso 1: Clonar e Instalar (Modo Desarrollo)
@@ -102,3 +106,9 @@ Este error ocurre en sistemas Linux modernos al intentar instalar paquetes con `
 
 ### Errores de compilación de Rust
 Asegúrate de tener instalado el toolchain de Rust (`rustc` y `cargo`). Puedes instalarlo desde [rustup.rs](https://rustup.rs/).
+
+### Advertencia de patchelf
+Maturin puede mostrar una advertencia sobre `patchelf`. Esto no afecta el desarrollo local. Para la distribución de binarios (wheels), puedes instalarlo con:
+```bash
+sudo apt install patchelf
+```
