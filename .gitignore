@@ -1,2 +1,5 @@
 /target
 /.idea
+.venv/
+*.mmb.bak
+*.mmb_update_*
