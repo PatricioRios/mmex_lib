@@ -20,9 +20,9 @@ jobs:
             target: x86_64
           - os: ubuntu-latest
             target: aarch64
-          - os: macos-latest
+          - os: macos-13
             target: x86_64
-          - os: macos-latest
+          - os: macos-13
             target: aarch64
           - os: windows-latest
             target: x86_64
@@ -43,10 +43,10 @@ jobs:
           target: ${{ matrix.target }}
           args: --release --out dist --interpreter 3.8 3.9 3.10 3.11 3.12
           sccache: true
-          manylinux: auto
+          manylinux: 2014
           docker-options: -e CI=1
           before-script-linux: |
-            yum install -y perl-core perl-IPC-Cmd perl-Data-Dumper perl-FindBin perl-File-Compare perl-File-Copy
+            yum install -y perl-core
 
       - name: Build wheels (macOS)
         if: runner.os == 'macOS'
