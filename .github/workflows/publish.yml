@@ -31,10 +31,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install system dependencies (macOS)
-        if: runner.os == 'macOS'
-        run: brew install openssl
-
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -47,7 +43,6 @@ jobs:
           args: --release --out dist --interpreter 3.8 3.9 3.10 3.11 3.12
           sccache: true
           manylinux: auto
-          system-packages: libssl-dev pkg-config
 
       - name: Upload wheels
         uses: actions/upload-artifact@v4
@@ -62,11 +57,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libssl-dev pkg-config
 
       - name: Setup Python
         uses: actions/setup-python@v5

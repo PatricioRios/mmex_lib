@@ -11,7 +11,7 @@ name = "mmex_lib"
 
 [dependencies]
 # Base de datos y SQL
-rusqlite = { version = "0.32", features = ["bundled-sqlcipher"] }
+rusqlite = { version = "0.32", features = ["bundled-sqlcipher", "bundled-sqlcipher-vendored-openssl"] }
 sea-query = "0.32"
 sea-query-rusqlite = "0.7"
 
