@@ -22,7 +22,7 @@ jobs:
             target: aarch64
           - os: macos-13
             target: x86_64
-          - os: macos-13
+          - os: macos-14
             target: aarch64
           - os: windows-latest
             target: x86_64
@@ -43,24 +43,27 @@ jobs:
           target: ${{ matrix.target }}
           args: --release --out dist --interpreter 3.8 3.9 3.10 3.11 3.12
           sccache: true
-          manylinux: 2014
-          docker-options: -e CI=1
+          manylinux: auto
+          docker-options: -e CI=1 -e OPENSSL_NO_ASM=1
           before-script-linux: |
-            yum install -y perl-core
+            if command -v yum &> /dev/null; then
+                yum install -y perl-core
+            elif command -v dnf &> /dev/null; then
+                dnf install -y perl-core
+            fi
 
       - name: Build wheels (macOS)
         if: runner.os == 'macOS'
-        env:
-          OPENSSL_DIR: /opt/homebrew/opt/openssl@3
         run: |
-          brew install openssl@3
           pip install maturin
+          export OPENSSL_NO_ASM=1
           maturin build --release --target ${{ matrix.target }} --out dist --interpreter 3.8 3.9 3.10 3.11 3.12
 
       - name: Build wheels (Windows)
         if: runner.os == 'Windows'
         run: |
           pip install maturin
+          $env:OPENSSL_NO_ASM=1
           maturin build --release --target ${{ matrix.target }} --out dist --interpreter 3.8 3.9 3.10 3.11 3.12
 
       - name: Upload wheels
