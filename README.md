@@ -1,6 +1,6 @@
 # MMEX Lib
 
-Rust library for interacting with Money Manager EX data and logic, with UniFFI support for multi-language bindings.
+Rust library for interacting with Money Manager EX (MMEX) data and logic, with UniFFI support for multi-language bindings.
 
 > ⚠️ **PROJECT STATUS: BETA**
 > This library is in beta phase. API changes may occur. Use with caution.
@@ -13,88 +13,74 @@ Toda la documentación detallada y guías en español están disponibles en:
 
 ---
 
-## 🛠 Prerequisites
+## 🌍 Language Support
 
-- **Rust**: `cargo` installed.
-- **Python 3.8+**: `python3` installed.
-- **Kotlin/Java**: `kotlinc` and `java` (JRE) installed.
+| Language | Package Manager | Status |
+| :--- | :--- | :--- |
+| **Python** (3.8+) | PyPI | ✅ Available (`pip install mmex-lib`) |
+| **Rust** | crates.io | ⏳ Coming soon... |
+| **Kotlin/JVM** | Maven Central | ⏳ Coming soon... |
+
+---
 
 ## 🚀 Quick Start (Python)
 
-### Option A: Automatic Setup (Recommended)
+The easiest way to use `mmex_lib` is through Python.
+
+### Installation
+
+Install the library directly from PyPI:
+
 ```bash
-make setup
+pip install mmex-lib
 ```
-This will create a virtual environment, install dependencies, and build the library.
 
-### Option B: Manual Setup
+### Usage
 
-1. **Create a virtual environment**:
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
+```python
+import mmex_lib
 
-2. **Install dependencies**:
-   ```bash
-   pip install maturin rich
-   ```
+# Initialize the engine (path to .mmb file, password if encrypted)
+engine = mmex_lib.MmexEngine("my_finance.mmb", None)
 
-3. **Install the library**:
-   ```bash
-   maturin develop
-   ```
+# Access account manager and get all accounts
+accounts = engine.accounts().get_all_accounts()
 
-4. **Usage**:
-   ```python
-   import mmex_lib
-   engine = mmex_lib.MmexEngine("my_finance.mmb", None)
-   ```
+print(f"Found {len(accounts)} accounts:")
+for account in accounts:
+    print(f"- {account.name} (Initial Balance: {account.initial_balance})")
+```
 
-## 🏗 Development
+For more details, see the [Python Getting Started Guide](docs/guides/getting_started_python.md).
 
-We use a `Makefile` to simplify common development tasks.
+---
 
-### Installation & Build
+## 📊 Feature Matrix (Beta)
+
+| Module | Status | Description |
+| :--- | :--- | :--- |
+| **Accounts** | ⚠️ Beta | Account CRUD and balance calculations. |
+| **Transactions** | ⚠️ Beta | Income, expenses, and transfers management. |
+| **Categories** | ⚠️ Beta | Hierarchical category management. |
+| **Currencies** | ⚠️ Beta | Currency and exchange rate management. |
+| **Assets** | 🧪 Alpha | Fixed assets tracking. |
+| **Stocks** | 🧪 Alpha | Stock portfolio management. |
+
+---
+
+## 🏗 Development & Contributing
+
+If you want to build the library from source or contribute to its development, please refer to the documentation:
+
+- [Project Architecture (ES)](docs-es/architecture/overview.md)
+- [Contributing Guide (ES)](docs-es/CONTRIBUTING.md)
+
+### Building from source (Python)
+
 ```bash
-make setup      # Complete setup (venv + deps + lib)
+make setup      # Complete setup (venv + deps + lib compilation)
 make develop    # Recompile after Rust changes
-make build      # Build release wheel
-```
-
-### Running Tests
-```bash
-make test-rust    # Rust unit and integration tests
-make test-python  # Python examples as integration tests
-make test         # Run all tests
-```
-
-### Manual Binding Generation
-To generate bindings for other languages (Kotlin, Swift, etc.):
-```bash
-cargo run --bin uniffi-bindgen generate --library target/debug/libmmex_lib.so --language <LANGUAGE> --out-dir <OUT_DIR>
-```
-
-## 📁 Project Structure
-
-- `src/`: Core logic in Rust (Domain, Infrastructure, Services).
-- `python/mmex_lib/`: Python package wrapper.
-- `examples/`: Usage examples in different languages.
-- `docs/`: Technical documentation and plans.
-
-## ⚠️ Troubleshooting
-
-### "externally-managed-environment" error
-This happens when trying to install packages globally on modern Linux distributions. **Always use a virtual environment**:
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### patchelf warning
-Maturin may show a warning about `patchelf`. This doesn't affect local development. For wheel distribution:
-```bash
-sudo apt install patchelf
+make test       # Run all tests (Rust + Python)
 ```
 
 ## 📄 License

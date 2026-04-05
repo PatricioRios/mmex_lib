@@ -7,29 +7,21 @@ Esta guía te ayudará a integrar `mmex_lib` en tus proyectos de Python para int
 1. **Python 3.8+** instalado.
 2. **Entorno Virtual**: Se recomienda encarecidamente usar entornos virtuales para evitar conflictos con el sistema.
 
-### Herramientas Utilizadas:
-- **Maturin**: El estándar para construir y publicar paquetes Python escritos en Rust.
-- **UniFFI**: Generador de interfaces que permite llamar a Rust desde Python manteniendo la seguridad de tipos.
+## 🚀 Instalación
 
-## 🚀 Configuración del Proyecto
+`mmex_lib` está disponible en PyPI, lo que hace que su instalación sea muy sencilla.
 
-### Paso 1: Clonar e Instalar (Modo Desarrollo)
-
-Si tienes el código fuente de `mmex_lib`, puedes usar el `Makefile` para una configuración rápida:
+### Paso 1: Crear un entorno virtual
 
 ```bash
-make setup
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-Este comando:
-1. Crea un entorno virtual (`.venv`).
-2. Instala `maturin` (necesario para compilar el core de Rust).
-3. Compila e instala la librería en el entorno virtual.
-
-### Paso 2: Activar el entorno virtual
+### Paso 2: Instalar el paquete
 
 ```bash
-source .venv/bin/activate
+pip install mmex-lib
 ```
 
 ---
@@ -98,17 +90,6 @@ except Exception as e:
 
 ---
 
-## 🛠 Solución de Problemas
+## 🛠 Solución de Problemas y Desarrollo
 
-### Error "externally-managed-environment"
-Este error ocurre en sistemas Linux modernos al intentar instalar paquetes con `pip` globalmente.
-**Solución**: Usa siempre el entorno virtual creado con `make setup`.
-
-### Errores de compilación de Rust
-Asegúrate de tener instalado el toolchain de Rust (`rustc` y `cargo`). Puedes instalarlo desde [rustup.rs](https://rustup.rs/).
-
-### Advertencia de patchelf
-Maturin puede mostrar una advertencia sobre `patchelf`. Esto no afecta el desarrollo local. Para la distribución de binarios (wheels), puedes instalarlo con:
-```bash
-sudo apt install patchelf
-```
+Si deseas contribuir al proyecto o compilarlo desde el código fuente utilizando `maturin` y `cargo`, por favor consulta la [sección de Desarrollo en el README principal](../../README.md#desarrollo-y-contribución).

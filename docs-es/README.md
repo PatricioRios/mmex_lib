@@ -5,77 +5,71 @@ Librería en Rust para interactuar con los datos y la lógica de Money Manager E
 > ⚠️ **ESTADO: BETA**
 > Esta librería se encuentra en fase beta. La API puede sufrir cambios significativos. Úsalo con precaución en entornos de producción.
 
-## 🛠 Requisitos Previos
+## 🌍 Soporte de Lenguajes
 
-- **Rust**: `cargo` instalado.
-- **Python 3.8+**: `python3` instalado.
-- **Kotlin/Java**: `kotlinc` y `java` (JRE) instalados.
+| Lenguaje | Gestor de Paquetes | Estado |
+| :--- | :--- | :--- |
+| **Python** (3.8+) | PyPI | ✅ Disponible (`pip install mmex-lib`) |
+| **Rust** | crates.io | ⏳ Próximamente... |
+| **Kotlin/JVM** | Maven Central | ⏳ Próximamente... |
 
-## 🚀 Inicio Rápido
+## 🚀 Inicio Rápido (Python)
 
-### Python (Recomendado)
+La forma más fácil de usar `mmex_lib` es mediante Python, instalándolo directamente desde PyPI.
 
-1. **Configuración Automática**:
-   ```bash
-   make setup
-   ```
-   Esto creará un entorno virtual, instalará dependencias y compilará la librería.
+### Instalación
 
-2. **Uso**:
-   ```python
-   import mmex_lib
-   engine = mmex_lib.MmexEngine("mi_finanza.mmb", None)
-   cuentas = engine.accounts().get_all_accounts()
-   ```
-
-### Rust
-
-Añade a tu `Cargo.toml`:
-```toml
-[dependencies]
-mmex_lib = { path = "../mmex_lib" } # O vía git
+```bash
+pip install mmex-lib
 ```
 
-Uso:
-```rust
-use mmex_lib::MmexContext;
-use std::path::Path;
+### Uso
 
-let ctx = MmexContext::open(Path::new("mi_finanza.mmb"), None).unwrap();
-let cuentas = ctx.accounts().get_all_accounts().unwrap();
+```python
+import mmex_lib
+
+engine = mmex_lib.MmexEngine("mi_finanza.mmb", None)
+cuentas = engine.accounts().get_all_accounts()
+
+for cuenta in cuentas:
+    print(f"- {cuenta.name} (Balance Inicial: {cuenta.initial_balance})")
 ```
+
+Para más detalles sobre la instalación y el uso, consulta la [Guía de Inicio para Python](guides/getting_started_python.md).
 
 ## 📊 Matriz de Funcionalidades (Beta)
 
 | Módulo | Estado | Descripción |
 | :--- | :--- | :--- |
-| **Cuentas** | ⚠️ Beta | CRUD de cuentas y cálculo de balances. (Faltan Tests) |
-| **Transacciones** | ⚠️ Beta | Gestión de ingresos, gastos y transferencias. (Faltan Tests) |
-| **Categorías** | ⚠️ Beta | Gestión de categorías jerárquicas. (Faltan Tests) |
+| **Cuentas** | ⚠️ Beta | CRUD de cuentas y cálculo de balances. |
+| **Transacciones** | ⚠️ Beta | Gestión de ingresos, gastos y transferencias. |
+| **Categorías** | ⚠️ Beta | Gestión de categorías jerárquicas. |
 | **Monedas** | ⚠️ Beta | Gestión de monedas y tasas de cambio. |
 | **Activos (Assets)** | 🧪 Alpha | Tracking de activos fijos. |
 | **Acciones (Stocks)** | 🧪 Alpha | Gestión de portafolio de acciones. |
 
-## 🏗 Desarrollo
+## 🏗 Desarrollo y Contribución
 
-Utilizamos un `Makefile` para simplificar las tareas comunes.
+Si deseas compilar la librería desde el código fuente (para desarrollo o para usarla en Rust), por favor consulta las siguientes guías:
+
+- [Guía de Contribución](CONTRIBUTING.md)
+- [Arquitectura del Proyecto](architecture/overview.md)
+
+### Configuración para desarrollo (Python/Rust)
 
 ```bash
-make setup      # Configuración completa
+make setup      # Configuración completa (venv + deps + compilar lib)
 make develop    # Recompilar tras cambios en Rust
 make test         # Ejecutar todos los tests (Rust + Python)
 ```
 
 ## 📁 Navegación de Documentación
 
-Toda la documentación detallada se encuentra en la carpeta `docs-es/`:
+Toda la documentación detallada técnica está aquí:
 
 - [Plan de Documentación](documentation_plan.md)
-- [Guía de Contribución](CONTRIBUTING.md)
 - [Guía de Manejo de Errores](guides/error_handling.md)
-- [Arquitectura del Proyecto](architecture/overview.md)
 - [Mapeo de Base de Datos Legacy](architecture/database_mapping.md)
-- [Guía de Inicio para Python](guides/getting_started_python.md)
 - [Estado del Proyecto y Roadmap](roadmap/status.md)
 - [Funcionalidades Futuras](roadmap/future_features.md)
 
