@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "mmex-lib"
-version = "0.1.0b1"
+version = "0.1.0b2"
 description = "Python bindings for Money Manager EX database library"
 readme = "README.md"
 license = { text = "MIT" }
