@@ -1,4 +1,4 @@
-name: Build and Publish to PyPI
+name: Publish to PyPI
 
 on:
   release:
@@ -42,10 +42,9 @@ jobs:
           manylinux: manylinux_2_28
           docker-options: -e CI=1
           before-script-linux: |
-            # Eliminar archivos generados que causan conflicto con maturin + uniffi
             rm -rf python/mmex_lib/mmex_lib/__init__.py
             rm -rf python/mmex_lib/mmex_lib/mmex_lib.py
-            
+
             if command -v yum &> /dev/null; then
                 yum install -y perl-core perl-IPC-Cmd
             elif command -v dnf &> /dev/null; then
@@ -55,10 +54,9 @@ jobs:
       - name: Build wheels (Windows)
         if: runner.os == 'Windows'
         run: |
-          # Eliminar archivos generados que causan conflicto
           if (Test-Path "python/mmex_lib/mmex_lib/__init__.py") { Remove-Item "python/mmex_lib/mmex_lib/__init__.py" }
           if (Test-Path "python/mmex_lib/mmex_lib/mmex_lib.py") { Remove-Item "python/mmex_lib/mmex_lib/mmex_lib.py" }
-          
+
           pip install maturin
           maturin build --release --target ${{ matrix.target }} --out dist --interpreter 3.8 3.9 3.10 3.11 3.12
 

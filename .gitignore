@@ -1,5 +1,46 @@
+# Rust
 /target
-/.idea
+
+# Python
 .venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+uv.lock
+
+# Kotlin / Java / Gradle
+kotlin/.gradle
+kotlin/build
+kotlin/out
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# MMEX Data
 *.mmb.bak
 *.mmb_update_*
+
+# IDEs y OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

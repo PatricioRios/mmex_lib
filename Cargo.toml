@@ -4,6 +4,14 @@ version = "0.1.0-beta.2"
 edition = "2021"
 authors = ["Patricio Rios"]
 description = "Library for interacting with Money Manager EX data and logic"
+license = "MIT"
+repository = "https://github.com/PatricioRios/mmex_lib"
+homepage = "https://github.com/PatricioRios/mmex_lib"
+documentation = "https://github.com/PatricioRios/mmex_lib#readme"
+readme = "README.md"
+keywords = ["mmex", "money-manager", "finance", "sqlite", "money-manager-ex"]
+categories = ["database", "api-bindings"]
+exclude = ["/.github", "/docs", "/docs-es", "/examples", "/python", "/agent_logs", "/*.md", "!README.md", "*.mmb", "*.emb"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]
