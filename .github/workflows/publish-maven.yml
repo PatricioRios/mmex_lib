@@ -39,12 +39,15 @@ jobs:
             --language kotlin \
             --out-dir kotlin/generated
 
+      - name: Verify Gradle wrapper
+        working-directory: ./kotlin
+        run: |
+          chmod +x gradlew
+          ./gradlew --version
+
       - name: Build and stage artifacts
         working-directory: ./kotlin
-        uses: gradle/actions/build@v4
-        with:
-          arguments: publishMavenJavaPublicationToLocalStagingRepository
-          build-root-directory: ./kotlin
+        run: ./gradlew publishMavenJavaPublicationToLocalStagingRepository
 
       - name: Create deployment bundle
         working-directory: ./kotlin/build/staging-deploy
