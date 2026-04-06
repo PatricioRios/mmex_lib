@@ -28,9 +28,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
       - name: Build Rust library
         run: cargo build --release
 
@@ -42,9 +39,12 @@ jobs:
             --language kotlin \
             --out-dir kotlin/generated
 
-      - name: Build and stage artifacts locally
+      - name: Build and stage artifacts
         working-directory: ./kotlin
-        run: ./gradlew publishMavenJavaPublicationToLocalStagingRepository
+        uses: gradle/actions/build@v4
+        with:
+          arguments: publishMavenJavaPublicationToLocalStagingRepository
+          build-root-directory: ./kotlin
 
       - name: Create deployment bundle
         working-directory: ./kotlin/build/staging-deploy
