@@ -18,7 +18,7 @@ Toda la documentación detallada y guías en español están disponibles en:
 | Language | Package Manager | Status |
 | :--- | :--- | :--- |
 | **Python** (3.8+) | PyPI | ✅ Available (`pip install mmex-lib`) |
-| **Rust** | crates.io | ⏳ Coming soon... |
+| **Rust** | crates.io | ✅ Available (`cargo add mmex-lib`) |
 | **Kotlin/JVM** | Maven Central | ⏳ Coming soon... |
 
 ---

@@ -39,6 +39,27 @@ jobs:
             --language kotlin \
             --out-dir kotlin/generated
 
+      - name: Generate GPG key for signing
+        working-directory: ./kotlin
+        run: |
+          gpg --batch --gen-key <<EOF
+          %no-protection
+          Key-Type: RSA
+          Key-Length: 4096
+          Name-Real: mmex-lib-ci
+          Name-Email: ci@mmex-lib.local
+          Expire-Date: 0
+          %commit
+          EOF
+          GPG_KEY_ID=$(gpg --list-keys --keyid-format short "ci@mmex-lib.local" | grep -oP '(?<=rsa4096/)[A-F0-9]+' | head -1)
+          echo "GPG_KEY_ID=$GPG_KEY_ID" >> $GITHUB_ENV
+          gpg --export-secret-keys --armor "ci@mmex-lib.local" > /tmp/signing-key.asc
+          echo "SIGNING_KEY<<EOFMARKER" >> $GITHUB_ENV
+          cat /tmp/signing-key.asc >> $GITHUB_ENV
+          echo "EOFMARKER" >> $GITHUB_ENV
+          echo "SIGNING_PASSWORD=" >> $GITHUB_ENV
+          gpg --keyserver keyserver.ubuntu.com --send-keys "$GPG_KEY_ID" || true
+
       - name: Verify Gradle wrapper
         working-directory: ./kotlin
         run: |
@@ -47,6 +68,9 @@ jobs:
 
       - name: Build and stage artifacts
         working-directory: ./kotlin
+        env:
+          ORG_GRADLE_PROJECT_signingKey: ${{ env.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ env.SIGNING_PASSWORD }}
         run: ./gradlew publishMavenJavaPublicationToLocalStagingRepository
 
       - name: Create deployment bundle
@@ -56,10 +80,10 @@ jobs:
       - name: Publish to Central Portal
         working-directory: ./kotlin/build
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          CENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          CENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         run: |
-          BEARER=$(echo -n "${OSSRH_USERNAME}:${OSSRH_PASSWORD}" | base64 -w0)
+          BEARER=$(echo -n "${CENTRAL_USERNAME}:${CENTRAL_PASSWORD}" | base64 -w0)
           RESPONSE=$(curl -s -w "\n%{http_code}" \
             -X POST "https://central.sonatype.com/api/v1/publisher/upload" \
             -H "Authorization: Bearer ${BEARER}" \

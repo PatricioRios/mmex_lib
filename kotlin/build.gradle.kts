@@ -1,9 +1,10 @@
 plugins {
     kotlin("jvm") version "1.9.22"
     `maven-publish`
+    signing
 }
 
-group = "com.github.patriciorios"
+group = "io.github.patriciorios"
 version = "0.1.0-beta.2"
 
 repositories {
@@ -30,6 +31,15 @@ java {
     withJavadocJar()
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+}
+
+signing {
+    val signingKey: String? by project
+    val signingPassword: String? by project
+    if (signingKey != null) {
+        useInMemoryPgpKeys(signingKey, signingPassword)
+        sign(publishing.publications)
+    }
 }
 
 publishing {
