@@ -22,6 +22,14 @@ impl<'a> TransactionService<'a> {
         repo.find_all()
     }
 
+    pub fn get_transactions_for_account(
+        &self,
+        account_id: crate::domain::types::AccountId,
+    ) -> Result<Vec<Transaction>, TransactionError> {
+        let repo = SqlTransactionRepository::new(self.conn);
+        repo.find_for_account(account_id)
+    }
+
     pub fn get_transaction_by_id(
         &self,
         id: TransactionId,

@@ -23,6 +23,17 @@ impl TransactionManager {
         Ok(ctx.transactions().get_all_transactions()?)
     }
 
+    /// Obtiene las transacciones vinculadas a una cuenta.
+    pub fn get_for_account(&self, account_id: i64) -> Result<Vec<Transaction>, TransactionError> {
+        let ctx = self
+            .context
+            .lock()
+            .map_err(|e| TransactionError::Common(MmexError::Internal(e.to_string())))?;
+        Ok(ctx
+            .transactions()
+            .get_transactions_for_account(crate::domain::types::AccountId { v1: account_id })?)
+    }
+
     /// Busca una transacción específica por su identificador único.
     pub fn get_by_id(&self, id: i64) -> Result<Option<Transaction>, TransactionError> {
         let ctx = self
