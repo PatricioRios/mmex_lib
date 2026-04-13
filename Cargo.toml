@@ -1,6 +1,6 @@
 [package]
 name = "mmex_lib"
-version = "0.1.0-beta.2"
+version = "0.1.1-beta.1"
 edition = "2021"
 authors = ["Patricio Rios"]
 description = "Library for interacting with Money Manager EX data and logic"
